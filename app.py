@@ -30,7 +30,7 @@ st.set_page_config(
 
 
 # ============================================================
-# الإعدادات والبيئة
+# الإعدادات
 # ============================================================
 
 logging.basicConfig(level=logging.INFO)
@@ -39,6 +39,7 @@ logger = logging.getLogger(__name__)
 DB_PATH = os.getenv("FIQH_DB_PATH", "fiqh.db")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "gemini-embedding-001")
+
 
 try:
     from dotenv import load_dotenv
@@ -155,9 +156,7 @@ UI = {
             "لم توجد مسألة مطابقة، ولم تُنتج خدمة Gemini إجابة "
             "قابلة للعرض. جرّب صياغة السؤال بطريقة أخرى."
         ),
-        "ai_generating": (
-            "جاري تحليل السؤال والبحث عن الإجابة..."
-        ),
+        "ai_generating": "جاري تحليل السؤال والبحث عن الإجابة...",
         "ai_badge": "🤖 إجابة بحثية مولدة بالذكاء الاصطناعي",
         "ai_disclaimer": (
             "هذه إجابة بحثية آلية وليست فتوى، "
@@ -174,15 +173,9 @@ UI = {
         "source_text": "نص المرجع",
         "source_file": "أو ارفع ملف TXT",
         "add_reference": "إضافة وفهرسة المرجع",
-        "reference_empty": (
-            "الرجاء إدخال عنوان ونص أو رفع ملف."
-        ),
-        "reference_failed": (
-            "تعذرت الفهرسة. تحقق من إعداد Gemini."
-        ),
-        "reference_success": (
-            "تمت إضافة {} مقاطع من المصدر «{}»."
-        ),
+        "reference_empty": "الرجاء إدخال عنوان ونص أو رفع ملف.",
+        "reference_failed": "تعذرت الفهرسة. تحقق من إعداد Gemini.",
+        "reference_success": "تمت إضافة {} مقاطع من المصدر «{}».",
         "indexed_sources": "المصادر المفهرسة",
         "no_sources": "لا توجد مراجع مفهرسة.",
         "glossary": "📚 المصطلحات الفقهية",
@@ -203,6 +196,19 @@ UI = {
         "admin_denied": "لا تملك صلاحية إدارة المراجع.",
         "normalization": "صياغة السؤال المفهومة",
         "confidence": "درجة الثقة",
+        "general_source": "مصدر عام",
+        "country_note": (
+            "المذكور هو الغالب أو الأبرز تاريخيًا، "
+            "وليس بالضرورة نظامًا قانونيًا حصريًا."
+        ),
+        "ai_status_on": "Gemini AI: مفعّل",
+        "ai_status_off": (
+            "Gemini AI: غير مفعّل — "
+            "سيعمل البحث المحلي فقط"
+        ),
+        "admin_missing": (
+            "ADMIN_PASSWORD غير مضبوط في Secrets."
+        ),
     },
     "en": {
         "app_title": "The Concise Compendium of Madhhab Opinions",
@@ -277,6 +283,18 @@ UI = {
         "admin_denied": "You do not have permission.",
         "normalization": "Normalized question",
         "confidence": "Confidence",
+        "general_source": "General source",
+        "country_note": (
+            "These are historical or prevailing patterns, "
+            "not necessarily exclusive legal systems."
+        ),
+        "ai_status_on": "Gemini AI: enabled",
+        "ai_status_off": (
+            "Gemini AI: disabled — local search only"
+        ),
+        "admin_missing": (
+            "ADMIN_PASSWORD is not configured in Secrets."
+        ),
     },
     "fr": {
         "app_title": (
@@ -355,15 +373,279 @@ UI = {
         "admin_denied": "Accès refusé.",
         "normalization": "Question normalisée",
         "confidence": "Confiance",
+        "general_source": "Source générale",
+        "country_note": (
+            "Tendances historiques ou dominantes, "
+            "pas nécessairement des systèmes exclusifs."
+        ),
+        "ai_status_on": "Gemini AI : activé",
+        "ai_status_off": "Gemini AI : désactivé",
+        "admin_missing": (
+            "ADMIN_PASSWORD n’est pas configuré."
+        ),
     },
 }
 
-for code in ("fa", "ms", "ur"):
-    UI[code] = UI["ar"].copy()
+
+UI["fa"] = {
+    **UI["en"],
+    "app_title": "مجموعه مختصر دیدگاه‌های مذاهب فقهی",
+    "app_subtitle": (
+        "سامانه‌ای آموزشی برای مقایسه دیدگاه‌های فقهی؛ "
+        "فتوا صادر نمی‌کند."
+    ),
+    "language": "زبان",
+    "choose_madhab": "مذهب را انتخاب کنید",
+    "choose_one_or_more": "یک یا چند مذهب را انتخاب کنید",
+    "choose_topic": "موضوع را انتخاب کنید",
+    "all_topics": "همه موضوعات",
+    "choose_level": "سطح جزئیات",
+    "very_short": "بسیار کوتاه",
+    "short": "کوتاه",
+    "full": "کامل",
+    "write_question": "پرسش خود را بنویسید",
+    "question_placeholder": "مثال: حکم نماز جماعت چیست؟",
+    "search": "🔍 جست‌وجو",
+    "no_question": "لطفاً ابتدا پرسش را بنویسید.",
+    "no_madhab": "لطفاً حداقل یک مذهب را انتخاب کنید.",
+    "no_results": "نتیجه مناسبی پیدا نشد.",
+    "ai_generating": "در حال تحلیل پرسش و جست‌وجو...",
+    "ai_badge": "🤖 پاسخ پژوهشی تولیدشده با هوش مصنوعی",
+    "ai_disclaimer": (
+        "این پاسخ فتوا نیست و باید توسط عالم متخصص بررسی شود."
+    ),
+    "rag_badge": "📖 مبتنی بر منابع بارگذاری‌شده: {}",
+    "reference_management": "📁 مدیریت منابع — مدیران",
+    "reference_intro": (
+        "متون دارای مجوز استفاده را بارگذاری کنید."
+    ),
+    "source_title": "عنوان منبع",
+    "source_madhab": "مذهب مرتبط",
+    "source_text": "متن منبع",
+    "source_file": "یا فایل TXT بارگذاری کنید",
+    "add_reference": "افزودن و نمایه‌سازی منبع",
+    "reference_empty": "عنوان و متن را وارد کنید.",
+    "reference_failed": "نمایه‌سازی انجام نشد.",
+    "reference_success": "{} بخش از منبع «{}» افزوده شد.",
+    "indexed_sources": "منابع نمایه‌شده",
+    "no_sources": "هنوز منبعی نمایه نشده است.",
+    "glossary": "📚 اصطلاحات فقهی",
+    "countries": "🗺️ کشورها و مذاهب رایج",
+    "rules": "📘 اصول و قواعد فقهی",
+    "definition": "تعریف",
+    "example": "مثال",
+    "warning_terms": (
+        "کاربرد برخی اصطلاحات میان مذاهب متفاوت است."
+    ),
+    "comments": "💬 یادداشت‌های جلسه",
+    "comment": "یادداشت خود را بنویسید",
+    "rating": "ارزیابی پاسخ",
+    "send_comment": "ارسال",
+    "comment_saved": "یادداشت ذخیره شد.",
+    "admin_password": "رمز مدیر",
+    "admin_denied": "دسترسی ندارید.",
+    "normalization": "بازنویسی پرسش",
+    "confidence": "میزان اطمینان",
+    "general_source": "منبع عمومی",
+    "country_note": (
+        "این موارد گرایش‌های تاریخی یا غالب هستند."
+    ),
+    "ai_status_on": "Gemini AI: فعال",
+    "ai_status_off": "Gemini AI: غیرفعال",
+    "admin_missing": (
+        "ADMIN_PASSWORD در Secrets تنظیم نشده است."
+    ),
+}
+
+
+UI["ms"] = {
+    **UI["en"],
+    "app_title": "Himpunan Ringkas Pandangan Mazhab",
+    "app_subtitle": (
+        "Platform pendidikan untuk membandingkan pandangan fiqh; "
+        "bukan perkhidmatan fatwa."
+    ),
+    "language": "Bahasa",
+    "choose_madhab": "Pilih mazhab",
+    "choose_one_or_more": "Pilih satu atau lebih mazhab",
+    "choose_topic": "Pilih topik",
+    "all_topics": "Semua topik",
+    "choose_level": "Tahap perincian",
+    "very_short": "Sangat ringkas",
+    "short": "Ringkas",
+    "full": "Terperinci",
+    "write_question": "Tulis soalan anda",
+    "question_placeholder": (
+        "Contoh: Apakah hukum solat berjemaah?"
+    ),
+    "search": "🔍 Cari jawapan",
+    "no_question": "Sila tulis soalan dahulu.",
+    "no_madhab": "Sila pilih sekurang-kurangnya satu mazhab.",
+    "no_results": "Tiada hasil yang sesuai ditemui.",
+    "ai_generating": (
+        "Menganalisis soalan dan mencari jawapan..."
+    ),
+    "ai_badge": "🤖 Jawapan penyelidikan dijana AI",
+    "ai_disclaimer": (
+        "Ini bukan fatwa dan perlu disemak oleh ulama."
+    ),
+    "rag_badge": "📖 Berdasarkan rujukan yang dimuat naik: {}",
+    "reference_management": (
+        "📁 Pengurusan rujukan — pentadbir"
+    ),
+    "reference_intro": (
+        "Muat naik teks yang anda mempunyai hak untuk menggunakannya."
+    ),
+    "source_title": "Tajuk sumber",
+    "source_madhab": "Mazhab berkaitan",
+    "source_text": "Teks rujukan",
+    "source_file": "Atau muat naik fail TXT",
+    "add_reference": "Tambah dan indeks rujukan",
+    "reference_empty": "Masukkan tajuk dan teks.",
+    "reference_failed": "Pengindeksan gagal.",
+    "reference_success": (
+        "{} bahagian daripada “{}” telah ditambah."
+    ),
+    "indexed_sources": "Sumber diindeks",
+    "no_sources": "Tiada rujukan diindeks.",
+    "glossary": "📚 Istilah fiqh",
+    "countries": "🗺️ Negara dan mazhab utama",
+    "rules": "📘 Prinsip dan kaedah fiqh",
+    "definition": "Takrif",
+    "example": "Contoh",
+    "warning_terms": (
+        "Istilah mungkin berbeza antara mazhab."
+    ),
+    "comments": "💬 Nota sesi",
+    "comment": "Tulis nota anda",
+    "rating": "Nilai jawapan",
+    "send_comment": "Hantar",
+    "comment_saved": "Nota telah disimpan.",
+    "admin_password": "Kata laluan pentadbir",
+    "admin_denied": "Anda tidak mempunyai akses.",
+    "normalization": "Soalan yang dinormalisasi",
+    "confidence": "Tahap keyakinan",
+    "general_source": "Sumber umum",
+    "country_note": (
+        "Ini ialah corak sejarah atau dominan."
+    ),
+    "ai_status_on": "Gemini AI: diaktifkan",
+    "ai_status_off": "Gemini AI: dinyahaktifkan",
+    "admin_missing": (
+        "ADMIN_PASSWORD belum ditetapkan."
+    ),
+}
+
+
+UI["ur"] = {
+    **UI["en"],
+    "app_title": "مذاہب فقہ کے مختصر آراء کا مجموعہ",
+    "app_subtitle": (
+        "فقہی آراء کے تقابلی مطالعے کا تعلیمی پلیٹ فارم؛ "
+        "فتویٰ کی خدمت نہیں۔"
+    ),
+    "language": "زبان",
+    "choose_madhab": "مسلک منتخب کریں",
+    "choose_one_or_more": (
+        "ایک یا زیادہ مسالک منتخب کریں"
+    ),
+    "choose_topic": "موضوع منتخب کریں",
+    "all_topics": "تمام موضوعات",
+    "choose_level": "تفصیل کی سطح",
+    "very_short": "نہایت مختصر",
+    "short": "مختصر",
+    "full": "تفصیلی",
+    "write_question": "اپنا سوال لکھیں",
+    "question_placeholder": (
+        "مثال: نماز باجماعت کا کیا حکم ہے؟"
+    ),
+    "search": "🔍 جواب تلاش کریں",
+    "no_question": "براہ کرم پہلے سوال لکھیں۔",
+    "no_madhab": (
+        "براہ کرم کم از کم ایک مسلک منتخب کریں۔"
+    ),
+    "no_results": "مناسب نتیجہ نہیں ملا۔",
+    "ai_generating": (
+        "سوال کا تجزیہ اور تلاش جاری ہے..."
+    ),
+    "ai_badge": (
+        "🤖 مصنوعی ذہانت سے تیار کردہ تحقیقی جواب"
+    ),
+    "ai_disclaimer": (
+        "یہ فتویٰ نہیں ہے؛ مستند عالم سے رجوع کریں۔"
+    ),
+    "rag_badge": (
+        "📖 اپ لوڈ کیے گئے مراجع پر مبنی: {}"
+    ),
+    "reference_management": (
+        "📁 مراجع کا انتظام — منتظمین"
+    ),
+    "reference_intro": (
+        "وہ متون اپ لوڈ کریں جن کے استعمال کا حق آپ کے پاس ہو۔"
+    ),
+    "source_title": "ماخذ کا عنوان",
+    "source_madhab": "متعلقہ مسلک",
+    "source_text": "حوالہ جاتی متن",
+    "source_file": "یا TXT فائل اپ لوڈ کریں",
+    "add_reference": (
+        "ماخذ شامل اور فہرست کریں"
+    ),
+    "reference_empty": (
+        "عنوان اور متن درج کریں۔"
+    ),
+    "reference_failed": (
+        "فہرست سازی ناکام ہوئی۔"
+    ),
+    "reference_success": (
+        "{} حصے “{}” سے شامل کیے گئے۔"
+    ),
+    "indexed_sources": (
+        "فہرست شدہ مراجع"
+    ),
+    "no_sources": (
+        "ابھی کوئی مرجع فہرست شدہ نہیں۔"
+    ),
+    "glossary": "📚 فقہی اصطلاحات",
+    "countries": (
+        "🗺️ ممالک اور غالب فقہی مسالک"
+    ),
+    "rules": "📘 فقہی اصول و قواعد",
+    "definition": "تعریف",
+    "example": "مثال",
+    "warning_terms": (
+        "بعض اصطلاحات کا استعمال مسالک کے درمیان مختلف ہو سکتا ہے۔"
+    ),
+    "comments": "💬 نشست کے نوٹس",
+    "comment": "اپنا نوٹ لکھیں",
+    "rating": "جواب کی درجہ بندی",
+    "send_comment": "جمع کریں",
+    "comment_saved": (
+        "نوٹ محفوظ کر لیا گیا۔"
+    ),
+    "admin_password": (
+        "منتظم کا پاس ورڈ"
+    ),
+    "admin_denied": (
+        "آپ کو اجازت نہیں ہے۔"
+    ),
+    "normalization": (
+        "سوال کی واضح صورت"
+    ),
+    "confidence": "اعتماد کی سطح",
+    "general_source": "عمومی ماخذ",
+    "country_note": (
+        "یہ تاریخی یا غالب رجحانات ہیں۔"
+    ),
+    "ai_status_on": "Gemini AI: فعال",
+    "ai_status_off": "Gemini AI: غیر فعال",
+    "admin_missing": (
+        "ADMIN_PASSWORD سیٹ نہیں کیا گیا۔"
+    ),
+}
 
 
 # ============================================================
-# المذاهب والموضوعات
+# أسماء المذاهب والموضوعات
 # ============================================================
 
 MADHHAB_NAMES = {
@@ -371,41 +653,65 @@ MADHHAB_NAMES = {
         "ar": "مالكي",
         "en": "Maliki",
         "fr": "Malikite",
+        "fa": "مالکی",
+        "ms": "Maliki",
+        "ur": "مالکی",
     },
     "shafii": {
         "ar": "شافعي",
         "en": "Shafi'i",
         "fr": "Chaféite",
+        "fa": "شافعی",
+        "ms": "Syafie",
+        "ur": "شافعی",
     },
     "hanafi": {
         "ar": "حنفي",
         "en": "Hanafi",
         "fr": "Hanafite",
+        "fa": "حنفی",
+        "ms": "Hanafi",
+        "ur": "حنفی",
     },
     "hanbali": {
         "ar": "حنبلي",
         "en": "Hanbali",
         "fr": "Hanbalite",
+        "fa": "حنبلی",
+        "ms": "Hanbali",
+        "ur": "حنبلی",
     },
     "zahiri": {
         "ar": "ظاهري",
         "en": "Zahiri",
         "fr": "Zahirite",
+        "fa": "ظاهری",
+        "ms": "Zahiri",
+        "ur": "ظاہری",
     },
     "jafari": {
         "ar": "جعفري",
         "en": "Ja'fari",
         "fr": "Jaafarite",
+        "fa": "جعفری",
+        "ms": "Jaafari",
+        "ur": "جعفری",
     },
     "zaidi": {
         "ar": "زيدي",
         "en": "Zaidi",
         "fr": "Zaydite",
+        "fa": "زیدی",
+        "ms": "Zaidi",
+        "ur": "زیدی",
     },
     "ibadi": {
         "ar": "إباضي",
         "en": "Ibadi",
         "fr": "Ibadite",
+        "fa": "اباضی",
+        "ms": "Ibadi",
+        "ur": "اباضی",
     },
 }
 
@@ -415,325 +721,1592 @@ TOPICS = {
         "ar": "العبادات",
         "en": "Worship",
         "fr": "Actes d’adoration",
+        "fa": "عبادات",
+        "ms": "Ibadah",
+        "ur": "عبادات",
     },
     "muamalat": {
         "ar": "المعاملات",
         "en": "Transactions",
         "fr": "Transactions",
+        "fa": "معاملات",
+        "ms": "Muamalat",
+        "ur": "معاملات",
     },
     "family": {
         "ar": "الأسرة",
         "en": "Family",
         "fr": "Famille",
+        "fa": "خانواده",
+        "ms": "Keluarga",
+        "ur": "خاندان",
     },
     "other": {
         "ar": "مواضيع أخرى",
-        "en": "Other",
+        "en": "Other topics",
         "fr": "Autres sujets",
+        "fa": "موضوعات دیگر",
+        "ms": "Topik lain",
+        "ur": "دیگر موضوعات",
     },
 }
 
 
 # ============================================================
-# المصطلحات الفقهية
+# المصطلحات الفقهية المترجمة
 # ============================================================
 
 GLOSSARY = {
     "الحلال": {
-        "definition": (
-            "ما أذن الشرع في فعله، ولا يترتب على فعله إثم "
-            "من حيث الأصل."
-        ),
-        "example": "الأكل من الطعام الطيب المباح.",
+        "label": {
+            "ar": "الحلال",
+            "en": "Halal",
+            "fr": "Halal",
+            "fa": "حلال",
+            "ms": "Halal",
+            "ur": "حلال",
+        },
+        "definition": {
+            "ar": "ما أذن الشرع في فعله، ولا يترتب على فعله إثم من حيث الأصل.",
+            "en": "What Islamic law permits; doing it is not sinful in principle.",
+            "fr": "Ce que la loi islamique permet; son accomplissement n’est pas pécheur en principe.",
+            "fa": "آنچه شرع انجام آن را اجازه داده و در اصل گناهی بر آن مترتب نیست.",
+            "ms": "Perkara yang dibenarkan syarak dan tidak berdosa pada asalnya.",
+            "ur": "جسے شریعت نے جائز قرار دیا ہو اور اصولاً اس کے کرنے پر گناہ نہ ہو۔",
+        },
+        "example": {
+            "ar": "الأكل من الطعام الطيب المباح.",
+            "en": "Eating permissible wholesome food.",
+            "fr": "Manger une nourriture saine et permise.",
+            "fa": "خوردن غذای پاک و مباح.",
+            "ms": "Makan makanan yang baik dan halal.",
+            "ur": "پاکیزہ اور حلال کھانا کھانا۔",
+        },
     },
     "المباح": {
-        "definition": (
-            "ما خيّر الشارع المكلّف بين فعله وتركه، "
-            "فلا مدح ولا ذم لذاته."
-        ),
-        "example": "اختيار لون الثوب المباح.",
+        "label": {
+            "ar": "المباح",
+            "en": "Permissible",
+            "fr": "Permis",
+            "fa": "مباح",
+            "ms": "Harus",
+            "ur": "مباح",
+        },
+        "definition": {
+            "ar": "ما خيّر الشارع المكلّف بين فعله وتركه، فلا مدح ولا ذم لذاته.",
+            "en": "An act for which the Lawgiver gives a choice between doing and leaving it.",
+            "fr": "Un acte entre lequel la personne est libre de choisir.",
+            "fa": "کاری که شارع میان انجام دادن و ترک آن اختیار داده است.",
+            "ms": "Perkara yang seseorang diberi pilihan untuk melakukan atau meninggalkannya.",
+            "ur": "جس کے کرنے یا نہ کرنے میں شریعت نے اختیار دیا ہو۔",
+        },
+        "example": {
+            "ar": "اختيار لون الثوب المباح.",
+            "en": "Choosing a permissible clothing color.",
+            "fr": "Choisir une couleur de vêtement permise.",
+            "fa": "انتخاب رنگ مباح لباس.",
+            "ms": "Memilih warna pakaian yang dibenarkan.",
+            "ur": "جائز لباس کا رنگ منتخب کرنا۔",
+        },
     },
     "الحرام": {
-        "definition": (
-            "ما طلب الشرع تركه طلبًا جازمًا، ويأثم المكلّف "
-            "بفعله مع العلم والقصد."
-        ),
-        "example": "السرقة وأكل أموال الناس بالباطل.",
+        "label": {
+            "ar": "الحرام",
+            "en": "Haram",
+            "fr": "Interdit",
+            "fa": "حرام",
+            "ms": "Haram",
+            "ur": "حرام",
+        },
+        "definition": {
+            "ar": "ما طلب الشرع تركه طلبًا جازمًا، ويأثم المكلّف بفعله مع العلم والقصد.",
+            "en": "What Islamic law definitively prohibits; knowingly doing it is sinful.",
+            "fr": "Ce que la loi islamique interdit de manière catégorique.",
+            "fa": "آنچه شرع به طور قطعی از آن نهی کرده است.",
+            "ms": "Perkara yang dilarang secara tegas oleh syarak.",
+            "ur": "جسے شریعت نے قطعی طور پر منع کیا ہو۔",
+        },
+        "example": {
+            "ar": "السرقة وأكل أموال الناس بالباطل.",
+            "en": "Theft and consuming people's wealth unjustly.",
+            "fr": "Le vol et l’appropriation injuste des biens.",
+            "fa": "دزدی و خوردن مال مردم به ناحق.",
+            "ms": "Mencuri dan mengambil harta orang secara batil.",
+            "ur": "چوری اور لوگوں کا مال ناحق کھانا۔",
+        },
     },
     "المكروه": {
-        "definition": (
-            "ما طلب الشرع تركه لا على سبيل الإلزام؛ فتركه أفضل، "
-            "وفعله لا يوجب الإثم في الأصل."
-        ),
-        "example": "فعل يكره في العبادة دون أن يبطلها.",
+        "label": {
+            "ar": "المكروه",
+            "en": "Disliked",
+            "fr": "Déconseillé",
+            "fa": "مکروه",
+            "ms": "Makruh",
+            "ur": "مکروہ",
+        },
+        "definition": {
+            "ar": "ما طلب الشرع تركه لا على سبيل الإلزام؛ فتركه أفضل.",
+            "en": "What Islamic law discourages without making avoidance strictly obligatory.",
+            "fr": "Ce que la loi déconseille sans l’interdire catégoriquement.",
+            "fa": "آنچه شرع ترک آن را بدون الزام توصیه کرده است.",
+            "ms": "Perkara yang tidak digalakkan syarak tanpa larangan tegas.",
+            "ur": "جسے شریعت نے ناپسند کیا ہو مگر قطعی طور پر حرام نہ کیا ہو۔",
+        },
+        "example": {
+            "ar": "فعل يكره في العبادة دون أن يبطلها.",
+            "en": "An act disliked in worship without invalidating it.",
+            "fr": "Un acte déconseillé dans l’adoration sans l’annuler.",
+            "fa": "کاری مکروه در عبادت که آن را باطل نمی‌کند.",
+            "ms": "Perbuatan makruh dalam ibadah tetapi tidak membatalkannya.",
+            "ur": "عبادت میں ایسا ناپسندیدہ عمل جو عبادت کو باطل نہ کرے۔",
+        },
     },
     "الواجب": {
-        "definition": (
-            "ما طلب الشرع فعله طلبًا جازمًا، ويأثم المكلّف "
-            "بتركه بلا عذر."
-        ),
-        "example": "أداء الصلاة المفروضة في وقتها.",
+        "label": {
+            "ar": "الواجب",
+            "en": "Wajib",
+            "fr": "Obligatoire",
+            "fa": "واجب",
+            "ms": "Wajib",
+            "ur": "واجب",
+        },
+        "definition": {
+            "ar": "ما طلب الشرع فعله طلبًا جازمًا، ويأثم المكلّف بتركه بلا عذر.",
+            "en": "What Islamic law demands decisively; leaving it without excuse is sinful.",
+            "fr": "Ce que la loi exige de manière catégorique.",
+            "fa": "آنچه شرع انجام آن را به صورت قطعی طلب کرده است.",
+            "ms": "Perkara yang diwajibkan secara tegas oleh syarak.",
+            "ur": "جسے شریعت نے لازم قرار دیا ہو اور بلا عذر چھوڑنے پر گناہ ہو۔",
+        },
+        "example": {
+            "ar": "أداء الصلاة المفروضة في وقتها.",
+            "en": "Performing the obligatory prayer on time.",
+            "fr": "Accomplir la prière obligatoire à son heure.",
+            "fa": "خواندن نماز واجب در وقت آن.",
+            "ms": "Menunaikan solat fardu pada waktunya.",
+            "ur": "فرض نماز وقت پر ادا کرنا۔",
+        },
     },
     "الفرض": {
-        "definition": (
-            "ما ثبت طلبه بدليل قطعي عند الاصطلاح الذي يفرّق "
-            "بين الفرض والواجب."
-        ),
-        "example": "وجوب الصلوات الخمس بدليل قطعي.",
+        "label": {
+            "ar": "الفرض",
+            "en": "Fard",
+            "fr": "Fard",
+            "fa": "فرض",
+            "ms": "Fardu",
+            "ur": "فرض",
+        },
+        "definition": {
+            "ar": "ما ثبت طلبه بدليل قطعي عند من يفرّق بين الفرض والواجب.",
+            "en": "An obligation established by definitive evidence in terminology that distinguishes fard from wajib.",
+            "fr": "Une obligation établie par une preuve définitive.",
+            "fa": "واجبی که با دلیل قطعی ثابت شده باشد.",
+            "ms": "Kewajipan yang ditetapkan dengan dalil qat‘i.",
+            "ur": "وہ واجب جو قطعی دلیل سے ثابت ہو۔",
+        },
+        "example": {
+            "ar": "وجوب الصلوات الخمس بدليل قطعي.",
+            "en": "The obligation of the five daily prayers.",
+            "fr": "L’obligation des cinq prières quotidiennes.",
+            "fa": "وجوب نمازهای پنج‌گانه.",
+            "ms": "Kewajipan solat lima waktu.",
+            "ur": "پانچ وقت کی نمازوں کا وجوب۔",
+        },
     },
     "فرض الكفاية": {
-        "definition": (
-            "واجب إذا قام به عدد كافٍ سقط الإثم عن الباقين، "
-            "وإذا تركه الجميع أثم القادرون."
-        ),
-        "example": "تجهيز الميت والصلاة عليه في الجملة.",
+        "label": {
+            "ar": "فرض الكفاية",
+            "en": "Communal obligation",
+            "fr": "Obligation communautaire",
+            "fa": "فرض کفایه",
+            "ms": "Fardu kifayah",
+            "ur": "فرض کفایہ",
+        },
+        "definition": {
+            "ar": "واجب إذا قام به عدد كافٍ سقط الإثم عن الباقين.",
+            "en": "A communal obligation fulfilled when enough people perform it.",
+            "fr": "Une obligation communautaire accomplie par un nombre suffisant de personnes.",
+            "fa": "واجبی که با انجام گروهی کافی، از دیگران ساقط می‌شود.",
+            "ms": "Kewajipan kolektif yang gugur daripada orang lain apabila dilakukan oleh sebahagian yang mencukupi.",
+            "ur": "ایسا اجتماعی فرض جسے کافی لوگ ادا کر دیں تو دوسروں سے ساقط ہو جائے۔",
+        },
+        "example": {
+            "ar": "تجهيز الميت والصلاة عليه في الجملة.",
+            "en": "Preparing and praying over the deceased.",
+            "fr": "La préparation et la prière funéraire pour le défunt.",
+            "fa": "تجهیز و نماز میت.",
+            "ms": "Menguruskan jenazah dan solat jenazah.",
+            "ur": "میت کو غسل دینا اور نماز جنازہ پڑھنا۔",
+        },
     },
     "المستحب": {
-        "definition": (
-            "ما طلب الشرع فعله طلبًا غير جازم؛ يثاب فاعله "
-            "ولا يعاقب تاركه."
-        ),
-        "example": "صدقة التطوع.",
+        "label": {
+            "ar": "المستحب",
+            "en": "Recommended",
+            "fr": "Recommandé",
+            "fa": "مستحب",
+            "ms": "Sunat",
+            "ur": "مستحب",
+        },
+        "definition": {
+            "ar": "ما طلب الشرع فعله طلبًا غير جازم؛ يثاب فاعله ولا يعاقب تاركه.",
+            "en": "A recommended act whose doer is rewarded and whose non-doer is not punished.",
+            "fr": "Un acte recommandé dont l’accomplissement est récompensé.",
+            "fa": "کاری که انجام آن مستحب است و ترک آن مجازات ندارد.",
+            "ms": "Perkara sunat yang diberi pahala apabila dilakukan.",
+            "ur": "ایسا عمل جس کے کرنے پر ثواب ہو اور چھوڑنے پر گناہ نہ ہو۔",
+        },
+        "example": {
+            "ar": "صدقة التطوع.",
+            "en": "Voluntary charity.",
+            "fr": "L’aumône volontaire.",
+            "fa": "صدقه مستحبی.",
+            "ms": "Sedekah sunat.",
+            "ur": "نفلی صدقہ۔",
+        },
     },
     "المندوب": {
-        "definition": (
-            "ما رغب الشرع في فعله دون إلزام، وهو من ألفاظ "
-            "الترغيب في الاصطلاح العام."
-        ),
-        "example": "صيام أيام نافلة.",
+        "label": {
+            "ar": "المندوب",
+            "en": "Mandub",
+            "fr": "Mandub",
+            "fa": "مندوب",
+            "ms": "Mandub",
+            "ur": "مندوب",
+        },
+        "definition": {
+            "ar": "ما رغب الشرع في فعله دون إلزام.",
+            "en": "An act encouraged by Islamic law without obligation.",
+            "fr": "Un acte encouragé sans être obligatoire.",
+            "fa": "کاری که شرع به انجام آن ترغیب کرده ولی الزام نکرده است.",
+            "ms": "Perkara yang digalakkan syarak tanpa kewajipan.",
+            "ur": "جس کے کرنے کی شریعت نے ترغیب دی ہو مگر لازم نہ کیا ہو۔",
+        },
+        "example": {
+            "ar": "صيام أيام نافلة.",
+            "en": "Fasting voluntary days.",
+            "fr": "Jeûner des jours surérogatoires.",
+            "fa": "روزه گرفتن در روزهای مستحبی.",
+            "ms": "Berpuasa pada hari-hari sunat.",
+            "ur": "نفلی دنوں کے روزے رکھنا۔",
+        },
     },
     "السنة": {
-        "definition": (
-            "ما نقل عن النبي ﷺ من قول أو فعل أو تقرير، "
-            "وقد يطلق فقهيًا على ما يثاب فاعله."
-        ),
-        "example": "بعض هيئات الصلاة وأذكارها.",
+        "label": {
+            "ar": "السنة",
+            "en": "Sunnah",
+            "fr": "Sunna",
+            "fa": "سنت",
+            "ms": "Sunnah",
+            "ur": "سنت",
+        },
+        "definition": {
+            "ar": "ما نقل عن النبي ﷺ من قول أو فعل أو تقرير.",
+            "en": "A statement, action, or approval transmitted from the Prophet.",
+            "fr": "Une parole, un acte ou une approbation attribuée au Prophète.",
+            "fa": "گفتار، کردار یا تقریر پیامبر ﷺ.",
+            "ms": "Perkataan, perbuatan atau pengakuan Nabi ﷺ.",
+            "ur": "نبی ﷺ کا قول، فعل یا تقریر۔",
+        },
+        "example": {
+            "ar": "بعض هيئات الصلاة وأذكارها.",
+            "en": "Some prayer postures and remembrances.",
+            "fr": "Certaines postures et invocations de la prière.",
+            "fa": "برخی هیئت‌ها و اذکار نماز.",
+            "ms": "Sebahagian perbuatan dan zikir dalam solat.",
+            "ur": "نماز کی بعض سنتیں اور اذکار۔",
+        },
     },
     "السنة المؤكدة": {
-        "definition": (
-            "سنة واظب عليها النبي ﷺ أو حث عليها حثًا ظاهرًا، "
-            "ويُلام عند بعض الفقهاء من يتركها دائمًا."
-        ),
-        "example": "صلاة الوتر عند من يعدّها سنة مؤكدة.",
+        "label": {
+            "ar": "السنة المؤكدة",
+            "en": "Emphasized Sunnah",
+            "fr": "Sunna confirmée",
+            "fa": "سنت مؤکده",
+            "ms": "Sunnah muakkadah",
+            "ur": "سنت مؤکدہ",
+        },
+        "definition": {
+            "ar": "سنة واظب عليها النبي ﷺ أو حث عليها حثًا ظاهرًا.",
+            "en": "A sunnah consistently practiced or strongly encouraged by the Prophet.",
+            "fr": "Une pratique régulièrement accomplie ou fortement encouragée par le Prophète.",
+            "fa": "سنتی که پیامبر ﷺ بر آن مداومت یا تأکید کرده است.",
+            "ms": "Sunnah yang sentiasa dilakukan atau sangat ditekankan oleh Nabi ﷺ.",
+            "ur": "وہ سنت جس پر نبی ﷺ نے ہمیشہ عمل کیا یا بہت تاکید فرمائی۔",
+        },
+        "example": {
+            "ar": "صلاة الوتر عند من يعدّها سنة مؤكدة.",
+            "en": "Witr prayer according to those who classify it as emphasized sunnah.",
+            "fr": "La prière du witr selon ceux qui la classent comme sunna confirmée.",
+            "fa": "نماز وتر نزد کسانی که آن را سنت مؤکده می‌دانند.",
+            "ms": "Solat witir menurut ulama yang menganggapnya sunnah muakkadah.",
+            "ur": "وتر کی نماز، ان علماء کے نزدیک جو اسے سنت مؤکدہ کہتے ہیں۔",
+        },
     },
 }
 
 
 # ============================================================
-# القواعد الفقهية
+# القواعد المترجمة
 # ============================================================
 
 FIQH_RULES = [
     {
-        "title": "الأمور بمقاصدها",
-        "definition": (
-            "تعتبر المقاصد والنيات في فهم الأفعال وترتيب آثارها الشرعية."
-        ),
-        "example": (
-            "يختلف دفع المال باختلاف كونه صدقة أو قرضًا أو هبة."
-        ),
+        "title": {
+            "ar": "الأمور بمقاصدها",
+            "en": "Actions are judged by intentions",
+            "fr": "Les actes sont jugés selon les intentions",
+            "fa": "کارها بر اساس نیت‌ها سنجیده می‌شوند",
+            "ms": "Amalan dinilai berdasarkan niat",
+            "ur": "اعمال کا دارومدار نیتوں پر ہے",
+        },
+        "definition": {
+            "ar": "تعتبر المقاصد والنيات في فهم الأفعال وترتيب آثارها الشرعية.",
+            "en": "Intentions and purposes are considered when determining legal effects.",
+            "fr": "Les intentions sont prises en compte pour déterminer les effets juridiques.",
+            "fa": "نیت و هدف در تعیین آثار شرعی اعمال معتبر است.",
+            "ms": "Niat dan tujuan diambil kira dalam menentukan hukum.",
+            "ur": "اعمال کے شرعی اثرات میں نیتوں اور مقاصد کا اعتبار کیا جاتا ہے۔",
+        },
+        "example": {
+            "ar": "يختلف دفع المال باختلاف كونه صدقة أو قرضًا أو هبة.",
+            "en": "Giving money differs depending on whether it is charity, a loan, or a gift.",
+            "fr": "Le don d’argent diffère selon qu’il s’agit d’une aumône, d’un prêt ou d’un don.",
+            "fa": "دادن پول بر اساس صدقه، قرض یا هدیه بودن متفاوت است.",
+            "ms": "Pemberian wang berbeza sama ada sedekah, pinjaman atau hadiah.",
+            "ur": "مال دینے کا حکم صدقہ، قرض یا ہبہ ہونے کے لحاظ سے مختلف ہوتا ہے۔",
+        },
     },
     {
-        "title": "اليقين لا يزول بالشك",
-        "definition": (
-            "الحكم الثابت بيقين لا يرفع بمجرد شك طارئ."
-        ),
-        "example": (
-            "من تيقن الطهارة وشك في الحدث يبقى على طهارته."
-        ),
+        "title": {
+            "ar": "اليقين لا يزول بالشك",
+            "en": "Certainty is not removed by doubt",
+            "fr": "La certitude n’est pas levée par le doute",
+            "fa": "یقین با شک زائل نمی‌شود",
+            "ms": "Keyakinan tidak dihilangkan oleh keraguan",
+            "ur": "یقین شک سے زائل نہیں ہوتا",
+        },
+        "definition": {
+            "ar": "الحكم الثابت بيقين لا يرفع بمجرد شك طارئ.",
+            "en": "An established certainty is not overturned by a mere doubt.",
+            "fr": "Une certitude établie n’est pas annulée par un simple doute.",
+            "fa": "حکم ثابت با یقین با شک عارضی از بین نمی‌رود.",
+            "ms": "Sesuatu yang pasti tidak gugur hanya kerana keraguan.",
+            "ur": "یقینی حالت محض شک سے ختم نہیں ہوتی۔",
+        },
+        "example": {
+            "ar": "من تيقن الطهارة وشك في الحدث يبقى على طهارته.",
+            "en": "One certain of purity remains pure when merely doubting impurity.",
+            "fr": "Celui qui est certain d’être pur le reste malgré un simple doute.",
+            "fa": "کسی که به طهارت یقین دارد و در حدث شک می‌کند، پاک باقی می‌ماند.",
+            "ms": "Orang yang yakin berwuduk kekal suci apabila hanya ragu-ragu.",
+            "ur": "جسے طہارت کا یقین ہو وہ محض شک سے بے وضو نہیں ہوگا۔",
+        },
     },
     {
-        "title": "المشقة تجلب التيسير",
-        "definition": (
-            "المشقة غير المعتادة سبب معتبر للتخفيف الشرعي وفق ضوابطه."
-        ),
-        "example": "الفطر للمريض الذي يضره الصوم.",
+        "title": {
+            "ar": "المشقة تجلب التيسير",
+            "en": "Hardship brings facilitation",
+            "fr": "La difficulté entraîne la facilitation",
+            "fa": "مشقت موجب آسانی است",
+            "ms": "Kesukaran membawa kemudahan",
+            "ur": "مشقت آسانی کا سبب بنتی ہے",
+        },
+        "definition": {
+            "ar": "المشقة غير المعتادة سبب معتبر للتخفيف الشرعي وفق ضوابطه.",
+            "en": "Unusual hardship may justify a legally recognized concession.",
+            "fr": "Une difficulté inhabituelle peut justifier une facilité juridique.",
+            "fa": "مشقت غیر عادی می‌تواند موجب تخفیف شرعی شود.",
+            "ms": "Kesukaran luar biasa boleh membawa rukhsah syarak.",
+            "ur": "غیر معمولی مشقت شرعی رخصت کا سبب بن سکتی ہے۔",
+        },
+        "example": {
+            "ar": "الفطر للمريض الذي يضره الصوم.",
+            "en": "Breaking the fast for a sick person harmed by fasting.",
+            "fr": "Rompre le jeûne pour le malade que le jeûne nuit.",
+            "fa": "افطار برای بیماری که روزه به او ضرر می‌زند.",
+            "ms": "Berbuka bagi orang sakit yang terjejas oleh puasa.",
+            "ur": "اس مریض کے لیے روزہ چھوڑنا جسے روزہ نقصان دے۔",
+        },
     },
     {
-        "title": "الضرر يزال",
-        "definition": (
-            "يجب رفع الضرر أو تقليله بقدر الإمكان دون إحداث ضرر أكبر."
-        ),
-        "example": "منع استعمال طريق يضر بالمارة.",
+        "title": {
+            "ar": "الضرر يزال",
+            "en": "Harm must be removed",
+            "fr": "Le préjudice doit être supprimé",
+            "fa": "ضرر باید برطرف شود",
+            "ms": "Kemudaratan hendaklah dihilangkan",
+            "ur": "ضرر کو دور کیا جائے گا",
+        },
+        "definition": {
+            "ar": "يجب رفع الضرر أو تقليله بقدر الإمكان دون إحداث ضرر أكبر.",
+            "en": "Harm should be removed or reduced without causing greater harm.",
+            "fr": "Le préjudice doit être supprimé ou réduit sans causer un dommage plus grand.",
+            "fa": "ضرر باید تا حد امکان بدون ایجاد ضرر بزرگ‌تر برطرف شود.",
+            "ms": "Kemudaratan hendaklah dihapuskan tanpa menimbulkan mudarat yang lebih besar.",
+            "ur": "ضرر کو اس طرح دور کیا جائے کہ اس سے بڑا ضرر پیدا نہ ہو۔",
+        },
+        "example": {
+            "ar": "منع استعمال طريق يضر بالمارة.",
+            "en": "Preventing use of a road that harms pedestrians.",
+            "fr": "Interdire l’usage d’un passage dangereux pour les piétons.",
+            "fa": "جلوگیری از استفاده از راهی که به عابران آسیب می‌زند.",
+            "ms": "Melarang penggunaan jalan yang membahayakan pejalan kaki.",
+            "ur": "ایسے راستے کے استعمال سے روکنا جو راہ گیروں کو نقصان دے۔",
+        },
     },
     {
-        "title": "العادة محكمة",
-        "definition": (
-            "تعتبر العادة الصحيحة فيما لم يرد فيه تحديد شرعي خاص."
-        ),
-        "example": "تحديد بعض صور النفقة بحسب عرف البلد.",
+        "title": {
+            "ar": "العادة محكمة",
+            "en": "Custom is authoritative",
+            "fr": "La coutume fait autorité",
+            "fa": "عرف معتبر است",
+            "ms": "Adat menjadi pertimbangan",
+            "ur": "عرف معتبر ہے",
+        },
+        "definition": {
+            "ar": "تعتبر العادة الصحيحة فيما لم يرد فيه تحديد شرعي خاص.",
+            "en": "Sound custom is considered where no specific legal determination exists.",
+            "fr": "La coutume saine est prise en compte en l’absence de règle précise.",
+            "fa": "در مواردی که حکم خاصی نیست، عرف صحیح معتبر است.",
+            "ms": "Adat yang sahih diambil kira apabila tiada penetapan khusus.",
+            "ur": "جہاں شرعی تحدید نہ ہو وہاں صحیح عرف کا اعتبار کیا جاتا ہے۔",
+        },
+        "example": {
+            "ar": "تحديد بعض صور النفقة بحسب عرف البلد.",
+            "en": "Determining aspects of maintenance according to local custom.",
+            "fr": "Déterminer certains aspects de la pension selon la coutume locale.",
+            "fa": "تعیین برخی مصارف نفقه بر اساس عرف محل.",
+            "ms": "Menentukan sebahagian nafkah berdasarkan adat setempat.",
+            "ur": "نفقہ کی بعض صورتوں کا تعین مقامی عرف کے مطابق کرنا۔",
+        },
     },
     {
-        "title": "الضرر لا يزال بالضرر",
-        "definition": (
-            "لا يجوز علاج ضرر بإحداث ضرر مساو أو أشد."
-        ),
-        "example": "لا يزال ضرر جار بإتلاف ملك جار آخر.",
+        "title": {
+            "ar": "الضرر لا يزال بالضرر",
+            "en": "Harm is not removed by equivalent harm",
+            "fr": "Le préjudice ne se supprime pas par un autre préjudice",
+            "fa": "ضرر با ضرر برطرف نمی‌شود",
+            "ms": "Kemudaratan tidak dihilangkan dengan kemudaratan",
+            "ur": "ضرر کو دوسرے ضرر سے دور نہیں کیا جائے گا",
+        },
+        "definition": {
+            "ar": "لا يجوز علاج ضرر بإحداث ضرر مساو أو أشد.",
+            "en": "Harm cannot be remedied by causing equal or greater harm.",
+            "fr": "Un préjudice ne peut être traité par un dommage équivalent ou supérieur.",
+            "fa": "رفع ضرر با ایجاد ضرر مساوی یا بیشتر جایز نیست.",
+            "ms": "Kemudaratan tidak boleh diatasi dengan kemudaratan yang sama atau lebih besar.",
+            "ur": "ضرر کو برابر یا اس سے بڑے ضرر کے ذریعے دور نہیں کیا جا سکتا۔",
+        },
+        "example": {
+            "ar": "لا يزال ضرر جار بإتلاف ملك جار آخر.",
+            "en": "A neighbor's harm cannot be removed by destroying another neighbor's property.",
+            "fr": "On ne supprime pas le tort d’un voisin en détruisant le bien d’un autre.",
+            "fa": "ضرر همسایه با تخریب ملک همسایه دیگر رفع نمی‌شود.",
+            "ms": "Mudarat jiran tidak boleh dihilangkan dengan merosakkan harta jiran lain.",
+            "ur": "ایک پڑوسی کا ضرر دوسرے پڑوسی کی جائیداد تباہ کرکے دور نہیں کیا جا سکتا۔",
+        },
     },
     {
-        "title": "درء المفاسد مقدم على جلب المصالح",
-        "definition": (
-            "إذا تعارضت مفسدة ومصلحة معتبرتان قدم دفع المفسدة "
-            "عند رجحانها."
-        ),
-        "example": (
-            "منع معاملة فيها ربح ويترتب عليها ظلم واضح."
-        ),
+        "title": {
+            "ar": "درء المفاسد مقدم على جلب المصالح",
+            "en": "Preventing harm takes precedence over gaining benefit",
+            "fr": "Écarter les dommages prime sur l’obtention des intérêts",
+            "fa": "دفع مفسده بر جلب منفعت مقدم است",
+            "ms": "Menolak kemudaratan didahulukan daripada menarik manfaat",
+            "ur": "مفاسد کو دور کرنا مصالح حاصل کرنے پر مقدم ہے",
+        },
+        "definition": {
+            "ar": "إذا تعارضت مفسدة ومصلحة معتبرتان قدم دفع المفسدة عند رجحانها.",
+            "en": "When a harm and benefit conflict, the stronger harm may be given priority.",
+            "fr": "En cas de conflit, écarter le dommage prépondérant peut primer.",
+            "fa": "در تعارض مفسده و منفعت، دفع مفسده مهم‌تر مقدم می‌شود.",
+            "ms": "Apabila manfaat dan mudarat bertembung, mudarat yang lebih besar hendaklah dielakkan.",
+            "ur": "مصلحت اور مفسدت کے تعارض میں غالب مفسدت کو دور کرنا مقدم ہو سکتا ہے۔",
+        },
+        "example": {
+            "ar": "منع معاملة فيها ربح ويترتب عليها ظلم واضح.",
+            "en": "Preventing a profitable transaction that clearly causes injustice.",
+            "fr": "Interdire une transaction rentable qui entraîne une injustice évidente.",
+            "fa": "جلوگیری از معامله‌ای سودآور که ظلم آشکار دارد.",
+            "ms": "Menghalang urus niaga yang menguntungkan tetapi jelas menzalimi.",
+            "ur": "ایسے منافع بخش معاملے کو روکنا جس میں واضح ظلم ہو۔",
+        },
     },
     {
-        "title": "الضرورات تبيح المحظورات",
-        "definition": (
-            "الضرورة المنضبطة قد تبيح المحظور بقدر دفع الضرر."
-        ),
-        "example": (
-            "تناول المحرم عند خوف الهلاك بقدر الحاجة."
-        ),
+        "title": {
+            "ar": "الضرورات تبيح المحظورات",
+            "en": "Necessities permit prohibited matters",
+            "fr": "Les nécessités permettent les interdits",
+            "fa": "ضرورت‌ها محرمات را مباح می‌کنند",
+            "ms": "Darurat mengharuskan perkara terlarang",
+            "ur": "ضرورتیں ممنوع چیزوں کو جائز کر دیتی ہیں",
+        },
+        "definition": {
+            "ar": "الضرورة المنضبطة قد تبيح المحظور بقدر دفع الضرر.",
+            "en": "A genuine necessity may permit a prohibited act only as needed.",
+            "fr": "Une nécessité réelle peut permettre l’interdit dans la mesure nécessaire.",
+            "fa": "ضرورت واقعی می‌تواند محظور را به اندازه نیاز مباح کند.",
+            "ms": "Darurat sebenar boleh mengharuskan perkara terlarang sekadar keperluan.",
+            "ur": "حقیقی ضرورت بقدر ضرورت ممنوع چیز کو جائز کر سکتی ہے۔",
+        },
+        "example": {
+            "ar": "تناول المحرم عند خوف الهلاك بقدر الحاجة.",
+            "en": "Consuming a prohibited item to avoid death, only as needed.",
+            "fr": "Consommer un interdit pour éviter la mort, uniquement à hauteur du besoin.",
+            "fa": "خوردن حرام هنگام ترس از مرگ به اندازه نیاز.",
+            "ms": "Mengambil yang haram ketika takut maut sekadar keperluan.",
+            "ur": "ہلاکت کے خوف میں بقدر ضرورت حرام چیز کھانا۔",
+        },
     },
     {
-        "title": "الضرورة تقدر بقدرها",
-        "definition": (
-            "الرخصة الناتجة عن الضرورة لا تتجاوز مقدار الحاجة."
-        ),
-        "example": "لا يتوسع المضطر بعد زوال الخطر.",
+        "title": {
+            "ar": "الضرورة تقدر بقدرها",
+            "en": "Necessity is measured by its extent",
+            "fr": "La nécessité est limitée à son étendue",
+            "fa": "ضرورت به اندازه خود سنجیده می‌شود",
+            "ms": "Darurat diukur mengikut kadarnya",
+            "ur": "ضرورت کا اندازہ بقدر ضرورت ہوگا",
+        },
+        "definition": {
+            "ar": "الرخصة الناتجة عن الضرورة لا تتجاوز مقدار الحاجة.",
+            "en": "A concession due to necessity does not exceed what is needed.",
+            "fr": "La concession ne dépasse pas la mesure de la nécessité.",
+            "fa": "رخصت ناشی از ضرورت از اندازه نیاز فراتر نمی‌رود.",
+            "ms": "Rukhsah darurat tidak boleh melebihi kadar keperluan.",
+            "ur": "ضرورت کی رخصت بقدر ضرورت سے زیادہ نہیں ہوگی۔",
+        },
+        "example": {
+            "ar": "لا يتوسع المضطر بعد زوال الخطر.",
+            "en": "The person in necessity does not exceed the need after danger ends.",
+            "fr": "La personne en nécessité ne dépasse pas le besoin après la fin du danger.",
+            "fa": "پس از رفع خطر، شخص مضطر نباید زیاده‌روی کند.",
+            "ms": "Orang yang darurat tidak boleh berlebihan selepas bahaya hilang.",
+            "ur": "خطر ختم ہونے کے بعد مضطر شخص ضرورت سے زیادہ نہیں لے گا۔",
+        },
     },
     {
-        "title": "الأصل براءة الذمة",
-        "definition": (
-            "الأصل عدم شغل ذمة الشخص بحق أو التزام حتى يثبت الدليل."
-        ),
-        "example": "من ادعى دينًا فعليه إثباته.",
+        "title": {
+            "ar": "الأصل براءة الذمة",
+            "en": "The basic assumption is freedom from liability",
+            "fr": "La présomption est l’absence de responsabilité",
+            "fa": "اصل برائت ذمه است",
+            "ms": "Asal seseorang bebas daripada tanggungan",
+            "ur": "اصل براءتِ ذمہ ہے",
+        },
+        "definition": {
+            "ar": "الأصل عدم شغل ذمة الشخص بحق أو التزام حتى يثبت الدليل.",
+            "en": "A person is presumed free of a claim or obligation until proven otherwise.",
+            "fr": "Une personne est présumée libre de toute obligation jusqu’à preuve du contraire.",
+            "fa": "اصل بر این است که ذمه شخص تا اثبات دلیل مشغول نیست.",
+            "ms": "Asal seseorang tidak menanggung tuntutan sehingga dibuktikan.",
+            "ur": "دلیل ثابت ہونے تک انسان کی ذمہ داری سے براءت اصل ہے۔",
+        },
+        "example": {
+            "ar": "من ادعى دينًا فعليه إثباته.",
+            "en": "Whoever claims a debt must prove it.",
+            "fr": "Celui qui réclame une dette doit la prouver.",
+            "fa": "مدعی بدهی باید آن را ثابت کند.",
+            "ms": "Orang yang mendakwa hutang hendaklah membuktikannya.",
+            "ur": "جو قرض کا دعویٰ کرے اس پر ثبوت لازم ہے۔",
+        },
     },
     {
-        "title": "الأصل في العبادات التوقيف",
-        "definition": (
-            "لا تشرع عبادة مخصوصة بصفة أو وقت أو عدد إلا بدليل معتبر."
-        ),
-        "example": (
-            "عدم تخصيص ذكر بعدد تعبدي بلا دليل."
-        ),
+        "title": {
+            "ar": "الأصل في العبادات التوقيف",
+            "en": "Worship is based on textual authorization",
+            "fr": "Les actes cultuels reposent sur une preuve",
+            "fa": "اصل در عبادات توقیف است",
+            "ms": "Ibadah berdasarkan dalil",
+            "ur": "عبادات توقیفی ہیں",
+        },
+        "definition": {
+            "ar": "لا تشرع عبادة مخصوصة بصفة أو وقت أو عدد إلا بدليل معتبر.",
+            "en": "A specific form, time, or number of worship requires valid evidence.",
+            "fr": "Une forme, un temps ou un nombre précis exige une preuve valable.",
+            "fa": "عبادت مخصوص با کیفیت یا زمان و تعداد خاص نیازمند دلیل معتبر است.",
+            "ms": "Bentuk, masa atau bilangan ibadah tertentu memerlukan dalil yang sah.",
+            "ur": "کسی عبادت کی مخصوص کیفیت، وقت یا تعداد کے لیے معتبر دلیل لازم ہے۔",
+        },
+        "example": {
+            "ar": "عدم تخصيص ذكر بعدد تعبدي بلا دليل.",
+            "en": "Not assigning a specific devotional number without evidence.",
+            "fr": "Ne pas fixer un nombre cultuel sans preuve.",
+            "fa": "تعیین تعداد خاص برای ذکر بدون دلیل.",
+            "ms": "Tidak menetapkan bilangan zikir tanpa dalil.",
+            "ur": "بغیر دلیل کسی ذکر کے لیے خاص تعداد مقرر نہ کرنا۔",
+        },
     },
     {
-        "title": "الأصل في المعاملات الإباحة",
-        "definition": (
-            "الأصل في المعاملات الجديدة الجواز ما لم تتضمن محظورًا."
-        ),
-        "example": (
-            "جواز وسيلة بيع جديدة إذا خلت من الربا والغرر."
-        ),
+        "title": {
+            "ar": "الأصل في المعاملات الإباحة",
+            "en": "The default rule in transactions is permissibility",
+            "fr": "Le principe des transactions est la permission",
+            "fa": "اصل در معاملات اباحه است",
+            "ms": "Asal muamalat ialah harus",
+            "ur": "معاملات میں اصل اباحت ہے",
+        },
+        "definition": {
+            "ar": "الأصل في المعاملات الجديدة الجواز ما لم تتضمن محظورًا.",
+            "en": "New transactions are presumed permissible unless they contain a prohibition.",
+            "fr": "Les nouvelles transactions sont permises sauf si elles comportent un interdit.",
+            "fa": "معاملات جدید در اصل جایز هستند مگر اینکه محظوری داشته باشند.",
+            "ms": "Urus niaga baharu asalnya harus kecuali mengandungi larangan.",
+            "ur": "نئے معاملات اصلًا جائز ہیں جب تک ان میں کوئی ممانعت نہ ہو۔",
+        },
+        "example": {
+            "ar": "جواز وسيلة بيع جديدة إذا خلت من الربا والغرر.",
+            "en": "A new sales method is permissible if free from riba and excessive uncertainty.",
+            "fr": "Une nouvelle méthode de vente est permise sans intérêt usuraire ni aléa excessif.",
+            "fa": "روش فروش جدید اگر از ربا و غرر خالی باشد جایز است.",
+            "ms": "Kaedah jual beli baharu harus jika bebas daripada riba dan gharar.",
+            "ur": "نیا طریقۂ فروخت اگر سود اور غرر سے پاک ہو تو جائز ہے۔",
+        },
     },
     {
-        "title": "العبرة في العقود للمقاصد والمعاني",
-        "definition": (
-            "تعتبر حقيقة العقد وآثاره لا مجرد ألفاظه أو اسمه."
-        ),
-        "example": (
-            "لا يصبح القرض المحرم مباحًا بمجرد تغيير اسمه."
-        ),
+        "title": {
+            "ar": "العبرة في العقود للمقاصد والمعاني",
+            "en": "Contracts are judged by purposes and meanings",
+            "fr": "Les contrats sont jugés selon leurs finalités",
+            "fa": "اعتبار در عقود با مقاصد و معانی است",
+            "ms": "Kontrak dinilai berdasarkan tujuan dan makna",
+            "ur": "عقود میں مقاصد اور معانی کا اعتبار ہے",
+        },
+        "definition": {
+            "ar": "تعتبر حقيقة العقد وآثاره لا مجرد ألفاظه أو اسمه.",
+            "en": "The substance and effects of a contract matter, not merely its label.",
+            "fr": "La réalité et les effets du contrat comptent, non son simple nom.",
+            "fa": "حقیقت و آثار عقد معتبر است نه فقط نام و الفاظ آن.",
+            "ms": "Hakikat dan kesan kontrak diambil kira, bukan namanya sahaja.",
+            "ur": "عقد کی حقیقت اور اثرات معتبر ہیں، صرف نام نہیں۔",
+        },
+        "example": {
+            "ar": "لا يصبح القرض المحرم مباحًا بمجرد تغيير اسمه.",
+            "en": "Renaming a prohibited loan does not make it permissible.",
+            "fr": "Changer le nom d’un prêt interdit ne le rend pas permis.",
+            "fa": "تغییر نام قرض حرام آن را حلال نمی‌کند.",
+            "ms": "Menukar nama pinjaman yang haram tidak menjadikannya harus.",
+            "ur": "حرام قرض کا نام بدلنے سے وہ جائز نہیں ہو جاتا۔",
+        },
     },
     {
-        "title": "الخراج بالضمان",
-        "definition": (
-            "من تحمل ضمان الشيء وتبعاته استحق غلته في الجملة."
-        ),
-        "example": (
-            "استحقاق غلة المبيع لمن كان ضامنًا له."
-        ),
+        "title": {
+            "ar": "الخراج بالضمان",
+            "en": "Benefit accompanies liability",
+            "fr": "Le bénéfice accompagne la responsabilité",
+            "fa": "خراج در برابر ضمان است",
+            "ms": "Hasil datang bersama tanggungan",
+            "ur": "خراج ضمان کے ساتھ ہے",
+        },
+        "definition": {
+            "ar": "من تحمل ضمان الشيء وتبعاته استحق غلته في الجملة.",
+            "en": "One who bears liability for an asset generally deserves its benefit.",
+            "fr": "Celui qui assume la responsabilité d’un bien en mérite généralement le bénéfice.",
+            "fa": "کسی که ضمان و مسئولیت مال را می‌پذیرد، در اصل مستحق منفعت آن است.",
+            "ms": "Pihak yang menanggung risiko harta berhak mendapat hasilnya.",
+            "ur": "جو شخص مال کی ذمہ داری اٹھائے وہ اصولاً اس کے نفع کا مستحق ہے۔",
+        },
+        "example": {
+            "ar": "استحقاق غلة المبيع لمن كان ضامنًا له.",
+            "en": "The liable owner is entitled to the yield of an asset.",
+            "fr": "Le responsable du bien a droit à son rendement.",
+            "fa": "مستحق بودن مالک ضامن نسبت به منفعت مال.",
+            "ms": "Pemilik yang menanggung risiko berhak terhadap hasil harta.",
+            "ur": "ضامن مالک مال کی پیداوار کا مستحق ہوتا ہے۔",
+        },
     },
     {
-        "title": "الغنم بالغرم",
-        "definition": (
-            "استحقاق المنفعة يقابله تحمل التبعة والضمان."
-        ),
-        "example": (
-            "من يستحق ربح الاستثمار يتحمل مخاطر الاستثمار."
-        ),
+        "title": {
+            "ar": "الغنم بالغرم",
+            "en": "Benefit accompanies burden",
+            "fr": "Le gain accompagne la charge",
+            "fa": "غنیمت در برابر غرامت است",
+            "ms": "Keuntungan bersama tanggungan",
+            "ur": "نفع ذمہ داری کے ساتھ ہے",
+        },
+        "definition": {
+            "ar": "استحقاق المنفعة يقابله تحمل التبعة والضمان.",
+            "en": "Entitlement to benefit accompanies bearing the associated risk.",
+            "fr": "Le droit au bénéfice implique l’acceptation de la charge et du risque.",
+            "fa": "استحقاق منفعت با تحمل مسئولیت و ریسک همراه است.",
+            "ms": "Hak mendapat manfaat datang bersama tanggungan risiko.",
+            "ur": "نفع کا استحقاق ذمہ داری اور خطرہ اٹھانے کے ساتھ ہے۔",
+        },
+        "example": {
+            "ar": "من يستحق ربح الاستثمار يتحمل مخاطر الاستثمار.",
+            "en": "One entitled to investment profit bears its investment risks.",
+            "fr": "Celui qui reçoit le profit d’un investissement en assume les risques.",
+            "fa": "کسی که سود سرمایه‌گذاری را می‌گیرد، ریسک آن را نیز می‌پذیرد.",
+            "ms": "Pihak yang mendapat keuntungan pelaburan menanggung risikonya.",
+            "ur": "سرمایہ کاری کے نفع کا مستحق اس کے خطرات بھی برداشت کرتا ہے۔",
+        },
     },
     {
-        "title": "ما لا يتم الواجب إلا به فهو واجب",
-        "definition": (
-            "الوسيلة اللازمة لتحقيق واجب تأخذ حكم الوجوب "
-            "بقدر لزومها."
-        ),
-        "example": "تعلم القدر اللازم لصحة الصلاة.",
+        "title": {
+            "ar": "ما لا يتم الواجب إلا به فهو واجب",
+            "en": "Whatever is necessary to fulfill an obligation is obligatory",
+            "fr": "Ce qui est nécessaire à l’obligation devient obligatoire",
+            "fa": "مقدمه واجب، واجب است",
+            "ms": "Sesuatu yang diperlukan untuk kewajipan menjadi wajib",
+            "ur": "جس کے بغیر واجب مکمل نہ ہو وہ بھی واجب ہے",
+        },
+        "definition": {
+            "ar": "الوسيلة اللازمة لتحقيق واجب تأخذ حكم الوجوب بقدر لزومها.",
+            "en": "A necessary means to fulfill an obligation takes its ruling.",
+            "fr": "Le moyen nécessaire à l’accomplissement d’une obligation devient obligatoire.",
+            "fa": "وسیله ضروری برای انجام واجب به اندازه ضرورت حکم وجوب می‌گیرد.",
+            "ms": "Sarana yang diperlukan untuk melaksanakan kewajipan turut menjadi wajib.",
+            "ur": "واجب کی تکمیل کے لیے ضروری ذریعہ بقدر ضرورت واجب ہو جاتا ہے۔",
+        },
+        "example": {
+            "ar": "تعلم القدر اللازم لصحة الصلاة.",
+            "en": "Learning what is necessary for a valid prayer.",
+            "fr": "Apprendre ce qui est nécessaire à la validité de la prière.",
+            "fa": "یادگیری مقدار لازم برای صحت نماز.",
+            "ms": "Mempelajari perkara yang diperlukan untuk sah solat.",
+            "ur": "نماز کی صحت کے لیے ضروری علم حاصل کرنا۔",
+        },
     },
     {
-        "title": "الوسائل لها أحكام المقاصد",
-        "definition": (
-            "تأخذ الوسيلة حكم الغاية بحسب علاقتها بها ونتيجتها."
-        ),
-        "example": (
-            "تحريم وسيلة تؤدي غالبًا إلى محرم قطعي."
-        ),
+        "title": {
+            "ar": "الوسائل لها أحكام المقاصد",
+            "en": "Means take the ruling of their ends",
+            "fr": "Les moyens prennent le statut des finalités",
+            "fa": "وسایل حکم مقاصد را دارند",
+            "ms": "Sarana mengambil hukum tujuannya",
+            "ur": "ذرائع مقاصد کا حکم رکھتے ہیں",
+        },
+        "definition": {
+            "ar": "تأخذ الوسيلة حكم الغاية بحسب علاقتها بها ونتيجتها.",
+            "en": "A means may take the ruling of its intended end according to its effect.",
+            "fr": "Le moyen peut prendre le statut de sa finalité selon son effet.",
+            "fa": "وسیله با توجه به ارتباط و نتیجه‌اش حکم مقصد را می‌گیرد.",
+            "ms": "Sarana mengambil hukum tujuan berdasarkan hubungan dan kesannya.",
+            "ur": "ذریعہ اپنے مقصد اور نتیجے کے لحاظ سے اس کا حکم لے سکتا ہے۔",
+        },
+        "example": {
+            "ar": "تحريم وسيلة تؤدي غالبًا إلى محرم قطعي.",
+            "en": "Prohibiting a means that normally leads to a definite prohibition.",
+            "fr": "Interdire un moyen qui conduit généralement à un interdit certain.",
+            "fa": "حرام کردن وسیله‌ای که غالباً به حرام قطعی می‌انجامد.",
+            "ms": "Melarang sarana yang biasanya membawa kepada perkara haram.",
+            "ur": "ایسے ذریعے کی ممانعت جو عموماً قطعی حرام تک پہنچاتا ہو۔",
+        },
     },
     {
-        "title": "التابع تابع",
-        "definition": (
-            "الشيء التابع يأخذ حكم متبوعه ولا يفرد غالبًا بحكم مستقل."
-        ),
-        "example": (
-            "دخول ملحقات العقار المعتادة في البيع."
-        ),
+        "title": {
+            "ar": "التابع تابع",
+            "en": "The dependent follows the principal",
+            "fr": "L’élément dépendant suit le principal",
+            "fa": "تابع تابع است",
+            "ms": "Perkara yang mengikut mengambil hukum asal",
+            "ur": "تابع متبوع کے تابع ہوتا ہے",
+        },
+        "definition": {
+            "ar": "الشيء التابع يأخذ حكم متبوعه ولا يفرد غالبًا بحكم مستقل.",
+            "en": "A dependent matter generally follows the ruling of the principal matter.",
+            "fr": "L’élément dépendant suit généralement le statut de l’élément principal.",
+            "fa": "امر تابع معمولاً حکم متبوع خود را می‌گیرد.",
+            "ms": "Perkara yang mengikut biasanya mengambil hukum perkara asal.",
+            "ur": "تابع چیز عموماً متبوع کا حکم رکھتی ہے۔",
+        },
+        "example": {
+            "ar": "دخول ملحقات العقار المعتادة في البيع.",
+            "en": "Usual appurtenances are included in the sale of property.",
+            "fr": "Les dépendances habituelles sont incluses dans la vente du bien.",
+            "fa": "شامل شدن ملحقات معمول ملک در فروش آن.",
+            "ms": "Kelengkapan biasa termasuk dalam jualan hartanah.",
+            "ur": "جائیداد کی معمولی ملحقات کا فروخت میں شامل ہونا۔",
+        },
     },
     {
-        "title": "يغتفر في التابع ما لا يغتفر في المتبوع",
-        "definition": (
-            "قد يتسامح في أمر يسير تابع لا يتسامح فيه إذا كان مستقلًا."
-        ),
-        "example": (
-            "التسامح في غرر يسير تابع لعقد معلوم."
-        ),
+        "title": {
+            "ar": "يغتفر في التابع ما لا يغتفر في المتبوع",
+            "en": "What is tolerated in a dependent matter is not tolerated independently",
+            "fr": "Ce qui est toléré dans le dépendant ne l’est pas dans le principal",
+            "fa": "در تابع چیزی بخشوده می‌شود که در متبوع بخشوده نمی‌شود",
+            "ms": "Perkara kecil yang mengikut boleh dimaafkan",
+            "ur": "تابع میں جو معاف ہے متبوع میں معاف نہیں",
+        },
+        "definition": {
+            "ar": "قد يتسامح في أمر يسير تابع لا يتسامح فيه إذا كان مستقلًا.",
+            "en": "A minor dependent matter may be tolerated when it would not be tolerated independently.",
+            "fr": "Un élément mineur peut être toléré en tant que dépendant.",
+            "fa": "امر جزئی در حالت تابع ممکن است بخشوده شود ولی مستقلًا نه.",
+            "ms": "Perkara kecil yang mengikut mungkin dimaafkan tetapi tidak secara berasingan.",
+            "ur": "معمولی تابع چیز میں گنجائش ہو سکتی ہے جو مستقل چیز میں نہ ہو۔",
+        },
+        "example": {
+            "ar": "التسامح في غرر يسير تابع لعقد معلوم.",
+            "en": "Tolerating minor uncertainty incidental to a known contract.",
+            "fr": "Tolérer une incertitude mineure liée à un contrat connu.",
+            "fa": "گذشت از غرر اندک تابع عقد معلوم.",
+            "ms": "Memaafkan gharar kecil yang mengikut kontrak yang jelas.",
+            "ur": "معلوم عقد کے تابع معمولی غرر سے درگزر کرنا۔",
+        },
     },
     {
-        "title": "الاجتهاد لا ينقض بالاجتهاد",
-        "definition": (
-            "الحكم الاجتهادي لا ينقض لمجرد ظهور اجتهاد آخر."
-        ),
-        "example": (
-            "عدم إبطال أحكام ماضية مبنية على اجتهاد معتبر."
-        ),
+        "title": {
+            "ar": "الاجتهاد لا ينقض بالاجتهاد",
+            "en": "One ijtihad is not overturned by another",
+            "fr": "Un ijtihad n’est pas annulé par un autre",
+            "fa": "اجتهاد با اجتهاد نقض نمی‌شود",
+            "ms": "Ijtihad tidak dibatalkan oleh ijtihad lain",
+            "ur": "ایک اجتہاد دوسرے اجتہاد سے ختم نہیں ہوتا",
+        },
+        "definition": {
+            "ar": "الحكم الاجتهادي لا ينقض لمجرد ظهور اجتهاد آخر.",
+            "en": "A reasoned judgment is not overturned merely because another opinion appears.",
+            "fr": "Un jugement raisonné n’est pas annulé par la seule apparition d’un autre avis.",
+            "fa": "حکم اجتهادی صرف به سبب ظهور اجتهاد دیگر نقض نمی‌شود.",
+            "ms": "Hukum ijtihad tidak terbatal hanya kerana muncul ijtihad lain.",
+            "ur": "محض دوسرے اجتہاد کے ظاہر ہونے سے پہلا اجتہاد ختم نہیں ہوتا۔",
+        },
+        "example": {
+            "ar": "عدم إبطال أحكام ماضية مبنية على اجتهاد معتبر.",
+            "en": "Past judgments based on valid reasoning are not automatically invalidated.",
+            "fr": "Les jugements passés fondés sur un ijtihad valide ne sont pas automatiquement annulés.",
+            "fa": "احکام گذشته مبتنی بر اجتهاد معتبر خودبه‌خود باطل نمی‌شوند.",
+            "ms": "Keputusan lama berdasarkan ijtihad sah tidak terbatal secara automatik.",
+            "ur": "معتبر اجتہاد پر مبنی سابقہ فیصلے خود بخود باطل نہیں ہوتے۔",
+        },
     },
     {
-        "title": "الحكم يدور مع علته وجودًا وعدمًا",
-        "definition": (
-            "إذا ثبتت العلة ثبت الحكم المرتبط بها وإذا انتفت انتفى."
-        ),
-        "example": "ارتباط رخصة السفر بوصف السفر.",
+        "title": {
+            "ar": "الحكم يدور مع علته وجودًا وعدمًا",
+            "en": "A ruling follows its effective cause",
+            "fr": "Le jugement suit sa cause effective",
+            "fa": "حکم با علت خود وجوداً و عدماً می‌گردد",
+            "ms": "Hukum beredar bersama illahnya",
+            "ur": "حکم علت کے ساتھ وجود اور عدم میں ہوتا ہے",
+        },
+        "definition": {
+            "ar": "إذا ثبتت العلة ثبت الحكم المرتبط بها وإذا انتفت انتفى.",
+            "en": "When the effective cause exists, the related ruling applies; when it ends, it ends.",
+            "fr": "Le jugement existe avec sa cause et cesse lorsque sa cause cesse.",
+            "fa": "با وجود علت حکم وجود دارد و با نبود آن حکم مربوط نیز منتفی می‌شود.",
+            "ms": "Apabila illah wujud, hukum berlaku; apabila tiada, hukum berakhir.",
+            "ur": "علت موجود ہو تو حکم بھی موجود ہوتا ہے اور علت نہ ہو تو حکم بھی نہیں رہتا۔",
+        },
+        "example": {
+            "ar": "ارتباط رخصة السفر بوصف السفر.",
+            "en": "The travel concession is linked to the status of travel.",
+            "fr": "La concession du voyage est liée au fait d’être voyageur.",
+            "fa": "ارتباط رخصت سفر با وجود سفر.",
+            "ms": "Rukhsah musafir berkaitan dengan keadaan musafir.",
+            "ur": "سفر کی رخصت کا سفر کی حالت کے ساتھ تعلق۔",
+        },
     },
 ]
 
 
 # ============================================================
-# الدول
+# الدول المترجمة
 # ============================================================
 
 COUNTRIES = [
-    ("السودان", "مالكي وشافعي", "تنوع فقهي تاريخي"),
-    ("المغرب", "مالكي", "الغالب تاريخيًا"),
-    ("سوريا", "حنفي وشافعي", "تنوع فقهي تاريخي"),
-    ("العراق", "حنفي وشافعي وحنبلي", "تنوع فقهي واسع"),
-    ("الإمارات", "تنوع سني", "حضور مالكي وشافعي وحنبلي"),
-    ("عُمان", "إباضي", "مع وجود مدارس أخرى"),
-    ("الأردن", "شافعي وحنفي", "تنوع فقهي"),
-    ("البحرين", "جعفري ومالكي وشافعي وحنبلي", "تنوع مذهبي"),
-    ("الكويت", "مالكي وحنبلي", "مع حضور مدارس أخرى"),
-    ("تونس", "مالكي", "الغالب تاريخيًا"),
-    ("ليبيا", "مالكي", "الغالب تاريخيًا"),
-    ("الجزائر", "مالكي", "الغالب تاريخيًا"),
-    ("إندونيسيا", "شافعي", "الغالب في المؤسسات التقليدية"),
-    ("ماليزيا", "شافعي", "الغالب في المؤسسات الرسمية"),
-    ("باكستان", "حنفي", "مع وجود مدارس أخرى"),
-    ("أفغانستان", "حنفي", "الغالب بين السنة"),
-    ("إيران", "جعفري", "الغالب رسميًا"),
-    ("لبنان", "جعفري وشافعي وحنفي ومالكي وحنبلي", "تنوع قانوني ومذهبي"),
-    ("فلسطين", "شافعي وحنفي", "تنوع تاريخي"),
-    ("تشاد", "مالكي وشافعي", "يختلف بحسب المناطق"),
-    ("نيجيريا", "مالكي", "الغالب في مناطق واسعة"),
-    ("الصومال", "شافعي", "الغالب تاريخيًا"),
-    ("جيبوتي", "شافعي", "الغالب تاريخيًا"),
-    ("السعودية", "حنبلي", "مع تنوع فقهي اجتماعي"),
-    ("مصر", "تنوع فقهي", "حضور مدارس متعددة"),
-    ("اليمن", "شافعي وزيدي", "يختلف بحسب المناطق"),
-    ("تركيا", "حنفي", "الغالب تاريخيًا بين السنة"),
+    {
+        "country": {
+            "ar": "السودان",
+            "en": "Sudan",
+            "fr": "Soudan",
+            "fa": "سودان",
+            "ms": "Sudan",
+            "ur": "سوڈان",
+        },
+        "madhab": {
+            "ar": "مالكي وشافعي",
+            "en": "Maliki and Shafi'i",
+            "fr": "Malikite et chaféite",
+            "fa": "مالکی و شافعی",
+            "ms": "Maliki dan Syafie",
+            "ur": "مالکی اور شافعی",
+        },
+        "note": {
+            "ar": "تنوع فقهي تاريخي",
+            "en": "Historical juristic diversity",
+            "fr": "Diversité juridique historique",
+            "fa": "تنوع فقهی تاریخی",
+            "ms": "Kepelbagaian fiqh sejarah",
+            "ur": "تاریخی فقہی تنوع",
+        },
+    },
+    {
+        "country": {
+            "ar": "المغرب",
+            "en": "Morocco",
+            "fr": "Maroc",
+            "fa": "مراکش",
+            "ms": "Maghribi",
+            "ur": "مراکش",
+        },
+        "madhab": {
+            "ar": "مالكي",
+            "en": "Maliki",
+            "fr": "Malikite",
+            "fa": "مالکی",
+            "ms": "Maliki",
+            "ur": "مالکی",
+        },
+        "note": {
+            "ar": "الغالب تاريخيًا",
+            "en": "Historically predominant",
+            "fr": "Historiquement dominant",
+            "fa": "غالب تاریخی",
+            "ms": "Dominan secara sejarah",
+            "ur": "تاریخی طور پر غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "سوريا",
+            "en": "Syria",
+            "fr": "Syrie",
+            "fa": "سوریه",
+            "ms": "Syria",
+            "ur": "شام",
+        },
+        "madhab": {
+            "ar": "حنفي وشافعي",
+            "en": "Hanafi and Shafi'i",
+            "fr": "Hanafite et chaféite",
+            "fa": "حنفی و شافعی",
+            "ms": "Hanafi dan Syafie",
+            "ur": "حنفی اور شافعی",
+        },
+        "note": {
+            "ar": "تنوع فقهي تاريخي",
+            "en": "Historical juristic diversity",
+            "fr": "Diversité juridique historique",
+            "fa": "تنوع فقهی تاریخی",
+            "ms": "Kepelbagaian fiqh sejarah",
+            "ur": "تاریخی فقہی تنوع",
+        },
+    },
+    {
+        "country": {
+            "ar": "العراق",
+            "en": "Iraq",
+            "fr": "Irak",
+            "fa": "عراق",
+            "ms": "Iraq",
+            "ur": "عراق",
+        },
+        "madhab": {
+            "ar": "حنفي وشافعي وحنبلي",
+            "en": "Hanafi, Shafi'i, and Hanbali",
+            "fr": "Hanafite, chaféite et hanbalite",
+            "fa": "حنفی، شافعی و حنبلی",
+            "ms": "Hanafi, Syafie dan Hanbali",
+            "ur": "حنفی، شافعی اور حنبلی",
+        },
+        "note": {
+            "ar": "تنوع فقهي واسع",
+            "en": "Broad juristic diversity",
+            "fr": "Grande diversité juridique",
+            "fa": "تنوع فقهی گسترده",
+            "ms": "Kepelbagaian fiqh yang luas",
+            "ur": "وسیع فقہی تنوع",
+        },
+    },
+    {
+        "country": {
+            "ar": "الإمارات",
+            "en": "United Arab Emirates",
+            "fr": "Émirats arabes unis",
+            "fa": "امارات",
+            "ms": "Emiriah Arab Bersatu",
+            "ur": "متحدہ عرب امارات",
+        },
+        "madhab": {
+            "ar": "تنوع سني",
+            "en": "Sunni diversity",
+            "fr": "Diversité sunnite",
+            "fa": "تنوع اهل سنت",
+            "ms": "Kepelbagaian Sunni",
+            "ur": "اہل سنت کا تنوع",
+        },
+        "note": {
+            "ar": "حضور مالكي وشافعي وحنبلي",
+            "en": "Maliki, Shafi'i, and Hanbali influences",
+            "fr": "Influences malikite, chaféite et hanbalite",
+            "fa": "حضور دیدگاه‌های مالکی، شافعی و حنبلی",
+            "ms": "Pengaruh Maliki, Syafie dan Hanbali",
+            "ur": "مالکی، شافعی اور حنبلی اثرات",
+        },
+    },
+    {
+        "country": {
+            "ar": "عُمان",
+            "en": "Oman",
+            "fr": "Oman",
+            "fa": "عمان",
+            "ms": "Oman",
+            "ur": "عمان",
+        },
+        "madhab": {
+            "ar": "إباضي",
+            "en": "Ibadi",
+            "fr": "Ibadite",
+            "fa": "اباضی",
+            "ms": "Ibadi",
+            "ur": "اباضی",
+        },
+        "note": {
+            "ar": "مع وجود مدارس أخرى",
+            "en": "Alongside other schools",
+            "fr": "Avec d’autres écoles",
+            "fa": "در کنار مذاهب دیگر",
+            "ms": "Bersama mazhab lain",
+            "ur": "دیگر مسالک کے ساتھ",
+        },
+    },
+    {
+        "country": {
+            "ar": "الأردن",
+            "en": "Jordan",
+            "fr": "Jordanie",
+            "fa": "اردن",
+            "ms": "Jordan",
+            "ur": "اردن",
+        },
+        "madhab": {
+            "ar": "شافعي وحنفي",
+            "en": "Shafi'i and Hanafi",
+            "fr": "Chaféite et hanafite",
+            "fa": "شافعی و حنفی",
+            "ms": "Syafie dan Hanafi",
+            "ur": "شافعی اور حنفی",
+        },
+        "note": {
+            "ar": "تنوع فقهي",
+            "en": "Juristic diversity",
+            "fr": "Diversité juridique",
+            "fa": "تنوع فقهی",
+            "ms": "Kepelbagaian fiqh",
+            "ur": "فقہی تنوع",
+        },
+    },
+    {
+        "country": {
+            "ar": "البحرين",
+            "en": "Bahrain",
+            "fr": "Bahreïn",
+            "fa": "بحرین",
+            "ms": "Bahrain",
+            "ur": "بحرین",
+        },
+        "madhab": {
+            "ar": "جعفري ومالكي وشافعي وحنبلي",
+            "en": "Ja'fari, Maliki, Shafi'i, and Hanbali",
+            "fr": "Jaafarite, malikite, chaféite et hanbalite",
+            "fa": "جعفری، مالکی، شافعی و حنبلی",
+            "ms": "Jaafari, Maliki, Syafie dan Hanbali",
+            "ur": "جعفری، مالکی، شافعی اور حنبلی",
+        },
+        "note": {
+            "ar": "تنوع مذهبي",
+            "en": "Religious diversity",
+            "fr": "Diversité religieuse",
+            "fa": "تنوع مذهبی",
+            "ms": "Kepelbagaian mazhab",
+            "ur": "مذہبی تنوع",
+        },
+    },
+    {
+        "country": {
+            "ar": "الكويت",
+            "en": "Kuwait",
+            "fr": "Koweït",
+            "fa": "کویت",
+            "ms": "Kuwait",
+            "ur": "کویت",
+        },
+        "madhab": {
+            "ar": "مالكي وحنبلي",
+            "en": "Maliki and Hanbali",
+            "fr": "Malikite et hanbalite",
+            "fa": "مالکی و حنبلی",
+            "ms": "Maliki dan Hanbali",
+            "ur": "مالکی اور حنبلی",
+        },
+        "note": {
+            "ar": "مع حضور مدارس أخرى",
+            "en": "Alongside other schools",
+            "fr": "Avec d’autres écoles",
+            "fa": "در کنار مذاهب دیگر",
+            "ms": "Bersama mazhab lain",
+            "ur": "دیگر مسالک کے ساتھ",
+        },
+    },
+    {
+        "country": {
+            "ar": "تونس",
+            "en": "Tunisia",
+            "fr": "Tunisie",
+            "fa": "تونس",
+            "ms": "Tunisia",
+            "ur": "تیونس",
+        },
+        "madhab": {
+            "ar": "مالكي",
+            "en": "Maliki",
+            "fr": "Malikite",
+            "fa": "مالکی",
+            "ms": "Maliki",
+            "ur": "مالکی",
+        },
+        "note": {
+            "ar": "الغالب تاريخيًا",
+            "en": "Historically predominant",
+            "fr": "Historiquement dominant",
+            "fa": "غالب تاریخی",
+            "ms": "Dominan secara sejarah",
+            "ur": "تاریخی طور پر غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "ليبيا",
+            "en": "Libya",
+            "fr": "Libye",
+            "fa": "لیبی",
+            "ms": "Libya",
+            "ur": "لیبیا",
+        },
+        "madhab": {
+            "ar": "مالكي",
+            "en": "Maliki",
+            "fr": "Malikite",
+            "fa": "مالکی",
+            "ms": "Maliki",
+            "ur": "مالکی",
+        },
+        "note": {
+            "ar": "الغالب تاريخيًا",
+            "en": "Historically predominant",
+            "fr": "Historiquement dominant",
+            "fa": "غالب تاریخی",
+            "ms": "Dominan secara sejarah",
+            "ur": "تاریخی طور پر غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "الجزائر",
+            "en": "Algeria",
+            "fr": "Algérie",
+            "fa": "الجزایر",
+            "ms": "Algeria",
+            "ur": "الجیریا",
+        },
+        "madhab": {
+            "ar": "مالكي",
+            "en": "Maliki",
+            "fr": "Malikite",
+            "fa": "مالکی",
+            "ms": "Maliki",
+            "ur": "مالکی",
+        },
+        "note": {
+            "ar": "الغالب تاريخيًا",
+            "en": "Historically predominant",
+            "fr": "Historiquement dominant",
+            "fa": "غالب تاریخی",
+            "ms": "Dominan secara sejarah",
+            "ur": "تاریخی طور پر غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "إندونيسيا",
+            "en": "Indonesia",
+            "fr": "Indonésie",
+            "fa": "اندونزی",
+            "ms": "Indonesia",
+            "ur": "انڈونیشیا",
+        },
+        "madhab": {
+            "ar": "شافعي",
+            "en": "Shafi'i",
+            "fr": "Chaféite",
+            "fa": "شافعی",
+            "ms": "Syafie",
+            "ur": "شافعی",
+        },
+        "note": {
+            "ar": "الغالب في المؤسسات التقليدية",
+            "en": "Predominant in traditional institutions",
+            "fr": "Dominant dans les institutions traditionnelles",
+            "fa": "غالب در نهادهای سنتی",
+            "ms": "Dominan dalam institusi tradisional",
+            "ur": "روایتی اداروں میں غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "ماليزيا",
+            "en": "Malaysia",
+            "fr": "Malaisie",
+            "fa": "مالزی",
+            "ms": "Malaysia",
+            "ur": "ملائیشیا",
+        },
+        "madhab": {
+            "ar": "شافعي",
+            "en": "Shafi'i",
+            "fr": "Chaféite",
+            "fa": "شافعی",
+            "ms": "Syafie",
+            "ur": "شافعی",
+        },
+        "note": {
+            "ar": "الغالب في المؤسسات الرسمية",
+            "en": "Predominant in official institutions",
+            "fr": "Dominant dans les institutions officielles",
+            "fa": "غالب در نهادهای رسمی",
+            "ms": "Dominan dalam institusi rasmi",
+            "ur": "سرکاری اداروں میں غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "باكستان",
+            "en": "Pakistan",
+            "fr": "Pakistan",
+            "fa": "پاکستان",
+            "ms": "Pakistan",
+            "ur": "پاکستان",
+        },
+        "madhab": {
+            "ar": "حنفي",
+            "en": "Hanafi",
+            "fr": "Hanafite",
+            "fa": "حنفی",
+            "ms": "Hanafi",
+            "ur": "حنفی",
+        },
+        "note": {
+            "ar": "مع وجود مدارس أخرى",
+            "en": "Alongside other schools",
+            "fr": "Avec d’autres écoles",
+            "fa": "در کنار مذاهب دیگر",
+            "ms": "Bersama mazhab lain",
+            "ur": "دیگر مسالک کے ساتھ",
+        },
+    },
+    {
+        "country": {
+            "ar": "أفغانستان",
+            "en": "Afghanistan",
+            "fr": "Afghanistan",
+            "fa": "افغانستان",
+            "ms": "Afghanistan",
+            "ur": "افغانستان",
+        },
+        "madhab": {
+            "ar": "حنفي",
+            "en": "Hanafi",
+            "fr": "Hanafite",
+            "fa": "حنفی",
+            "ms": "Hanafi",
+            "ur": "حنفی",
+        },
+        "note": {
+            "ar": "الغالب بين السنة",
+            "en": "Predominant among Sunnis",
+            "fr": "Dominant chez les sunnites",
+            "fa": "غالب میان اهل سنت",
+            "ms": "Dominan dalam kalangan Sunni",
+            "ur": "اہل سنت میں غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "إيران",
+            "en": "Iran",
+            "fr": "Iran",
+            "fa": "ایران",
+            "ms": "Iran",
+            "ur": "ایران",
+        },
+        "madhab": {
+            "ar": "جعفري",
+            "en": "Ja'fari",
+            "fr": "Jaafarite",
+            "fa": "جعفری",
+            "ms": "Jaafari",
+            "ur": "جعفری",
+        },
+        "note": {
+            "ar": "الغالب رسميًا",
+            "en": "Officially predominant",
+            "fr": "Officiellement dominant",
+            "fa": "غالب رسمی",
+            "ms": "Dominan secara rasmi",
+            "ur": "سرکاری طور پر غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "لبنان",
+            "en": "Lebanon",
+            "fr": "Liban",
+            "fa": "لبنان",
+            "ms": "Lubnan",
+            "ur": "لبنان",
+        },
+        "madhab": {
+            "ar": "جعفري وشافعي وحنفي ومالكي وحنبلي",
+            "en": "Ja'fari, Shafi'i, Hanafi, Maliki, and Hanbali",
+            "fr": "Jaafarite, chaféite, hanafite, malikite et hanbalite",
+            "fa": "جعفری، شافعی، حنفی، مالکی و حنبلی",
+            "ms": "Jaafari, Syafie, Hanafi, Maliki dan Hanbali",
+            "ur": "جعفری، شافعی، حنفی، مالکی اور حنبلی",
+        },
+        "note": {
+            "ar": "تنوع قانوني ومذهبي",
+            "en": "Legal and religious diversity",
+            "fr": "Diversité juridique et religieuse",
+            "fa": "تنوع قانونی و مذهبی",
+            "ms": "Kepelbagaian undang-undang dan mazhab",
+            "ur": "قانونی اور مذہبی تنوع",
+        },
+    },
+    {
+        "country": {
+            "ar": "فلسطين",
+            "en": "Palestine",
+            "fr": "Palestine",
+            "fa": "فلسطین",
+            "ms": "Palestin",
+            "ur": "فلسطین",
+        },
+        "madhab": {
+            "ar": "شافعي وحنفي",
+            "en": "Shafi'i and Hanafi",
+            "fr": "Chaféite et hanafite",
+            "fa": "شافعی و حنفی",
+            "ms": "Syafie dan Hanafi",
+            "ur": "شافعی اور حنفی",
+        },
+        "note": {
+            "ar": "تنوع تاريخي",
+            "en": "Historical diversity",
+            "fr": "Diversité historique",
+            "fa": "تنوع تاریخی",
+            "ms": "Kepelbagaian sejarah",
+            "ur": "تاریخی تنوع",
+        },
+    },
+    {
+        "country": {
+            "ar": "تشاد",
+            "en": "Chad",
+            "fr": "Tchad",
+            "fa": "چاد",
+            "ms": "Chad",
+            "ur": "چاڈ",
+        },
+        "madhab": {
+            "ar": "مالكي وشافعي",
+            "en": "Maliki and Shafi'i",
+            "fr": "Malikite et chaféite",
+            "fa": "مالکی و شافعی",
+            "ms": "Maliki dan Syafie",
+            "ur": "مالکی اور شافعی",
+        },
+        "note": {
+            "ar": "يختلف بحسب المناطق",
+            "en": "Varies by region",
+            "fr": "Varie selon les régions",
+            "fa": "بر اساس مناطق متفاوت است",
+            "ms": "Berbeza mengikut wilayah",
+            "ur": "علاقوں کے لحاظ سے مختلف",
+        },
+    },
+    {
+        "country": {
+            "ar": "نيجيريا",
+            "en": "Nigeria",
+            "fr": "Nigéria",
+            "fa": "نیجریه",
+            "ms": "Nigeria",
+            "ur": "نائجیریا",
+        },
+        "madhab": {
+            "ar": "مالكي",
+            "en": "Maliki",
+            "fr": "Malikite",
+            "fa": "مالکی",
+            "ms": "Maliki",
+            "ur": "مالکی",
+        },
+        "note": {
+            "ar": "الغالب في مناطق واسعة",
+            "en": "Predominant in broad regions",
+            "fr": "Dominant dans de vastes régions",
+            "fa": "غالب در مناطق گسترده",
+            "ms": "Dominan di kawasan luas",
+            "ur": "وسیع علاقوں میں غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "الصومال",
+            "en": "Somalia",
+            "fr": "Somalie",
+            "fa": "سومالی",
+            "ms": "Somalia",
+            "ur": "صومالیہ",
+        },
+        "madhab": {
+            "ar": "شافعي",
+            "en": "Shafi'i",
+            "fr": "Chaféite",
+            "fa": "شافعی",
+            "ms": "Syafie",
+            "ur": "شافعی",
+        },
+        "note": {
+            "ar": "الغالب تاريخيًا",
+            "en": "Historically predominant",
+            "fr": "Historiquement dominant",
+            "fa": "غالب تاریخی",
+            "ms": "Dominan secara sejarah",
+            "ur": "تاریخی طور پر غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "جيبوتي",
+            "en": "Djibouti",
+            "fr": "Djibouti",
+            "fa": "جیبوتی",
+            "ms": "Djibouti",
+            "ur": "جبوتی",
+        },
+        "madhab": {
+            "ar": "شافعي",
+            "en": "Shafi'i",
+            "fr": "Chaféite",
+            "fa": "شافعی",
+            "ms": "Syafie",
+            "ur": "شافعی",
+        },
+        "note": {
+            "ar": "الغالب تاريخيًا",
+            "en": "Historically predominant",
+            "fr": "Historiquement dominant",
+            "fa": "غالب تاریخی",
+            "ms": "Dominan secara sejarah",
+            "ur": "تاریخی طور پر غالب",
+        },
+    },
+    {
+        "country": {
+            "ar": "السعودية",
+            "en": "Saudi Arabia",
+            "fr": "Arabie saoudite",
+            "fa": "عربستان سعودی",
+            "ms": "Arab Saudi",
+            "ur": "سعودی عرب",
+        },
+        "madhab": {
+            "ar": "حنبلي",
+            "en": "Hanbali",
+            "fr": "Hanbalite",
+            "fa": "حنبلی",
+            "ms": "Hanbali",
+            "ur": "حنبلی",
+        },
+        "note": {
+            "ar": "مع تنوع فقهي اجتماعي",
+            "en": "With social juristic diversity",
+            "fr": "Avec une diversité juridique sociale",
+            "fa": "با تنوع فقهی اجتماعی",
+            "ms": "Dengan kepelbagaian fiqh sosial",
+            "ur": "سماجی فقہی تنوع کے ساتھ",
+        },
+    },
+    {
+        "country": {
+            "ar": "مصر",
+            "en": "Egypt",
+            "fr": "Égypte",
+            "fa": "مصر",
+            "ms": "Mesir",
+            "ur": "مصر",
+        },
+        "madhab": {
+            "ar": "تنوع فقهي",
+            "en": "Juristic diversity",
+            "fr": "Diversité juridique",
+            "fa": "تنوع فقهی",
+            "ms": "Kepelbagaian fiqh",
+            "ur": "فقہی تنوع",
+        },
+        "note": {
+            "ar": "حضور مدارس متعددة",
+            "en": "Several schools are represented",
+            "fr": "Plusieurs écoles sont représentées",
+            "fa": "حضور مذاهب متعدد",
+            "ms": "Beberapa mazhab diwakili",
+            "ur": "متعدد مسالک کا وجود",
+        },
+    },
+    {
+        "country": {
+            "ar": "اليمن",
+            "en": "Yemen",
+            "fr": "Yémen",
+            "fa": "یمن",
+            "ms": "Yaman",
+            "ur": "یمن",
+        },
+        "madhab": {
+            "ar": "شافعي وزيدي",
+            "en": "Shafi'i and Zaidi",
+            "fr": "Chaféite et zaydite",
+            "fa": "شافعی و زیدی",
+            "ms": "Syafie dan Zaidi",
+            "ur": "شافعی اور زیدی",
+        },
+        "note": {
+            "ar": "يختلف بحسب المناطق",
+            "en": "Varies by region",
+            "fr": "Varie selon les régions",
+            "fa": "بر اساس مناطق متفاوت است",
+            "ms": "Berbeza mengikut wilayah",
+            "ur": "علاقوں کے لحاظ سے مختلف",
+        },
+    },
+    {
+        "country": {
+            "ar": "تركيا",
+            "en": "Turkey",
+            "fr": "Turquie",
+            "fa": "ترکیه",
+            "ms": "Turki",
+            "ur": "ترکی",
+        },
+        "madhab": {
+            "ar": "حنفي",
+            "en": "Hanafi",
+            "fr": "Hanafite",
+            "fa": "حنفی",
+            "ms": "Hanafi",
+            "ur": "حنفی",
+        },
+        "note": {
+            "ar": "الغالب تاريخيًا بين السنة",
+            "en": "Historically predominant among Sunnis",
+            "fr": "Historiquement dominant chez les sunnites",
+            "fa": "غالب تاریخی میان اهل سنت",
+            "ms": "Dominan secara sejarah dalam kalangan Sunni",
+            "ur": "اہل سنت میں تاریخی طور پر غالب",
+        },
+    },
 ]
 
 
@@ -1385,6 +2958,7 @@ class AIService:
 
         try:
             data = json.loads(raw)
+
             valid_ids = {
                 issue.id
                 for issue in issues
@@ -2372,6 +3946,7 @@ def render_level_selector(
 def render_results(
     results: List[SearchResult],
     understanding: Optional[Dict[str, Any]],
+    lang: str,
     text: Dict[str, str],
 ):
     if understanding:
@@ -2397,7 +3972,17 @@ def render_results(
         )
 
         st.subheader(result.title)
-        st.caption(result.topic)
+        st.caption(
+            TOPICS.get(
+                result.topic,
+                TOPICS["other"],
+            ).get(
+                lang,
+                result.topic,
+            )
+            if isinstance(result.topic, dict)
+            else result.topic
+        )
 
         columns = st.columns(
             len(result.cards)
@@ -2425,71 +4010,126 @@ def render_results(
 
 
 def render_glossary(
+    lang: str,
     text: Dict[str, str],
 ):
     with st.expander(
         text["glossary"],
-        expanded=True,
+        expanded=False,
     ):
         st.info(
             text["warning_terms"]
         )
 
-        for term, data in GLOSSARY.items():
-            st.markdown(
-                f"### {term}"
+        for index, data in enumerate(
+            GLOSSARY.values()
+        ):
+            label = data["label"].get(
+                lang,
+                data["label"]["ar"],
             )
 
-            st.markdown(
-                f"**{text['definition']}:** "
-                f"{data['definition']}"
-            )
-
-            st.markdown(
-                f"**{text['example']}:** "
-                f"{data['example']}"
-            )
-
-
-def render_countries(
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["countries"],
-        expanded=True,
-    ):
-        st.caption(
-            "المذكور هو الغالب أو الأبرز تاريخيًا، "
-            "وليس بالضرورة نظامًا قانونيًا حصريًا."
-        )
-
-        for country, madhab, note in COUNTRIES:
-            st.markdown(
-                f"**{country}** — {madhab}  \n"
-                f"<span class='muted'>{note}</span>",
-                unsafe_allow_html=True,
-            )
-
-
-def render_rules(
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["rules"],
-        expanded=True,
-    ):
-        for rule in FIQH_RULES:
             with st.expander(
-                rule["title"]
+                label,
+                expanded=False,
             ):
+                definition = data["definition"].get(
+                    lang,
+                    data["definition"]["ar"],
+                )
+
+                example = data["example"].get(
+                    lang,
+                    data["example"]["ar"],
+                )
+
                 st.markdown(
                     f"**{text['definition']}:** "
-                    f"{rule['definition']}"
+                    f"{definition}"
                 )
 
                 st.markdown(
                     f"**{text['example']}:** "
-                    f"{rule['example']}"
+                    f"{example}"
+                )
+
+
+def render_countries(
+    lang: str,
+    text: Dict[str, str],
+):
+    with st.expander(
+        text["countries"],
+        expanded=False,
+    ):
+        st.caption(
+            text["country_note"]
+        )
+
+        for index, item in enumerate(
+            COUNTRIES
+        ):
+            country = item["country"].get(
+                lang,
+                item["country"]["ar"],
+            )
+
+            madhab = item["madhab"].get(
+                lang,
+                item["madhab"]["ar"],
+            )
+
+            note = item["note"].get(
+                lang,
+                item["note"]["ar"],
+            )
+
+            with st.expander(
+                country,
+                expanded=False,
+            ):
+                st.write(madhab)
+                st.caption(note)
+
+
+def render_rules(
+    lang: str,
+    text: Dict[str, str],
+):
+    with st.expander(
+        text["rules"],
+        expanded=False,
+    ):
+        for index, rule in enumerate(
+            FIQH_RULES
+        ):
+            title = rule["title"].get(
+                lang,
+                rule["title"]["ar"],
+            )
+
+            with st.expander(
+                title,
+                expanded=False,
+            ):
+                definition = rule["definition"].get(
+                    lang,
+                    rule["definition"]["ar"],
+                )
+
+                example = rule["example"].get(
+                    lang,
+                    rule["example"]["ar"],
+                )
+
+                st.markdown(
+                    f"**{text['definition']}:** "
+                    f"{definition}"
+                )
+
+                st.markdown(
+                    f"**{text['example']}:** "
+                    f"{example}"
                 )
 
 
@@ -2549,7 +4189,7 @@ def is_admin(
 ) -> bool:
     if not ADMIN_PASSWORD:
         st.warning(
-            "ADMIN_PASSWORD غير مضبوط في secrets.toml"
+            text["admin_missing"]
         )
         return False
 
@@ -2566,6 +4206,7 @@ def render_reference_admin(
     db: DatabaseManager,
     ai: AIService,
     references: ReferenceManager,
+    lang: str,
     text: Dict[str, str],
 ):
     with st.expander(
@@ -2596,9 +4237,12 @@ def render_reference_admin(
             text["source_madhab"],
             options=madhab_options,
             format_func=lambda code: (
-                "عام"
+                text["general_source"]
                 if not code
-                else MADHHAB_NAMES[code]["ar"]
+                else MADHHAB_NAMES[code].get(
+                    lang,
+                    MADHHAB_NAMES[code]["ar"],
+                )
             ),
             key="reference_madhab",
         )
@@ -2684,6 +4328,7 @@ def render_search(
     madhabs: List[str],
     topic: str,
     level: str,
+    lang: str,
     text: Dict[str, str],
 ):
     with st.form("search_form"):
@@ -2727,6 +4372,7 @@ def render_search(
         render_results(
             results,
             understanding,
+            lang,
             text,
         )
         return
@@ -2763,10 +4409,12 @@ def render_search(
                     unsafe_allow_html=True,
                 )
 
-                st.subheader(
-                    MADHHAB_NAMES[code]["ar"]
+                label = MADHHAB_NAMES[code].get(
+                    lang,
+                    MADHHAB_NAMES[code]["ar"],
                 )
 
+                st.subheader(label)
                 st.write(answer)
 
                 st.caption(
@@ -2782,7 +4430,6 @@ def render_search(
 
             return
 
-    # مسار Gemini الاحتياطي
     if ai.available:
         with st.spinner(
             text["ai_generating"]
@@ -2806,10 +4453,12 @@ def render_search(
                     unsafe_allow_html=True,
                 )
 
-                st.subheader(
-                    MADHHAB_NAMES[code]["ar"]
+                label = MADHHAB_NAMES[code].get(
+                    lang,
+                    MADHHAB_NAMES[code]["ar"],
                 )
 
+                st.subheader(label)
                 st.write(answer)
                 st.caption(
                     text["ai_badge"]
@@ -2828,16 +4477,16 @@ def render_search(
 
 
 # ============================================================
-# التشغيل الرئيسي
+# التشغيل
 # ============================================================
 
 def main():
     inject_css()
 
-    language = render_language_bar()
-    text = UI[language]
+    lang = render_language_bar()
+    text = UI[lang]
 
-    render_header(language)
+    render_header(lang)
 
     db, ai, search, references = get_services()
 
@@ -2847,14 +4496,14 @@ def main():
         )
 
         madhabs = render_madhab_selector(
-            language,
+            lang,
             text,
         )
 
         st.divider()
 
         topic = render_topic_selector(
-            language,
+            lang,
             text,
         )
 
@@ -2868,12 +4517,11 @@ def main():
 
         if ai.available:
             st.success(
-                "Gemini AI: مفعّل"
+                text["ai_status_on"]
             )
         else:
             st.warning(
-                "Gemini AI: غير مفعّل — "
-                "سيعمل البحث المحلي فقط"
+                text["ai_status_off"]
             )
 
     st.markdown(
@@ -2888,18 +4536,34 @@ def main():
         madhabs=madhabs,
         topic=topic,
         level=level,
+        lang=lang,
         text=text,
     )
 
-    render_glossary(text)
-    render_countries(text)
-    render_rules(text)
-    render_comments(text)
+    render_glossary(
+        lang,
+        text,
+    )
+
+    render_countries(
+        lang,
+        text,
+    )
+
+    render_rules(
+        lang,
+        text,
+    )
+
+    render_comments(
+        text,
+    )
 
     render_reference_admin(
         db=db,
         ai=ai,
         references=references,
+        lang=lang,
         text=text,
     )
 
