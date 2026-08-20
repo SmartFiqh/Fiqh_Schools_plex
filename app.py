@@ -18,7 +18,7 @@ import streamlit as st
 
 
 # ============================================================
-# Page configuration
+# إعداد الصفحة
 # ============================================================
 
 st.set_page_config(
@@ -30,7 +30,7 @@ st.set_page_config(
 
 
 # ============================================================
-# Logging and environment
+# الإعدادات والبيئة
 # ============================================================
 
 logging.basicConfig(level=logging.INFO)
@@ -62,6 +62,7 @@ except ImportError:
 def get_secret(name: str, default: str = "") -> str:
     try:
         value = st.secrets.get(name)
+
         if value:
             return str(value)
     except Exception:
@@ -73,20 +74,26 @@ def get_secret(name: str, default: str = "") -> str:
 GEMINI_API_KEY = get_secret("GEMINI_API_KEY")
 ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD")
 
-USE_GEMINI = bool(GEMINI_API_KEY and GENAI_AVAILABLE)
+USE_GEMINI = bool(
+    GEMINI_API_KEY and GENAI_AVAILABLE
+)
+
 gemini_client = None
 
 if USE_GEMINI:
     try:
-        gemini_client = genai.Client(api_key=GEMINI_API_KEY)
-        logger.info("Gemini initialized successfully")
+        gemini_client = genai.Client(
+            api_key=GEMINI_API_KEY
+        )
     except Exception:
         USE_GEMINI = False
-        logger.exception("Gemini initialization failed")
+        logger.exception(
+            "Gemini initialization failed"
+        )
 
 
 # ============================================================
-# Language data
+# اللغات
 # ============================================================
 
 LANGUAGE_META = {
@@ -145,10 +152,12 @@ UI = {
         "no_question": "الرجاء كتابة السؤال أولًا.",
         "no_madhab": "الرجاء اختيار مذهب واحد على الأقل.",
         "no_results": (
-            "لم نجد نتيجة مناسبة في قاعدة البيانات "
-            "أو المراجع المرفوعة."
+            "لم توجد مسألة مطابقة، ولم تُنتج خدمة Gemini إجابة "
+            "قابلة للعرض. جرّب صياغة السؤال بطريقة أخرى."
         ),
-        "ai_generating": "جاري تحليل السؤال والبحث عن الإجابة...",
+        "ai_generating": (
+            "جاري تحليل السؤال والبحث عن الإجابة..."
+        ),
         "ai_badge": "🤖 إجابة بحثية مولدة بالذكاء الاصطناعي",
         "ai_disclaimer": (
             "هذه إجابة بحثية آلية وليست فتوى، "
@@ -165,9 +174,15 @@ UI = {
         "source_text": "نص المرجع",
         "source_file": "أو ارفع ملف TXT",
         "add_reference": "إضافة وفهرسة المرجع",
-        "reference_empty": "الرجاء إدخال نص أو رفع ملف.",
-        "reference_failed": "تعذرت الفهرسة. تحقق من إعداد Gemini.",
-        "reference_success": "تمت إضافة {} مقاطع من المصدر «{}».",
+        "reference_empty": (
+            "الرجاء إدخال عنوان ونص أو رفع ملف."
+        ),
+        "reference_failed": (
+            "تعذرت الفهرسة. تحقق من إعداد Gemini."
+        ),
+        "reference_success": (
+            "تمت إضافة {} مقاطع من المصدر «{}»."
+        ),
         "indexed_sources": "المصادر المفهرسة",
         "no_sources": "لا توجد مراجع مفهرسة.",
         "glossary": "📚 المصطلحات الفقهية",
@@ -211,15 +226,22 @@ UI = {
         "search": "🔍 Search",
         "no_question": "Please enter a question first.",
         "no_madhab": "Please choose at least one school.",
-        "no_results": "No suitable result was found.",
-        "ai_generating": "Analyzing the question and searching...",
+        "no_results": (
+            "No matching issue was found, and Gemini did not return "
+            "a usable answer. Try rephrasing the question."
+        ),
+        "ai_generating": (
+            "Analyzing the question and searching..."
+        ),
         "ai_badge": "🤖 AI-generated research answer",
         "ai_disclaimer": (
             "This is an automated research answer, not a fatwa. "
             "Consult a qualified scholar."
         ),
         "rag_badge": "📖 Based on uploaded references: {}",
-        "reference_management": "📁 Reference management — admins",
+        "reference_management": (
+            "📁 Reference management — admins"
+        ),
         "reference_intro": (
             "Upload reference texts you have rights to use."
         ),
@@ -228,8 +250,12 @@ UI = {
         "source_text": "Reference text",
         "source_file": "Or upload a TXT file",
         "add_reference": "Add and index reference",
-        "reference_empty": "Enter text or upload a file.",
-        "reference_failed": "Indexing failed. Check Gemini settings.",
+        "reference_empty": (
+            "Enter a title and text or upload a file."
+        ),
+        "reference_failed": (
+            "Indexing failed. Check Gemini settings."
+        ),
         "reference_success": "Added {} chunks from “{}”.",
         "indexed_sources": "Indexed sources",
         "no_sources": "No indexed references.",
@@ -253,14 +279,18 @@ UI = {
         "confidence": "Confidence",
     },
     "fr": {
-        "app_title": "Recueil concis des avis des écoles juridiques",
+        "app_title": (
+            "Recueil concis des avis des écoles juridiques"
+        ),
         "app_subtitle": (
             "Plateforme éducative de comparaison du fiqh. "
             "Ce service ne délivre pas de fatwas."
         ),
         "language": "Langue",
         "choose_madhab": "Choisir l’école",
-        "choose_one_or_more": "Choisissez une ou plusieurs écoles",
+        "choose_one_or_more": (
+            "Choisissez une ou plusieurs écoles"
+        ),
         "choose_topic": "Choisir le sujet",
         "all_topics": "Tous les sujets",
         "choose_level": "Niveau de détail",
@@ -269,17 +299,26 @@ UI = {
         "full": "Détaillé",
         "write_question": "Écrivez votre question",
         "question_placeholder": (
-            "Exemple : Quel est le statut de la prière en congrégation ?"
+            "Exemple : Quel est le statut de la prière "
+            "en congrégation ?"
         ),
         "search": "🔍 Rechercher",
         "no_question": "Veuillez écrire une question.",
         "no_madhab": "Veuillez choisir au moins une école.",
         "no_results": "Aucun résultat approprié.",
-        "ai_generating": "Analyse et recherche en cours...",
-        "ai_badge": "🤖 Réponse de recherche générée par IA",
-        "ai_disclaimer": "Ceci n’est pas une fatwa.",
+        "ai_generating": (
+            "Analyse et recherche en cours..."
+        ),
+        "ai_badge": (
+            "🤖 Réponse de recherche générée par IA"
+        ),
+        "ai_disclaimer": (
+            "Ceci est une réponse de recherche, pas une fatwa."
+        ),
         "rag_badge": "📖 Basé sur les références: {}",
-        "reference_management": "📁 Gestion des références",
+        "reference_management": (
+            "📁 Gestion des références"
+        ),
         "reference_intro": (
             "Ajoutez des textes dont vous avez les droits."
         ),
@@ -288,9 +327,15 @@ UI = {
         "source_text": "Texte de référence",
         "source_file": "Ou fichier TXT",
         "add_reference": "Ajouter et indexer",
-        "reference_empty": "Ajoutez un texte ou un fichier.",
-        "reference_failed": "Échec de l’indexation.",
-        "reference_success": "{} segments ajoutés de «{}».",
+        "reference_empty": (
+            "Ajoutez un titre et un texte."
+        ),
+        "reference_failed": (
+            "Échec de l’indexation."
+        ),
+        "reference_success": (
+            "{} segments ajoutés de «{}»."
+        ),
         "indexed_sources": "Sources indexées",
         "no_sources": "Aucune source indexée.",
         "glossary": "📚 Terminologie du fiqh",
@@ -313,14 +358,12 @@ UI = {
     },
 }
 
-
-# Fill untranslated UI languages safely
-for language_code in ("fa", "ms", "ur"):
-    UI[language_code] = UI["ar"].copy()
+for code in ("fa", "ms", "ur"):
+    UI[code] = UI["ar"].copy()
 
 
 # ============================================================
-# Madhhab and topic data
+# المذاهب والموضوعات
 # ============================================================
 
 MADHHAB_NAMES = {
@@ -367,34 +410,6 @@ MADHHAB_NAMES = {
 }
 
 
-GROUPS = {
-    "sunni": {
-        "ar": "مذاهب السنة",
-        "en": "Sunni schools",
-        "fr": "Écoles sunnites",
-        "members": [
-            "maliki",
-            "shafii",
-            "hanafi",
-            "hanbali",
-            "zahiri",
-        ],
-    },
-    "shia": {
-        "ar": "مذاهب الشيعة",
-        "en": "Shia schools",
-        "fr": "Écoles chiites",
-        "members": ["jafari", "zaidi"],
-    },
-    "ibadi": {
-        "ar": "المذهب الإباضي",
-        "en": "Ibadi school",
-        "fr": "École ibadite",
-        "members": ["ibadi"],
-    },
-}
-
-
 TOPICS = {
     "ibadat": {
         "ar": "العبادات",
@@ -420,7 +435,7 @@ TOPICS = {
 
 
 # ============================================================
-# Fiqh glossary
+# المصطلحات الفقهية
 # ============================================================
 
 GLOSSARY = {
@@ -505,7 +520,7 @@ GLOSSARY = {
 
 
 # ============================================================
-# Fiqh principles and legal maxims
+# القواعد الفقهية
 # ============================================================
 
 FIQH_RULES = [
@@ -514,14 +529,18 @@ FIQH_RULES = [
         "definition": (
             "تعتبر المقاصد والنيات في فهم الأفعال وترتيب آثارها الشرعية."
         ),
-        "example": "يختلف دفع المال باختلاف كونه صدقة أو قرضًا أو هبة.",
+        "example": (
+            "يختلف دفع المال باختلاف كونه صدقة أو قرضًا أو هبة."
+        ),
     },
     {
         "title": "اليقين لا يزول بالشك",
         "definition": (
             "الحكم الثابت بيقين لا يرفع بمجرد شك طارئ."
         ),
-        "example": "من تيقن الطهارة وشك في الحدث يبقى على طهارته.",
+        "example": (
+            "من تيقن الطهارة وشك في الحدث يبقى على طهارته."
+        ),
     },
     {
         "title": "المشقة تجلب التيسير",
@@ -557,14 +576,18 @@ FIQH_RULES = [
             "إذا تعارضت مفسدة ومصلحة معتبرتان قدم دفع المفسدة "
             "عند رجحانها."
         ),
-        "example": "منع معاملة فيها ربح ويترتب عليها ظلم واضح.",
+        "example": (
+            "منع معاملة فيها ربح ويترتب عليها ظلم واضح."
+        ),
     },
     {
         "title": "الضرورات تبيح المحظورات",
         "definition": (
             "الضرورة المنضبطة قد تبيح المحظور بقدر دفع الضرر."
         ),
-        "example": "تناول المحرم عند خوف الهلاك بقدر الحاجة.",
+        "example": (
+            "تناول المحرم عند خوف الهلاك بقدر الحاجة."
+        ),
     },
     {
         "title": "الضرورة تقدر بقدرها",
@@ -585,40 +608,51 @@ FIQH_RULES = [
         "definition": (
             "لا تشرع عبادة مخصوصة بصفة أو وقت أو عدد إلا بدليل معتبر."
         ),
-        "example": "عدم تخصيص ذكر بعدد تعبدي بلا دليل.",
+        "example": (
+            "عدم تخصيص ذكر بعدد تعبدي بلا دليل."
+        ),
     },
     {
         "title": "الأصل في المعاملات الإباحة",
         "definition": (
             "الأصل في المعاملات الجديدة الجواز ما لم تتضمن محظورًا."
         ),
-        "example": "جواز وسيلة بيع جديدة إذا خلت من الربا والغرر.",
+        "example": (
+            "جواز وسيلة بيع جديدة إذا خلت من الربا والغرر."
+        ),
     },
     {
         "title": "العبرة في العقود للمقاصد والمعاني",
         "definition": (
             "تعتبر حقيقة العقد وآثاره لا مجرد ألفاظه أو اسمه."
         ),
-        "example": "لا يصبح القرض المحرم مباحًا بمجرد تغيير اسمه.",
+        "example": (
+            "لا يصبح القرض المحرم مباحًا بمجرد تغيير اسمه."
+        ),
     },
     {
         "title": "الخراج بالضمان",
         "definition": (
             "من تحمل ضمان الشيء وتبعاته استحق غلته في الجملة."
         ),
-        "example": "استحقاق غلة المبيع لمن كان ضامنًا له.",
+        "example": (
+            "استحقاق غلة المبيع لمن كان ضامنًا له."
+        ),
     },
     {
         "title": "الغنم بالغرم",
         "definition": (
             "استحقاق المنفعة يقابله تحمل التبعة والضمان."
         ),
-        "example": "من يستحق ربح الاستثمار يتحمل مخاطر الاستثمار.",
+        "example": (
+            "من يستحق ربح الاستثمار يتحمل مخاطر الاستثمار."
+        ),
     },
     {
         "title": "ما لا يتم الواجب إلا به فهو واجب",
         "definition": (
-            "الوسيلة اللازمة لتحقيق واجب تأخذ حكم الوجوب بقدر لزومها."
+            "الوسيلة اللازمة لتحقيق واجب تأخذ حكم الوجوب "
+            "بقدر لزومها."
         ),
         "example": "تعلم القدر اللازم لصحة الصلاة.",
     },
@@ -627,28 +661,36 @@ FIQH_RULES = [
         "definition": (
             "تأخذ الوسيلة حكم الغاية بحسب علاقتها بها ونتيجتها."
         ),
-        "example": "تحريم وسيلة تؤدي غالبًا إلى محرم قطعي.",
+        "example": (
+            "تحريم وسيلة تؤدي غالبًا إلى محرم قطعي."
+        ),
     },
     {
         "title": "التابع تابع",
         "definition": (
             "الشيء التابع يأخذ حكم متبوعه ولا يفرد غالبًا بحكم مستقل."
         ),
-        "example": "دخول ملحقات العقار المعتادة في البيع.",
+        "example": (
+            "دخول ملحقات العقار المعتادة في البيع."
+        ),
     },
     {
         "title": "يغتفر في التابع ما لا يغتفر في المتبوع",
         "definition": (
             "قد يتسامح في أمر يسير تابع لا يتسامح فيه إذا كان مستقلًا."
         ),
-        "example": "التسامح في غرر يسير تابع لعقد معلوم.",
+        "example": (
+            "التسامح في غرر يسير تابع لعقد معلوم."
+        ),
     },
     {
         "title": "الاجتهاد لا ينقض بالاجتهاد",
         "definition": (
             "الحكم الاجتهادي لا ينقض لمجرد ظهور اجتهاد آخر."
         ),
-        "example": "عدم إبطال أحكام ماضية مبنية على اجتهاد معتبر.",
+        "example": (
+            "عدم إبطال أحكام ماضية مبنية على اجتهاد معتبر."
+        ),
     },
     {
         "title": "الحكم يدور مع علته وجودًا وعدمًا",
@@ -661,7 +703,7 @@ FIQH_RULES = [
 
 
 # ============================================================
-# Countries
+# الدول
 # ============================================================
 
 COUNTRIES = [
@@ -696,7 +738,7 @@ COUNTRIES = [
 
 
 # ============================================================
-# Dataclasses
+# النماذج
 # ============================================================
 
 @dataclass
@@ -717,11 +759,13 @@ class SearchResult:
 
 
 # ============================================================
-# Utility functions
+# أدوات مساعدة
 # ============================================================
 
 def utc_now_iso() -> str:
-    return dt.datetime.now(dt.timezone.utc).isoformat()
+    return dt.datetime.now(
+        dt.timezone.utc
+    ).isoformat()
 
 
 def normalize_arabic(text: str) -> str:
@@ -738,14 +782,31 @@ def normalize_arabic(text: str) -> str:
     for old, new in replacements.items():
         text = text.replace(old, new)
 
-    text = re.sub(r"[\u064B-\u065F\u0670]", "", text)
-    text = re.sub(r"[^\w\s]", " ", text)
-    text = re.sub(r"\s+", " ", text)
+    text = re.sub(
+        r"[\u064B-\u065F\u0670]",
+        "",
+        text,
+    )
+
+    text = re.sub(
+        r"[^\w\s]",
+        " ",
+        text,
+    )
+
+    text = re.sub(
+        r"\s+",
+        " ",
+        text,
+    )
 
     return text.strip().lower()
 
 
-def safe_json_loads(value: Any, default: Any) -> Any:
+def safe_json_loads(
+    value: Any,
+    default: Any,
+) -> Any:
     if not value:
         return default
 
@@ -756,14 +817,18 @@ def safe_json_loads(value: Any, default: Any) -> Any:
 
 
 # ============================================================
-# Database manager
+# قاعدة البيانات
 # ============================================================
 
 class DatabaseManager:
-    def __init__(self, db_path: str = DB_PATH):
+    def __init__(
+        self,
+        db_path: str = DB_PATH,
+    ):
         self.db_path = db_path
         self.initialize_database()
         self.seed_initial_issue()
+        self.seed_more_issues()
 
     def connection(self) -> sqlite3.Connection:
         conn = sqlite3.connect(
@@ -771,6 +836,7 @@ class DatabaseManager:
             timeout=30,
             check_same_thread=False,
         )
+
         conn.row_factory = sqlite3.Row
         return conn
 
@@ -916,12 +982,125 @@ class DatabaseManager:
                     "فمن الفقهاء من يعدها فرض كفاية، ومنهم من يعدها "
                     "واجبة أو سنة مؤكدة."
                 ),
-                json.dumps(rulings, ensure_ascii=False),
+                json.dumps(
+                    rulings,
+                    ensure_ascii=False,
+                ),
             ))
 
             conn.commit()
 
-    def load_issues(self, topic_filter: str = "all") -> List[Issue]:
+    def seed_more_issues(self):
+        more_issues = [
+            {
+                "topic": "ibadat",
+                "title": "الوضوء",
+                "keywords": "وضوء,وضو,طهارة,صلاة,حدث",
+                "short": (
+                    "الوضوء شرط لصحة الصلاة عند وجود الحدث الأصغر."
+                ),
+            },
+            {
+                "topic": "ibadat",
+                "title": "صيام رمضان",
+                "keywords": "صيام,صوم,رمضان,فطر",
+                "short": (
+                    "صيام رمضان واجب على المسلم المكلف القادر."
+                ),
+            },
+            {
+                "topic": "ibadat",
+                "title": "صلاة المسافر",
+                "keywords": "سفر,مسافر,قصر,جمع,صلاة",
+                "short": (
+                    "تختلف أحكام القصر والجمع بحسب شروط السفر والمذهب."
+                ),
+            },
+            {
+                "topic": "muamalat",
+                "title": "البيع بالتقسيط",
+                "keywords": "بيع,تقسيط,ثمن,أجل,دين",
+                "short": (
+                    "يجوز عند ضبط الثمن والأجل وانتفاء الربا والغرر."
+                ),
+            },
+            {
+                "topic": "muamalat",
+                "title": "الربا",
+                "keywords": "ربا,فائدة,قرض,مال,زيادة",
+                "short": (
+                    "الربا محرم في الجملة، وتفصيل صوره يحتاج إلى دراسة العقد."
+                ),
+            },
+            {
+                "topic": "family",
+                "title": "النفقة",
+                "keywords": "نفقة,زوجة,أولاد,أسرة",
+                "short": (
+                    "تجب النفقة بحسب الاستطاعة والعرف والحاجة والقرابة."
+                ),
+            },
+            {
+                "topic": "family",
+                "title": "الزواج",
+                "keywords": "زواج,نكاح,زوج,زوجة,مهر",
+                "short": (
+                    "الزواج عقد له أركان وشروط تختلف بعض تفاصيلها بين المذاهب."
+                ),
+            },
+        ]
+
+        with self.connection() as conn:
+            existing = {
+                row["title_ar"]
+                for row in conn.execute(
+                    "SELECT title_ar FROM issues"
+                ).fetchall()
+            }
+
+            for item in more_issues:
+                if item["title"] in existing:
+                    continue
+
+                rulings = {}
+
+                for madhab in MADHHAB_NAMES:
+                    rulings[madhab] = {
+                        "very_short": "يحتاج تفصيلًا",
+                        "short": item["short"],
+                        "full": item["short"],
+                    }
+
+                conn.execute("""
+                    INSERT INTO issues (
+                        topic,
+                        title_ar,
+                        keywords_ar,
+                        ruling_vs_ar,
+                        ruling_s_ar,
+                        ruling_f_ar,
+                        rulings_by_madhab_ar
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    item["topic"],
+                    item["title"],
+                    item["keywords"],
+                    "يحتاج تفصيلًا",
+                    item["short"],
+                    item["short"],
+                    json.dumps(
+                        rulings,
+                        ensure_ascii=False,
+                    ),
+                ))
+
+            conn.commit()
+
+    def load_issues(
+        self,
+        topic_filter: str = "all",
+    ) -> List[Issue]:
         with self.connection() as conn:
             if topic_filter == "all":
                 rows = conn.execute("""
@@ -935,14 +1114,18 @@ class DatabaseManager:
                     FROM issues
                     WHERE topic = ?
                     ORDER BY id
-                """, (topic_filter,)).fetchall()
+                """, (
+                    topic_filter,
+                )).fetchall()
 
         issues = []
 
         for row in rows:
             keywords = [
                 item.strip()
-                for item in (row["keywords_ar"] or "").split(",")
+                for item in (
+                    row["keywords_ar"] or ""
+                ).split(",")
                 if item.strip()
             ]
 
@@ -964,45 +1147,6 @@ class DatabaseManager:
 
         return issues
 
-    def import_from_csv(self, content: bytes) -> int:
-        text = content.decode("utf-8-sig")
-        reader = csv.DictReader(io.StringIO(text))
-        count = 0
-
-        with self.connection() as conn:
-            for row in reader:
-                title = row.get("title_ar", "").strip()
-
-                if not title:
-                    continue
-
-                conn.execute("""
-                    INSERT INTO issues (
-                        topic,
-                        title_ar,
-                        keywords_ar,
-                        ruling_vs_ar,
-                        ruling_s_ar,
-                        ruling_f_ar,
-                        rulings_by_madhab_ar
-                    )
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    row.get("topic", "other"),
-                    title,
-                    row.get("keywords_ar", ""),
-                    row.get("ruling_vs_ar", ""),
-                    row.get("ruling_s_ar", ""),
-                    row.get("ruling_f_ar", ""),
-                    row.get("rulings_by_madhab_ar", "{}"),
-                ))
-
-                count += 1
-
-            conn.commit()
-
-        return count
-
     def add_reference_chunk(
         self,
         title: str,
@@ -1011,7 +1155,9 @@ class DatabaseManager:
         embedding: List[float],
     ) -> bool:
         chunk_hash = hashlib.sha256(
-            f"{title}|{madhab_tag}|{chunk_text}".encode("utf-8")
+            f"{title}|{madhab_tag}|{chunk_text}".encode(
+                "utf-8"
+            )
         ).hexdigest()
 
         with self.connection() as conn:
@@ -1062,7 +1208,9 @@ class DatabaseManager:
                 "SELECT COUNT(*) FROM reference_chunks"
             ).fetchone()[0]
 
-    def list_reference_sources(self) -> List[Tuple[str, int]]:
+    def list_reference_sources(
+        self,
+    ) -> List[Tuple[str, int]]:
         with self.connection() as conn:
             rows = conn.execute("""
                 SELECT source_title, COUNT(*) AS total
@@ -1072,19 +1220,23 @@ class DatabaseManager:
             """).fetchall()
 
         return [
-            (row["source_title"], row["total"])
+            (
+                row["source_title"],
+                row["total"],
+            )
             for row in rows
         ]
 
 
 # ============================================================
-# AI service
+# خدمة Gemini
 # ============================================================
 
 class AIService:
     def __init__(self):
         self.available = (
-            USE_GEMINI and gemini_client is not None
+            USE_GEMINI
+            and gemini_client is not None
         )
 
     def generate(
@@ -1097,7 +1249,11 @@ class AIService:
 
         try:
             config = types.GenerateContentConfig(
-                temperature=0.15 if json_mode else 0.25,
+                temperature=(
+                    0.15
+                    if json_mode
+                    else 0.25
+                ),
                 response_mime_type=(
                     "application/json"
                     if json_mode
@@ -1117,7 +1273,9 @@ class AIService:
             return response.text.strip()
 
         except Exception:
-            logger.exception("Generation failed")
+            logger.exception(
+                "Gemini generation failed"
+            )
             return None
 
     def embed_text(
@@ -1143,7 +1301,9 @@ class AIService:
             return response.embeddings[0].values
 
         except Exception:
-            logger.exception("Embedding failed")
+            logger.exception(
+                "Gemini embedding failed"
+            )
             return None
 
     def embed_texts(
@@ -1154,7 +1314,10 @@ class AIService:
         vectors = []
 
         for text in texts:
-            vector = self.embed_text(text, task_type)
+            vector = self.embed_text(
+                text,
+                task_type,
+            )
 
             if vector is None:
                 return None
@@ -1171,7 +1334,6 @@ class AIService:
         if not self.available:
             return None
 
-        # Important: chr(10) avoids broken multiline string literals.
         newline = chr(10)
 
         issue_list = newline.join(
@@ -1213,18 +1375,27 @@ class AIService:
 - إذا لم توجد مسألة مناسبة اجعل القائمة فارغة.
 """
 
-        raw = self.generate(prompt, json_mode=True)
+        raw = self.generate(
+            prompt,
+            json_mode=True,
+        )
 
         if not raw:
             return None
 
         try:
             data = json.loads(raw)
-            valid_ids = {issue.id for issue in issues}
+            valid_ids = {
+                issue.id
+                for issue in issues
+            }
 
             matched_ids = []
 
-            for item in data.get("matched_issue_ids", []):
+            for item in data.get(
+                "matched_issue_ids",
+                [],
+            ):
                 try:
                     number = int(item)
 
@@ -1234,12 +1405,18 @@ class AIService:
                     continue
 
             confidence = float(
-                data.get("confidence", 0.0)
+                data.get(
+                    "confidence",
+                    0.0,
+                )
             )
 
             return {
                 "normalized_question": str(
-                    data.get("normalized_question", question)
+                    data.get(
+                        "normalized_question",
+                        question,
+                    )
                 ),
                 "topic": (
                     data.get("topic")
@@ -1249,20 +1426,31 @@ class AIService:
                 "matched_issue_ids": matched_ids,
                 "keywords": [
                     str(item).strip()
-                    for item in data.get("keywords", [])
+                    for item in data.get(
+                        "keywords",
+                        [],
+                    )
                     if str(item).strip()
                 ],
                 "needs_reference_search": bool(
-                    data.get("needs_reference_search", True)
+                    data.get(
+                        "needs_reference_search",
+                        True,
+                    )
                 ),
                 "confidence": max(
                     0.0,
-                    min(1.0, confidence),
+                    min(
+                        1.0,
+                        confidence,
+                    ),
                 ),
             }
 
         except Exception:
-            logger.exception("Question understanding failed")
+            logger.exception(
+                "Question understanding failed"
+            )
             return None
 
     def answer_from_references(
@@ -1279,13 +1467,18 @@ class AIService:
         double_newline = newline + newline
 
         context = double_newline.join(
-            f"[{index}] المصدر: {chunk['source_title']}"
+            f"[{index}] المصدر: "
+            f"{chunk['source_title']}"
             f"{newline}{chunk['chunk_text']}"
-            for index, chunk in enumerate(chunks, start=1)
+            for index, chunk in enumerate(
+                chunks,
+                start=1,
+            )
         )
 
         madhab_names = ", ".join(
-            f"{code}: {MADHHAB_NAMES[code]['ar']}"
+            f"{code}: "
+            f"{MADHHAB_NAMES[code]['ar']}"
             for code in madhabs
         )
 
@@ -1293,7 +1486,15 @@ class AIService:
             "very_short": "كلمة أو كلمتين",
             "short": "سطر واحد",
             "full": "فقرة قصيرة",
-        }.get(level, "سطر واحد")
+        }.get(
+            level,
+            "سطر واحد",
+        )
+
+        required_keys = ", ".join(
+            f'"{code}": ""'
+            for code in madhabs
+        )
 
         prompt = f"""
 أنت مساعد بحثي في الفقه الإسلامي، ولست مفتيًا.
@@ -1316,29 +1517,26 @@ class AIService:
 
 أعد JSON فقط:
 {{
-  "maliki": "",
-  "shafii": "",
-  "hanafi": "",
-  "hanbali": "",
-  "zahiri": "",
-  "jafari": "",
-  "zaidi": "",
-  "ibadi": ""
+  {required_keys}
 }}
 """
 
-        raw = self.generate(prompt, json_mode=True)
+        raw = self.generate(
+            prompt,
+            json_mode=True,
+        )
 
         if not raw:
             return None
 
         try:
             data = json.loads(raw)
-
             answers = {}
 
             for code in madhabs:
-                answer = str(data.get(code, "")).strip()
+                answer = str(
+                    data.get(code, "")
+                ).strip()
 
                 if answer:
                     answers[code] = answer
@@ -1346,12 +1544,117 @@ class AIService:
             return answers or None
 
         except Exception:
-            logger.exception("Reference answer parsing failed")
+            logger.exception(
+                "Reference answer parsing failed"
+            )
+            return None
+
+    def generate_fallback_answer(
+        self,
+        question: str,
+        madhabs: List[str],
+        level: str,
+    ) -> Optional[Dict[str, str]]:
+        if not self.available:
+            return None
+
+        if not question.strip():
+            return None
+
+        detail = {
+            "very_short": "كلمة أو كلمتين",
+            "short": "سطر واحد",
+            "full": "فقرة قصيرة من ثلاثة إلى خمسة أسطر",
+        }.get(
+            level,
+            "سطر واحد",
+        )
+
+        madhab_names = ", ".join(
+            f"{code}: "
+            f"{MADHHAB_NAMES[code]['ar']}"
+            for code in madhabs
+        )
+
+        required_keys = ", ".join(
+            f'"{code}": ""'
+            for code in madhabs
+        )
+
+        prompt = f"""
+أنت مساعد بحثي متخصص في عرض الآراء الفقهية.
+أنت لا تصدر فتوى شخصية ولا تدعي القطع عند وجود اختلاف.
+
+السؤال:
+{question}
+
+المذاهب المطلوبة:
+{madhab_names}
+
+التعليمات:
+- أجب عن السؤال نفسه.
+- لا تجب عن سؤال عام قريب منه.
+- اذكر الرأي المشهور أو المعتمد قدر الإمكان.
+- بيّن وجود الاختلاف إذا كان مؤثرًا.
+- لا تخترع مصادر أو نصوصًا.
+- لا تقل إن الحكم موحد إذا اختلفت المذاهب.
+- مستوى التفصيل: {detail}.
+- اكتب بالعربية.
+- أعد JSON صالحًا فقط.
+- أعد مفتاحًا لكل مذهب مطلوب.
+
+الشكل المطلوب:
+{{
+  {required_keys}
+}}
+"""
+
+        raw = self.generate(
+            prompt,
+            json_mode=True,
+        )
+
+        if not raw:
+            logger.warning(
+                "Gemini returned empty fallback answer"
+            )
+            return None
+
+        try:
+            data = json.loads(raw)
+            answers = {}
+
+            for code in madhabs:
+                answer = data.get(code, "")
+
+                if isinstance(answer, dict):
+                    answer = answer.get(
+                        "answer",
+                        "",
+                    )
+
+                answer = str(answer).strip()
+
+                if answer:
+                    answers[code] = answer
+
+            if not answers:
+                logger.warning(
+                    "Gemini JSON contained no requested keys"
+                )
+                return None
+
+            return answers
+
+        except json.JSONDecodeError:
+            logger.exception(
+                "Fallback answer was not valid JSON"
+            )
             return None
 
 
 # ============================================================
-# Reference manager
+# إدارة المراجع
 # ============================================================
 
 class ReferenceManager:
@@ -1374,7 +1677,11 @@ class ReferenceManager:
                 "overlap must be smaller than max_chars"
             )
 
-        text = re.sub(r"\s+", " ", text).strip()
+        text = re.sub(
+            r"\s+",
+            " ",
+            text,
+        ).strip()
 
         if not text:
             return []
@@ -1382,8 +1689,14 @@ class ReferenceManager:
         step = max_chars - overlap
         chunks = []
 
-        for start in range(0, len(text), step):
-            chunk = text[start:start + max_chars].strip()
+        for start in range(
+            0,
+            len(text),
+            step,
+        ):
+            chunk = text[
+                start:start + max_chars
+            ].strip()
 
             if len(chunk) > 30:
                 chunks.append(chunk)
@@ -1417,7 +1730,10 @@ class ReferenceManager:
 
         added = 0
 
-        for chunk, embedding in zip(chunks, embeddings):
+        for chunk, embedding in zip(
+            chunks,
+            embeddings,
+        ):
             if self.db.add_reference_chunk(
                 title,
                 madhab_tag,
@@ -1460,14 +1776,19 @@ class ReferenceManager:
         scored = []
 
         for chunk in self.db.get_reference_chunks():
-            tag = chunk.get("madhab_tag") or ""
+            tag = chunk.get(
+                "madhab_tag",
+                "",
+            ) or ""
 
             if madhabs and tag not in allowed:
                 continue
 
             try:
                 vector = np.array(
-                    json.loads(chunk["embedding"]),
+                    json.loads(
+                        chunk["embedding"]
+                    ),
                     dtype=np.float32,
                 )
 
@@ -1478,7 +1799,10 @@ class ReferenceManager:
 
                 similarity = (
                     float(
-                        np.dot(query_vector, vector)
+                        np.dot(
+                            query_vector,
+                            vector,
+                        )
                         / denominator
                     )
                     if denominator
@@ -1487,9 +1811,13 @@ class ReferenceManager:
 
                 if similarity >= min_similarity:
                     scored.append({
-                        "source_title": chunk["source_title"],
+                        "source_title": (
+                            chunk["source_title"]
+                        ),
                         "madhab_tag": tag,
-                        "chunk_text": chunk["chunk_text"],
+                        "chunk_text": (
+                            chunk["chunk_text"]
+                        ),
                         "score": similarity,
                     })
 
@@ -1507,7 +1835,7 @@ class ReferenceManager:
 
 
 # ============================================================
-# Search service
+# البحث
 # ============================================================
 
 class SearchService:
@@ -1530,14 +1858,20 @@ class SearchService:
         self.cache[key] = value
         return value
 
-    def save_cached(self, key: str, value: Any):
+    def save_cached(
+        self,
+        key: str,
+        value: Any,
+    ):
         if key in self.cache:
             self.cache.pop(key)
 
         self.cache[key] = value
 
         while len(self.cache) > self.cache_size:
-            self.cache.popitem(last=False)
+            self.cache.popitem(
+                last=False
+            )
 
     def search(
         self,
@@ -1545,7 +1879,10 @@ class SearchService:
         topic_filter: str,
         madhabs: List[str],
         level: str,
-    ) -> Tuple[List[SearchResult], Optional[Dict[str, Any]]]:
+    ) -> Tuple[
+        List[SearchResult],
+        Optional[Dict[str, Any]],
+    ]:
         if not query.strip():
             return [], None
 
@@ -1561,19 +1898,30 @@ class SearchService:
         if cached is not None:
             return cached
 
-        issues = self.db.load_issues(topic_filter)
+        issues = self.db.load_issues(
+            topic_filter
+        )
+
+        if not issues:
+            return [], None
+
         understanding = None
         candidates = []
 
         if self.ai.available:
-            understanding = self.ai.understand_question(
-                query,
-                issues,
+            understanding = (
+                self.ai.understand_question(
+                    query,
+                    issues,
+                )
             )
 
         if understanding:
             candidate_ids = set(
-                understanding["matched_issue_ids"]
+                understanding.get(
+                    "matched_issue_ids",
+                    [],
+                )
             )
 
             candidates = [
@@ -1582,30 +1930,122 @@ class SearchService:
                 if issue.id in candidate_ids
             ]
 
-        if not candidates:
-            normalized = normalize_arabic(
-                understanding["normalized_question"]
-                if understanding
-                else query
-            )
+        normalized_query = normalize_arabic(
+            query
+        )
 
-            words = [
-                word
-                for word in normalized.split()
-                if len(word) > 2
-            ]
+        synonyms = {
+            "جماعة": [
+                "جماعه",
+                "جماعة",
+                "الجماعه",
+                "الجماعة",
+                "مسجد",
+            ],
+            "صلاة": [
+                "صلاه",
+                "صلاة",
+                "الصلاه",
+                "الصلاة",
+            ],
+            "وضوء": [
+                "وضوء",
+                "وضو",
+                "طهاره",
+                "الطهاره",
+            ],
+            "صيام": [
+                "صيام",
+                "صوم",
+                "رمضان",
+            ],
+            "بيع": [
+                "بيع",
+                "تقسيط",
+                "شراء",
+                "ثمن",
+            ],
+        }
 
-            for issue in issues:
-                pool = normalize_arabic(" ".join([
+        expanded_terms = set(
+            normalized_query.split()
+        )
+
+        for word in normalized_query.split():
+            for values in synonyms.values():
+                normalized_values = [
+                    normalize_arabic(value)
+                    for value in values
+                ]
+
+                if word in normalized_values:
+                    expanded_terms.update(
+                        normalized_values
+                    )
+
+        scored_candidates = []
+
+        for issue in issues:
+            searchable_text = normalize_arabic(
+                " ".join([
                     issue.title,
                     *issue.keywords,
-                    issue.rulings.get("full", ""),
-                ]))
+                    issue.rulings.get(
+                        "very_short",
+                        "",
+                    ),
+                    issue.rulings.get(
+                        "short",
+                        "",
+                    ),
+                    issue.rulings.get(
+                        "full",
+                        "",
+                    ),
+                ])
+            )
 
-                if normalized in pool or any(
-                    word in pool for word in words
-                ):
-                    candidates.append(issue)
+            title_text = normalize_arabic(
+                issue.title
+            )
+
+            score = 0
+
+            if title_text in normalized_query:
+                score += 100
+
+            if normalized_query in searchable_text:
+                score += 80
+
+            for term in expanded_terms:
+                if term and term in searchable_text:
+                    score += 10
+
+            for word in normalized_query.split():
+                if len(word) > 2 and word in searchable_text:
+                    score += 5
+
+            if score > 0:
+                scored_candidates.append(
+                    (
+                        score,
+                        issue,
+                    )
+                )
+
+        scored_candidates.sort(
+            key=lambda item: item[0],
+            reverse=True,
+        )
+
+        seen_ids = set()
+
+        for _, issue in scored_candidates:
+            if issue.id in seen_ids:
+                continue
+
+            candidates.append(issue)
+            seen_ids.add(issue.id)
 
         results = []
 
@@ -1613,7 +2053,9 @@ class SearchService:
             cards = []
 
             for madhab in madhabs:
-                ruling = issue.rulings_by_madhab.get(madhab)
+                ruling = issue.rulings_by_madhab.get(
+                    madhab
+                )
 
                 if not ruling:
                     continue
@@ -1622,7 +2064,10 @@ class SearchService:
                     "label": MADHHAB_NAMES[madhab]["ar"],
                     "answer": ruling.get(
                         level,
-                        ruling.get("full", ""),
+                        ruling.get(
+                            "full",
+                            "",
+                        ),
                     ),
                     "note": (
                         f"رأي المذهب "
@@ -1631,23 +2076,32 @@ class SearchService:
                 })
 
             if cards:
-                results.append(SearchResult(
-                    title=issue.title,
-                    topic=TOPICS.get(
-                        issue.topic,
-                        TOPICS["other"],
-                    )["ar"],
-                    cards=cards,
-                ))
+                results.append(
+                    SearchResult(
+                        title=issue.title,
+                        topic=TOPICS.get(
+                            issue.topic,
+                            TOPICS["other"],
+                        )["ar"],
+                        cards=cards,
+                    )
+                )
 
-        final_value = (results, understanding)
-        self.save_cached(cache_key, final_value)
+        final_value = (
+            results,
+            understanding,
+        )
+
+        self.save_cached(
+            cache_key,
+            final_value,
+        )
 
         return final_value
 
 
 # ============================================================
-# Streamlit services
+# خدمات Streamlit
 # ============================================================
 
 @st.cache_resource
@@ -1657,7 +2111,12 @@ def get_services():
     search = SearchService(db, ai)
     references = ReferenceManager(db, ai)
 
-    return db, ai, search, references
+    return (
+        db,
+        ai,
+        search,
+        references,
+    )
 
 
 def inject_css():
@@ -1681,7 +2140,8 @@ def inject_css():
                 #0f766e,
                 #1d4ed8
             );
-            box-shadow: 0 12px 30px rgba(15, 23, 42, .15);
+            box-shadow: 0 12px 30px
+                rgba(15, 23, 42, .15);
         }
 
         .brand-mark {
@@ -1719,13 +2179,22 @@ def inject_css():
             min-height: 2.3rem;
         }
 
+        div[data-baseweb="tag"] {
+            margin: 3px !important;
+            padding: 4px 8px !important;
+            border-radius: 999px !important;
+            background: #dbeafe !important;
+            color: #1e3a8a !important;
+        }
+
         .result-card {
             padding: 1rem;
             margin: .7rem 0;
             border: 1px solid #e2e8f0;
             border-radius: 1rem;
             background: white;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, .05);
+            box-shadow: 0 4px 12px
+                rgba(15, 23, 42, .05);
         }
 
         .muted {
@@ -1749,15 +2218,24 @@ def render_language_bar() -> str:
         unsafe_allow_html=True,
     )
 
-    codes = list(LANGUAGE_META.keys())
-    columns = st.columns(len(codes))
+    codes = list(
+        LANGUAGE_META.keys()
+    )
 
-    for column, code in zip(columns, codes):
+    columns = st.columns(
+        len(codes)
+    )
+
+    for column, code in zip(
+        columns,
+        codes,
+    ):
         with column:
             meta = LANGUAGE_META[code]
 
             if st.button(
-                f"{meta['flag']} {meta['label']}",
+                f"{meta['flag']} "
+                f"{meta['label']}",
                 key=f"language_{code}",
                 use_container_width=True,
                 type=(
@@ -1778,7 +2256,8 @@ def render_header(lang: str):
 
     st.markdown(
         f"""
-        <div class="app-header" dir="{meta['direction']}">
+        <div class="app-header"
+             dir="{meta['direction']}">
             <div class="brand-mark">📚</div>
             <div>
                 <div class="brand-title">
@@ -1798,15 +2277,40 @@ def render_madhab_selector(
     lang: str,
     text: Dict[str, str],
 ) -> List[str]:
-    options = []
-    labels = {}
+    options = [
+        "maliki",
+        "shafii",
+        "hanafi",
+        "hanbali",
+        "zahiri",
+        "jafari",
+        "zaidi",
+        "ibadi",
+    ]
 
-    for group in GROUPS.values():
-        for member in group["members"]:
-            options.append(member)
-            labels[member] = (
-                f"{MADHHAB_NAMES[member].get(lang, member)}"
-            )
+    labels = {
+        code: MADHHAB_NAMES[code].get(
+            lang,
+            MADHHAB_NAMES[code]["ar"],
+        )
+        for code in options
+    }
+
+    if hasattr(st, "pills"):
+        selected = st.pills(
+            text["choose_one_or_more"],
+            options=options,
+            selection_mode="multi",
+            default=[
+                "maliki",
+                "shafii",
+                "hanafi",
+                "hanbali",
+            ],
+            format_func=lambda code: labels[code],
+        )
+
+        return list(selected or [])
 
     return st.multiselect(
         text["choose_one_or_more"],
@@ -1818,7 +2322,6 @@ def render_madhab_selector(
             "hanbali",
         ],
         format_func=lambda code: labels[code],
-        key="selected_madhabs",
     )
 
 
@@ -1826,7 +2329,10 @@ def render_topic_selector(
     lang: str,
     text: Dict[str, str],
 ) -> str:
-    options = ["all", *TOPICS.keys()]
+    options = [
+        "all",
+        *TOPICS.keys(),
+    ]
 
     return st.selectbox(
         text["choose_topic"],
@@ -1843,7 +2349,9 @@ def render_topic_selector(
     )
 
 
-def render_level_selector(text: Dict[str, str]) -> str:
+def render_level_selector(
+    text: Dict[str, str],
+) -> str:
     labels = {
         "very_short": text["very_short"],
         "short": text["short"],
@@ -1852,7 +2360,9 @@ def render_level_selector(text: Dict[str, str]) -> str:
 
     return st.radio(
         text["choose_level"],
-        options=list(labels.keys()),
+        options=list(
+            labels.keys()
+        ),
         format_func=lambda code: labels[code],
         horizontal=True,
         key="selected_level",
@@ -1870,8 +2380,11 @@ def render_results(
             expanded=False,
         ):
             st.write(
-                understanding["normalized_question"]
+                understanding[
+                    "normalized_question"
+                ]
             )
+
             st.caption(
                 f"{text['confidence']}: "
                 f"{understanding['confidence']:.0%}"
@@ -1886,13 +2399,24 @@ def render_results(
         st.subheader(result.title)
         st.caption(result.topic)
 
-        columns = st.columns(len(result.cards))
+        columns = st.columns(
+            len(result.cards)
+        )
 
-        for column, card in zip(columns, result.cards):
+        for column, card in zip(
+            columns,
+            result.cards,
+        ):
             with column:
-                st.markdown(f"### {card['label']}")
-                st.write(card["answer"])
-                st.caption(card["note"])
+                st.markdown(
+                    f"### {card['label']}"
+                )
+                st.write(
+                    card["answer"]
+                )
+                st.caption(
+                    card["note"]
+                )
 
         st.markdown(
             "</div>",
@@ -1900,24 +2424,40 @@ def render_results(
         )
 
 
-def render_glossary(text: Dict[str, str]):
-    with st.expander(text["glossary"]):
-        st.info(text["warning_terms"])
+def render_glossary(
+    text: Dict[str, str],
+):
+    with st.expander(
+        text["glossary"],
+        expanded=True,
+    ):
+        st.info(
+            text["warning_terms"]
+        )
 
         for term, data in GLOSSARY.items():
-            st.markdown(f"### {term}")
+            st.markdown(
+                f"### {term}"
+            )
+
             st.markdown(
                 f"**{text['definition']}:** "
                 f"{data['definition']}"
             )
+
             st.markdown(
                 f"**{text['example']}:** "
                 f"{data['example']}"
             )
 
 
-def render_countries(text: Dict[str, str]):
-    with st.expander(text["countries"]):
+def render_countries(
+    text: Dict[str, str],
+):
+    with st.expander(
+        text["countries"],
+        expanded=True,
+    ):
         st.caption(
             "المذكور هو الغالب أو الأبرز تاريخيًا، "
             "وليس بالضرورة نظامًا قانونيًا حصريًا."
@@ -1931,25 +2471,38 @@ def render_countries(text: Dict[str, str]):
             )
 
 
-def render_rules(text: Dict[str, str]):
-    with st.expander(text["rules"]):
+def render_rules(
+    text: Dict[str, str],
+):
+    with st.expander(
+        text["rules"],
+        expanded=True,
+    ):
         for rule in FIQH_RULES:
-            with st.expander(rule["title"]):
+            with st.expander(
+                rule["title"]
+            ):
                 st.markdown(
                     f"**{text['definition']}:** "
                     f"{rule['definition']}"
                 )
+
                 st.markdown(
                     f"**{text['example']}:** "
                     f"{rule['example']}"
                 )
 
 
-def render_comments(text: Dict[str, str]):
+def render_comments(
+    text: Dict[str, str],
+):
     if "comments" not in st.session_state:
         st.session_state.comments = []
 
-    with st.expander(text["comments"]):
+    with st.expander(
+        text["comments"],
+        expanded=False,
+    ):
         rating = st.slider(
             text["rating"],
             min_value=1,
@@ -1973,17 +2526,27 @@ def render_comments(text: Dict[str, str]):
                     "comment": comment.strip(),
                     "time": utc_now_iso(),
                 })
-                st.success(text["comment_saved"])
-            else:
-                st.warning(text["no_question"])
 
-        for item in reversed(st.session_state.comments):
+                st.success(
+                    text["comment_saved"]
+                )
+            else:
+                st.warning(
+                    text["no_question"]
+                )
+
+        for item in reversed(
+            st.session_state.comments
+        ):
             st.markdown(
-                f"⭐ {item['rating']}/5 — {item['comment']}"
+                f"⭐ {item['rating']}/5 — "
+                f"{item['comment']}"
             )
 
 
-def is_admin(text: Dict[str, str]) -> bool:
+def is_admin(
+    text: Dict[str, str],
+) -> bool:
     if not ADMIN_PASSWORD:
         st.warning(
             "ADMIN_PASSWORD غير مضبوط في secrets.toml"
@@ -2005,19 +2568,29 @@ def render_reference_admin(
     references: ReferenceManager,
     text: Dict[str, str],
 ):
-    with st.expander(text["reference_management"]):
+    with st.expander(
+        text["reference_management"],
+        expanded=False,
+    ):
         if not is_admin(text):
-            st.info(text["admin_denied"])
+            st.info(
+                text["admin_denied"]
+            )
             return
 
-        st.write(text["reference_intro"])
+        st.write(
+            text["reference_intro"]
+        )
 
         title = st.text_input(
             text["source_title"],
             key="reference_title",
         )
 
-        madhab_options = [""] + list(MADHHAB_NAMES.keys())
+        madhab_options = [
+            "",
+            *MADHHAB_NAMES.keys(),
+        ]
 
         madhab_tag = st.selectbox(
             text["source_madhab"],
@@ -2054,14 +2627,20 @@ def render_reference_admin(
             key="add_reference_button",
         ):
             if not title.strip() or not raw_text.strip():
-                st.warning(text["reference_empty"])
+                st.warning(
+                    text["reference_empty"]
+                )
                 return
 
             if not ai.available:
-                st.error(text["reference_failed"])
+                st.error(
+                    text["reference_failed"]
+                )
                 return
 
-            with st.spinner(text["ai_generating"]):
+            with st.spinner(
+                text["ai_generating"]
+            ):
                 added = references.add_document(
                     title,
                     madhab_tag,
@@ -2076,17 +2655,25 @@ def render_reference_admin(
                     )
                 )
             else:
-                st.error(text["reference_failed"])
+                st.error(
+                    text["reference_failed"]
+                )
 
-        st.markdown(f"### {text['indexed_sources']}")
+        st.markdown(
+            f"### {text['indexed_sources']}"
+        )
 
         sources = db.list_reference_sources()
 
         if not sources:
-            st.info(text["no_sources"])
+            st.info(
+                text["no_sources"]
+            )
         else:
             for source, count in sources:
-                st.write(f"📖 {source}: {count}")
+                st.write(
+                    f"📖 {source}: {count}"
+                )
 
 
 def render_search(
@@ -2115,14 +2702,20 @@ def render_search(
         return
 
     if not question.strip():
-        st.warning(text["no_question"])
+        st.warning(
+            text["no_question"]
+        )
         return
 
     if not madhabs:
-        st.warning(text["no_madhab"])
+        st.warning(
+            text["no_madhab"]
+        )
         return
 
-    with st.spinner(text["ai_generating"]):
+    with st.spinner(
+        text["ai_generating"]
+    ):
         results, understanding = search.search(
             query=question,
             topic_filter=topic,
@@ -2144,7 +2737,9 @@ def render_search(
     )
 
     if chunks and ai.available:
-        with st.spinner(text["ai_generating"]):
+        with st.spinner(
+            text["ai_generating"]
+        ):
             answers = ai.answer_from_references(
                 question=question,
                 madhabs=madhabs,
@@ -2153,7 +2748,9 @@ def render_search(
             )
 
         if answers:
-            st.warning(text["ai_disclaimer"])
+            st.warning(
+                text["ai_disclaimer"]
+            )
 
             source_names = sorted({
                 chunk["source_title"]
@@ -2166,8 +2763,12 @@ def render_search(
                     unsafe_allow_html=True,
                 )
 
-                st.subheader(MADHHAB_NAMES[code]["ar"])
+                st.subheader(
+                    MADHHAB_NAMES[code]["ar"]
+                )
+
                 st.write(answer)
+
                 st.caption(
                     text["rag_badge"].format(
                         ", ".join(source_names)
@@ -2181,11 +2782,53 @@ def render_search(
 
             return
 
-    st.warning(text["no_results"])
+    # مسار Gemini الاحتياطي
+    if ai.available:
+        with st.spinner(
+            text["ai_generating"]
+        ):
+            fallback_answers = (
+                ai.generate_fallback_answer(
+                    question=question,
+                    madhabs=madhabs,
+                    level=level,
+                )
+            )
+
+        if fallback_answers:
+            st.warning(
+                text["ai_disclaimer"]
+            )
+
+            for code, answer in fallback_answers.items():
+                st.markdown(
+                    '<div class="result-card" dir="rtl">',
+                    unsafe_allow_html=True,
+                )
+
+                st.subheader(
+                    MADHHAB_NAMES[code]["ar"]
+                )
+
+                st.write(answer)
+                st.caption(
+                    text["ai_badge"]
+                )
+
+                st.markdown(
+                    "</div>",
+                    unsafe_allow_html=True,
+                )
+
+            return
+
+    st.warning(
+        text["no_results"]
+    )
 
 
 # ============================================================
-# Main
+# التشغيل الرئيسي
 # ============================================================
 
 def main():
@@ -2199,7 +2842,9 @@ def main():
     db, ai, search, references = get_services()
 
     with st.sidebar:
-        st.header(text["choose_madhab"])
+        st.header(
+            text["choose_madhab"]
+        )
 
         madhabs = render_madhab_selector(
             language,
@@ -2215,19 +2860,25 @@ def main():
 
         st.divider()
 
-        level = render_level_selector(text)
+        level = render_level_selector(
+            text,
+        )
 
         st.divider()
 
         if ai.available:
-            st.success("Gemini AI: مفعّل")
+            st.success(
+                "Gemini AI: مفعّل"
+            )
         else:
             st.warning(
                 "Gemini AI: غير مفعّل — "
                 "سيعمل البحث المحلي فقط"
             )
 
-    st.markdown(f"## {text['write_question']}")
+    st.markdown(
+        f"## {text['write_question']}"
+    )
 
     render_search(
         db=db,
