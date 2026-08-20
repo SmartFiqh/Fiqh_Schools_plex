@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-import csv
 import datetime as dt
 import hashlib
-import io
 import json
 import logging
 import os
@@ -30,7 +28,7 @@ st.set_page_config(
 
 
 # ============================================================
-# الإعدادات
+# الإعدادات العامة
 # ============================================================
 
 logging.basicConfig(level=logging.INFO)
@@ -60,7 +58,10 @@ except ImportError:
     GENAI_AVAILABLE = False
 
 
-def get_secret(name: str, default: str = "") -> str:
+def get_secret(
+    name: str,
+    default: str = "",
+) -> str:
     try:
         value = st.secrets.get(name)
 
@@ -94,7 +95,7 @@ if USE_GEMINI:
 
 
 # ============================================================
-# اللغات
+# اللغات والاتجاهات
 # ============================================================
 
 LANGUAGE_META = {
@@ -102,31 +103,37 @@ LANGUAGE_META = {
         "label": "العربية",
         "flag": "🇪🇬",
         "direction": "rtl",
+        "text_align": "right",
     },
     "en": {
         "label": "English",
         "flag": "🇬🇧",
         "direction": "ltr",
+        "text_align": "left",
     },
     "fr": {
         "label": "Français",
         "flag": "🇫🇷",
         "direction": "ltr",
+        "text_align": "left",
     },
     "fa": {
         "label": "فارسی",
         "flag": "🇮🇷",
         "direction": "rtl",
+        "text_align": "right",
     },
     "ms": {
         "label": "Melayu",
         "flag": "🇲🇾",
         "direction": "ltr",
+        "text_align": "left",
     },
     "ur": {
         "label": "اردو",
         "flag": "🇵🇰",
         "direction": "rtl",
+        "text_align": "right",
     },
 }
 
@@ -209,6 +216,9 @@ UI = {
         "admin_missing": (
             "ADMIN_PASSWORD غير مضبوط في Secrets."
         ),
+        "test_gemini": "اختبار اتصال Gemini",
+        "test_success": "تم الاتصال بنجاح: {}",
+        "test_failed": "تعذر الاتصال بـ Gemini.",
     },
     "en": {
         "app_title": "The Concise Compendium of Madhhab Opinions",
@@ -295,6 +305,9 @@ UI = {
         "admin_missing": (
             "ADMIN_PASSWORD is not configured in Secrets."
         ),
+        "test_gemini": "Test Gemini connection",
+        "test_success": "Connection successful: {}",
+        "test_failed": "Gemini connection failed.",
     },
     "fr": {
         "app_title": (
@@ -383,9 +396,11 @@ UI = {
         "admin_missing": (
             "ADMIN_PASSWORD n’est pas configuré."
         ),
+        "test_gemini": "Tester Gemini",
+        "test_success": "Connexion réussie : {}",
+        "test_failed": "La connexion Gemini a échoué.",
     },
 }
-
 
 UI["fa"] = {
     **UI["en"],
@@ -455,8 +470,10 @@ UI["fa"] = {
     "admin_missing": (
         "ADMIN_PASSWORD در Secrets تنظیم نشده است."
     ),
+    "test_gemini": "آزمون اتصال Gemini",
+    "test_success": "اتصال موفق بود: {}",
+    "test_failed": "اتصال به Gemini ناموفق بود.",
 }
-
 
 UI["ms"] = {
     **UI["en"],
@@ -534,8 +551,10 @@ UI["ms"] = {
     "admin_missing": (
         "ADMIN_PASSWORD belum ditetapkan."
     ),
+    "test_gemini": "Uji sambungan Gemini",
+    "test_success": "Sambungan berjaya: {}",
+    "test_failed": "Sambungan Gemini gagal.",
 }
-
 
 UI["ur"] = {
     **UI["en"],
@@ -641,11 +660,14 @@ UI["ur"] = {
     "admin_missing": (
         "ADMIN_PASSWORD سیٹ نہیں کیا گیا۔"
     ),
+    "test_gemini": "Gemini کنکشن ٹیسٹ",
+    "test_success": "کنکشن کامیاب: {}",
+    "test_failed": "Gemini کنکشن ناکام۔",
 }
 
 
 # ============================================================
-# أسماء المذاهب والموضوعات
+# المذاهب والموضوعات
 # ============================================================
 
 MADHHAB_NAMES = {
@@ -753,7 +775,7 @@ TOPICS = {
 
 
 # ============================================================
-# المصطلحات الفقهية المترجمة
+# المصطلحات
 # ============================================================
 
 GLOSSARY = {
@@ -769,10 +791,10 @@ GLOSSARY = {
         "definition": {
             "ar": "ما أذن الشرع في فعله، ولا يترتب على فعله إثم من حيث الأصل.",
             "en": "What Islamic law permits; doing it is not sinful in principle.",
-            "fr": "Ce que la loi islamique permet; son accomplissement n’est pas pécheur en principe.",
-            "fa": "آنچه شرع انجام آن را اجازه داده و در اصل گناهی بر آن مترتب نیست.",
-            "ms": "Perkara yang dibenarkan syarak dan tidak berdosa pada asalnya.",
-            "ur": "جسے شریعت نے جائز قرار دیا ہو اور اصولاً اس کے کرنے پر گناہ نہ ہو۔",
+            "fr": "Ce que la loi islamique permet en principe.",
+            "fa": "آنچه شرع انجام آن را اجازه داده است.",
+            "ms": "Perkara yang dibenarkan syarak.",
+            "ur": "جسے شریعت نے جائز قرار دیا ہو۔",
         },
         "example": {
             "ar": "الأكل من الطعام الطيب المباح.",
@@ -794,11 +816,11 @@ GLOSSARY = {
         },
         "definition": {
             "ar": "ما خيّر الشارع المكلّف بين فعله وتركه، فلا مدح ولا ذم لذاته.",
-            "en": "An act for which the Lawgiver gives a choice between doing and leaving it.",
-            "fr": "Un acte entre lequel la personne est libre de choisir.",
-            "fa": "کاری که شارع میان انجام دادن و ترک آن اختیار داده است.",
-            "ms": "Perkara yang seseorang diberi pilihan untuk melakukan atau meninggalkannya.",
-            "ur": "جس کے کرنے یا نہ کرنے میں شریعت نے اختیار دیا ہو۔",
+            "en": "An act left to the person's choice.",
+            "fr": "Un acte laissé au libre choix de la personne.",
+            "fa": "کاری که انجام یا ترک آن به اختیار مکلف گذاشته شده است.",
+            "ms": "Perkara yang boleh dilakukan atau ditinggalkan.",
+            "ur": "جس کے کرنے یا نہ کرنے میں اختیار ہو۔",
         },
         "example": {
             "ar": "اختيار لون الثوب المباح.",
@@ -820,10 +842,10 @@ GLOSSARY = {
         },
         "definition": {
             "ar": "ما طلب الشرع تركه طلبًا جازمًا، ويأثم المكلّف بفعله مع العلم والقصد.",
-            "en": "What Islamic law definitively prohibits; knowingly doing it is sinful.",
-            "fr": "Ce que la loi islamique interdit de manière catégorique.",
-            "fa": "آنچه شرع به طور قطعی از آن نهی کرده است.",
-            "ms": "Perkara yang dilarang secara tegas oleh syarak.",
+            "en": "What Islamic law definitively prohibits.",
+            "fr": "Ce que la loi islamique interdit catégoriquement.",
+            "fa": "آنچه شرع به‌طور قطعی از آن نهی کرده است.",
+            "ms": "Perkara yang dilarang secara tegas.",
             "ur": "جسے شریعت نے قطعی طور پر منع کیا ہو۔",
         },
         "example": {
@@ -831,7 +853,7 @@ GLOSSARY = {
             "en": "Theft and consuming people's wealth unjustly.",
             "fr": "Le vol et l’appropriation injuste des biens.",
             "fa": "دزدی و خوردن مال مردم به ناحق.",
-            "ms": "Mencuri dan mengambil harta orang secara batil.",
+            "ms": "Mencuri dan mengambil harta secara batil.",
             "ur": "چوری اور لوگوں کا مال ناحق کھانا۔",
         },
     },
@@ -846,19 +868,19 @@ GLOSSARY = {
         },
         "definition": {
             "ar": "ما طلب الشرع تركه لا على سبيل الإلزام؛ فتركه أفضل.",
-            "en": "What Islamic law discourages without making avoidance strictly obligatory.",
+            "en": "What Islamic law discourages without strict prohibition.",
             "fr": "Ce que la loi déconseille sans l’interdire catégoriquement.",
             "fa": "آنچه شرع ترک آن را بدون الزام توصیه کرده است.",
-            "ms": "Perkara yang tidak digalakkan syarak tanpa larangan tegas.",
-            "ur": "جسے شریعت نے ناپسند کیا ہو مگر قطعی طور پر حرام نہ کیا ہو۔",
+            "ms": "Perkara yang tidak digalakkan tanpa larangan tegas.",
+            "ur": "جسے شریعت نے ناپسند کیا مگر قطعی حرام نہ کیا ہو۔",
         },
         "example": {
             "ar": "فعل يكره في العبادة دون أن يبطلها.",
             "en": "An act disliked in worship without invalidating it.",
-            "fr": "Un acte déconseillé dans l’adoration sans l’annuler.",
-            "fa": "کاری مکروه در عبادت که آن را باطل نمی‌کند.",
-            "ms": "Perbuatan makruh dalam ibadah tetapi tidak membatalkannya.",
-            "ur": "عبادت میں ایسا ناپسندیدہ عمل جو عبادت کو باطل نہ کرے۔",
+            "fr": "Un acte déconseillé qui n’annule pas l’adoration.",
+            "fa": "کاری مکروه که عبادت را باطل نمی‌کند.",
+            "ms": "Perbuatan makruh yang tidak membatalkan ibadah.",
+            "ur": "عبادت میں ناپسندیدہ مگر غیر مبطل عمل۔",
         },
     },
     "الواجب": {
@@ -872,11 +894,11 @@ GLOSSARY = {
         },
         "definition": {
             "ar": "ما طلب الشرع فعله طلبًا جازمًا، ويأثم المكلّف بتركه بلا عذر.",
-            "en": "What Islamic law demands decisively; leaving it without excuse is sinful.",
+            "en": "What Islamic law demands decisively.",
             "fr": "Ce que la loi exige de manière catégorique.",
-            "fa": "آنچه شرع انجام آن را به صورت قطعی طلب کرده است.",
-            "ms": "Perkara yang diwajibkan secara tegas oleh syarak.",
-            "ur": "جسے شریعت نے لازم قرار دیا ہو اور بلا عذر چھوڑنے پر گناہ ہو۔",
+            "fa": "آنچه شرع انجام آن را قطعی طلب کرده است.",
+            "ms": "Perkara yang diwajibkan secara tegas.",
+            "ur": "جسے شریعت نے لازم قرار دیا ہو۔",
         },
         "example": {
             "ar": "أداء الصلاة المفروضة في وقتها.",
@@ -898,7 +920,7 @@ GLOSSARY = {
         },
         "definition": {
             "ar": "ما ثبت طلبه بدليل قطعي عند من يفرّق بين الفرض والواجب.",
-            "en": "An obligation established by definitive evidence in terminology that distinguishes fard from wajib.",
+            "en": "An obligation established by definitive evidence.",
             "fr": "Une obligation établie par une preuve définitive.",
             "fa": "واجبی که با دلیل قطعی ثابت شده باشد.",
             "ms": "Kewajipan yang ditetapkan dengan dalil qat‘i.",
@@ -925,15 +947,15 @@ GLOSSARY = {
         "definition": {
             "ar": "واجب إذا قام به عدد كافٍ سقط الإثم عن الباقين.",
             "en": "A communal obligation fulfilled when enough people perform it.",
-            "fr": "Une obligation communautaire accomplie par un nombre suffisant de personnes.",
-            "fa": "واجبی که با انجام گروهی کافی، از دیگران ساقط می‌شود.",
-            "ms": "Kewajipan kolektif yang gugur daripada orang lain apabila dilakukan oleh sebahagian yang mencukupi.",
+            "fr": "Une obligation communautaire accomplie par un nombre suffisant.",
+            "fa": "واجبی که با انجام گروهی کافی از دیگران ساقط می‌شود.",
+            "ms": "Kewajipan kolektif yang gugur apabila dilakukan oleh sebahagian yang mencukupi.",
             "ur": "ایسا اجتماعی فرض جسے کافی لوگ ادا کر دیں تو دوسروں سے ساقط ہو جائے۔",
         },
         "example": {
             "ar": "تجهيز الميت والصلاة عليه في الجملة.",
             "en": "Preparing and praying over the deceased.",
-            "fr": "La préparation et la prière funéraire pour le défunt.",
+            "fr": "La préparation et la prière funéraire du défunt.",
             "fa": "تجهیز و نماز میت.",
             "ms": "Menguruskan jenazah dan solat jenazah.",
             "ur": "میت کو غسل دینا اور نماز جنازہ پڑھنا۔",
@@ -950,11 +972,11 @@ GLOSSARY = {
         },
         "definition": {
             "ar": "ما طلب الشرع فعله طلبًا غير جازم؛ يثاب فاعله ولا يعاقب تاركه.",
-            "en": "A recommended act whose doer is rewarded and whose non-doer is not punished.",
+            "en": "A recommended act whose doer is rewarded.",
             "fr": "Un acte recommandé dont l’accomplissement est récompensé.",
             "fa": "کاری که انجام آن مستحب است و ترک آن مجازات ندارد.",
             "ms": "Perkara sunat yang diberi pahala apabila dilakukan.",
-            "ur": "ایسا عمل جس کے کرنے پر ثواب ہو اور چھوڑنے پر گناہ نہ ہو۔",
+            "ur": "جس کے کرنے پر ثواب ہو اور چھوڑنے پر گناہ نہ ہو۔",
         },
         "example": {
             "ar": "صدقة التطوع.",
@@ -976,10 +998,10 @@ GLOSSARY = {
         },
         "definition": {
             "ar": "ما رغب الشرع في فعله دون إلزام.",
-            "en": "An act encouraged by Islamic law without obligation.",
+            "en": "An act encouraged without obligation.",
             "fr": "Un acte encouragé sans être obligatoire.",
             "fa": "کاری که شرع به انجام آن ترغیب کرده ولی الزام نکرده است.",
-            "ms": "Perkara yang digalakkan syarak tanpa kewajipan.",
+            "ms": "Perkara yang digalakkan tanpa kewajipan.",
             "ur": "جس کے کرنے کی شریعت نے ترغیب دی ہو مگر لازم نہ کیا ہو۔",
         },
         "example": {
@@ -1040,14 +1062,14 @@ GLOSSARY = {
             "fr": "La prière du witr selon ceux qui la classent comme sunna confirmée.",
             "fa": "نماز وتر نزد کسانی که آن را سنت مؤکده می‌دانند.",
             "ms": "Solat witir menurut ulama yang menganggapnya sunnah muakkadah.",
-            "ur": "وتر کی نماز، ان علماء کے نزدیک جو اسے سنت مؤکدہ کہتے ہیں۔",
+            "ur": "وتر کی نماز ان علماء کے نزدیک جو اسے سنت مؤکدہ کہتے ہیں۔",
         },
     },
 }
 
 
 # ============================================================
-# القواعد المترجمة
+# القواعد
 # ============================================================
 
 FIQH_RULES = [
@@ -1062,7 +1084,7 @@ FIQH_RULES = [
         },
         "definition": {
             "ar": "تعتبر المقاصد والنيات في فهم الأفعال وترتيب آثارها الشرعية.",
-            "en": "Intentions and purposes are considered when determining legal effects.",
+            "en": "Intentions are considered when determining legal effects.",
             "fr": "Les intentions sont prises en compte pour déterminer les effets juridiques.",
             "fa": "نیت و هدف در تعیین آثار شرعی اعمال معتبر است.",
             "ms": "Niat dan tujuan diambil kira dalam menentukan hukum.",
@@ -1176,7 +1198,7 @@ FIQH_RULES = [
             "ar": "تحديد بعض صور النفقة بحسب عرف البلد.",
             "en": "Determining aspects of maintenance according to local custom.",
             "fr": "Déterminer certains aspects de la pension selon la coutume locale.",
-            "fa": "تعیین برخی مصارف نفقه بر اساس عرف محل.",
+            "fa": "تعیین برخی صور نفقه بر اساس عرف محل.",
             "ms": "Menentukan sebahagian nafkah berdasarkan adat setempat.",
             "ur": "نفقہ کی بعض صورتوں کا تعین مقامی عرف کے مطابق کرنا۔",
         },
@@ -1211,7 +1233,7 @@ FIQH_RULES = [
         "title": {
             "ar": "درء المفاسد مقدم على جلب المصالح",
             "en": "Preventing harm takes precedence over gaining benefit",
-            "fr": "Écarter les dommages prime sur l’obtention des intérêts",
+            "fr": "Écarter les dommages prime sur les intérêts",
             "fa": "دفع مفسده بر جلب منفعت مقدم است",
             "ms": "Menolak kemudaratan didahulukan daripada menarik manfaat",
             "ur": "مفاسد کو دور کرنا مصالح حاصل کرنے پر مقدم ہے",
@@ -1601,7 +1623,7 @@ FIQH_RULES = [
 
 
 # ============================================================
-# الدول المترجمة
+# الدول
 # ============================================================
 
 COUNTRIES = [
@@ -2773,7 +2795,10 @@ class DatabaseManager:
                 ORDER BY id
             """).fetchall()
 
-        return [dict(row) for row in rows]
+        return [
+            dict(row)
+            for row in rows
+        ]
 
     def count_reference_chunks(self) -> int:
         with self.connection() as conn:
@@ -2821,18 +2846,15 @@ class AIService:
             return None
 
         try:
-            config = types.GenerateContentConfig(
-                temperature=(
-                    0.15
-                    if json_mode
-                    else 0.25
-                ),
-                response_mime_type=(
-                    "application/json"
-                    if json_mode
-                    else "text/plain"
-                ),
-            )
+            if json_mode:
+                config = types.GenerateContentConfig(
+                    temperature=0.15,
+                    response_mime_type="application/json",
+                )
+            else:
+                config = types.GenerateContentConfig(
+                    temperature=0.25,
+                )
 
             response = gemini_client.models.generate_content(
                 model=GEMINI_MODEL,
@@ -2845,9 +2867,10 @@ class AIService:
 
             return response.text.strip()
 
-        except Exception:
+        except Exception as error:
             logger.exception(
-                "Gemini generation failed"
+                "Gemini request failed: %s",
+                error,
             )
             return None
 
@@ -2878,26 +2901,6 @@ class AIService:
                 "Gemini embedding failed"
             )
             return None
-
-    def embed_texts(
-        self,
-        texts: List[str],
-        task_type: str = "RETRIEVAL_DOCUMENT",
-    ) -> Optional[List[List[float]]]:
-        vectors = []
-
-        for text in texts:
-            vector = self.embed_text(
-                text,
-                task_type,
-            )
-
-            if vector is None:
-                return None
-
-            vectors.append(vector)
-
-        return vectors
 
     def understand_question(
         self,
@@ -3027,101 +3030,85 @@ class AIService:
             )
             return None
 
-    def answer_from_references(
+    def parse_text_answers(
         self,
-        question: str,
+        raw: str,
         madhabs: List[str],
-        level: str,
-        chunks: List[Dict[str, Any]],
-    ) -> Optional[Dict[str, str]]:
-        if not self.available or not chunks:
-            return None
-
-        newline = chr(10)
-        double_newline = newline + newline
-
-        context = double_newline.join(
-            f"[{index}] المصدر: "
-            f"{chunk['source_title']}"
-            f"{newline}{chunk['chunk_text']}"
-            for index, chunk in enumerate(
-                chunks,
-                start=1,
-            )
-        )
-
-        madhab_names = ", ".join(
-            f"{code}: "
-            f"{MADHHAB_NAMES[code]['ar']}"
-            for code in madhabs
-        )
-
-        detail = {
-            "very_short": "كلمة أو كلمتين",
-            "short": "سطر واحد",
-            "full": "فقرة قصيرة",
-        }.get(
-            level,
-            "سطر واحد",
-        )
-
-        required_keys = ", ".join(
-            f'"{code}": ""'
-            for code in madhabs
-        )
-
-        prompt = f"""
-أنت مساعد بحثي في الفقه الإسلامي، ولست مفتيًا.
-
-السؤال:
-{question}
-
-المذاهب:
-{madhab_names}
-
-النصوص المرجعية:
-{context}
-
-التعليمات:
-- استخدم النصوص المرجعية فقط.
-- لا تضف حكمًا غير موجود في النصوص.
-- اذكر رقم المقطع مثل [1].
-- مستوى الإجابة: {detail}.
-- أعد قيمة فارغة للمذهب الذي لا يوجد عنه نص.
-
-أعد JSON فقط:
-{{
-  {required_keys}
-}}
-"""
-
-        raw = self.generate(
-            prompt,
-            json_mode=True,
-        )
+    ) -> Dict[str, str]:
+        answers = {}
 
         if not raw:
-            return None
+            return answers
 
-        try:
-            data = json.loads(raw)
-            answers = {}
+        current_code = None
+        buffer = []
 
-            for code in madhabs:
-                answer = str(
-                    data.get(code, "")
-                ).strip()
+        name_to_code = {}
 
-                if answer:
-                    answers[code] = answer
+        for code in madhabs:
+            name_to_code[
+                MADHHAB_NAMES[code]["ar"]
+            ] = code
 
-            return answers or None
+            name_to_code[
+                MADHHAB_NAMES[code]["en"]
+            ] = code
 
-        except Exception:
-            logger.exception(
-                "Reference answer parsing failed"
+        for line in raw.splitlines():
+            line = line.strip()
+
+            if not line:
+                continue
+
+            detected_code = None
+
+            for name, code in name_to_code.items():
+                if (
+                    line.startswith(f"{name}:")
+                    or line.startswith(f"{name}：")
+                    or line.startswith(f"## {name}")
+                    or line.startswith(f"### {name}")
+                ):
+                    detected_code = code
+                    break
+
+            if detected_code:
+                if current_code and buffer:
+                    answers[current_code] = (
+                        " ".join(buffer).strip()
+                    )
+
+                current_code = detected_code
+                buffer = []
+
+                if ":" in line:
+                    buffer.append(
+                        line.split(
+                            ":",
+                            1,
+                        )[1].strip()
+                    )
+                elif "：" in line:
+                    buffer.append(
+                        line.split(
+                            "：",
+                            1,
+                        )[1].strip()
+                    )
+
+            elif current_code:
+                buffer.append(line)
+
+        if current_code and buffer:
+            answers[current_code] = (
+                " ".join(buffer).strip()
             )
-            return None
+
+        return {
+            code: answer
+            for code, answer in answers.items()
+            if answer
+        }
 
     def generate_fallback_answer(
         self,
@@ -3150,14 +3137,14 @@ class AIService:
             for code in madhabs
         )
 
-        required_keys = ", ".join(
-            f'"{code}": ""'
+        output_format = "\n".join(
+            f"{MADHHAB_NAMES[code]['ar']}: "
+            "اكتب الإجابة هنا"
             for code in madhabs
         )
 
         prompt = f"""
-أنت مساعد بحثي متخصص في عرض الآراء الفقهية.
-أنت لا تصدر فتوى شخصية ولا تدعي القطع عند وجود اختلاف.
+أنت مساعد بحثي في الفقه الإسلامي، ولست مفتيًا.
 
 السؤال:
 {question}
@@ -3167,64 +3154,118 @@ class AIService:
 
 التعليمات:
 - أجب عن السؤال نفسه.
-- لا تجب عن سؤال عام قريب منه.
-- اذكر الرأي المشهور أو المعتمد قدر الإمكان.
-- بيّن وجود الاختلاف إذا كان مؤثرًا.
+- اذكر الرأي الفقهي المعروف باختصار.
+- إذا وجد اختلاف معتبر، اذكره بوضوح.
 - لا تخترع مصادر أو نصوصًا.
-- لا تقل إن الحكم موحد إذا اختلفت المذاهب.
+- لا تقدم الإجابة كفتوى شخصية.
 - مستوى التفصيل: {detail}.
 - اكتب بالعربية.
-- أعد JSON صالحًا فقط.
-- أعد مفتاحًا لكل مذهب مطلوب.
+- لا تستخدم JSON.
+- لا تستخدم Markdown.
+- لا تضف مقدمة أو خاتمة.
 
-الشكل المطلوب:
-{{
-  {required_keys}
-}}
+استخدم هذا الشكل:
+{output_format}
 """
 
         raw = self.generate(
             prompt,
-            json_mode=True,
+            json_mode=False,
         )
 
         if not raw:
             logger.warning(
-                "Gemini returned empty fallback answer"
+                "Gemini returned empty text answer"
             )
             return None
 
-        try:
-            data = json.loads(raw)
-            answers = {}
+        answers = self.parse_text_answers(
+            raw,
+            madhabs,
+        )
 
-            for code in madhabs:
-                answer = data.get(code, "")
-
-                if isinstance(answer, dict):
-                    answer = answer.get(
-                        "answer",
-                        "",
-                    )
-
-                answer = str(answer).strip()
-
-                if answer:
-                    answers[code] = answer
-
-            if not answers:
-                logger.warning(
-                    "Gemini JSON contained no requested keys"
-                )
-                return None
-
+        if answers:
             return answers
 
-        except json.JSONDecodeError:
-            logger.exception(
-                "Fallback answer was not valid JSON"
-            )
+        if len(madhabs) == 1:
+            return {
+                madhabs[0]: raw.strip()
+            }
+
+        return None
+
+    def answer_from_references(
+        self,
+        question: str,
+        madhabs: List[str],
+        level: str,
+        chunks: List[Dict[str, Any]],
+    ) -> Optional[Dict[str, str]]:
+        if not self.available or not chunks:
             return None
+
+        newline = chr(10)
+        double_newline = newline + newline
+
+        context = double_newline.join(
+            f"[{index}] {chunk['source_title']}"
+            f"{newline}{chunk['chunk_text']}"
+            for index, chunk in enumerate(
+                chunks,
+                start=1,
+            )
+        )
+
+        detail = {
+            "very_short": "كلمة أو كلمتين",
+            "short": "سطر واحد",
+            "full": "فقرة قصيرة",
+        }.get(
+            level,
+            "سطر واحد",
+        )
+
+        labels = "\n".join(
+            f"{MADHHAB_NAMES[code]['ar']}: "
+            "اكتب الإجابة هنا"
+            for code in madhabs
+        )
+
+        prompt = f"""
+أنت مساعد بحثي في الفقه الإسلامي، ولست مفتيًا.
+
+السؤال:
+{question}
+
+المراجع:
+{context}
+
+التعليمات:
+- استخدم المراجع فقط.
+- لا تضف معلومات غير موجودة فيها.
+- اذكر رقم المرجع مثل [1].
+- مستوى التفصيل: {detail}.
+- اكتب بالعربية.
+- لا تستخدم JSON.
+- استخدم هذا الشكل:
+
+{labels}
+"""
+
+        raw = self.generate(
+            prompt,
+            json_mode=False,
+        )
+
+        if not raw:
+            return None
+
+        answers = self.parse_text_answers(
+            raw,
+            madhabs,
+        )
+
+        return answers or None
 
 
 # ============================================================
@@ -3294,13 +3335,18 @@ class ReferenceManager:
         if not chunks:
             return 0
 
-        embeddings = self.ai.embed_texts(
-            chunks,
-            task_type="RETRIEVAL_DOCUMENT",
-        )
+        embeddings = []
 
-        if embeddings is None:
-            return -1
+        for chunk in chunks:
+            embedding = self.ai.embed_text(
+                chunk,
+                task_type="RETRIEVAL_DOCUMENT",
+            )
+
+            if embedding is None:
+                return -1
+
+            embeddings.append(embedding)
 
         added = 0
 
@@ -3653,10 +3699,7 @@ class SearchService:
                 results.append(
                     SearchResult(
                         title=issue.title,
-                        topic=TOPICS.get(
-                            issue.topic,
-                            TOPICS["other"],
-                        )["ar"],
+                        topic=issue.topic,
                         cards=cards,
                     )
                 )
@@ -3693,19 +3736,49 @@ def get_services():
     )
 
 
-def inject_css():
-    st.markdown(
-        """
-        <style>
-        [data-testid="stAppViewContainer"] {
-            background: #f8fafc;
-        }
+def inject_css(lang: str):
+    meta = LANGUAGE_META[lang]
+    direction = meta["direction"]
+    text_align = meta["text_align"]
 
-        .app-header {
+    st.markdown(
+        f"""
+        <style>
+        :root {{
+            --page-direction: {direction};
+            --page-align: {text_align};
+        }}
+
+        [data-testid="stAppViewContainer"] {{
+            background: #f8fafc;
+        }}
+
+        [data-testid="stAppViewContainer"] .main {{
+            direction: {direction};
+            text-align: {text_align};
+        }}
+
+        [data-testid="stSidebar"] {{
+            direction: {direction};
+            text-align: {text_align};
+        }}
+
+        [data-testid="stSidebar"] * {{
+            text-align: {text_align};
+        }}
+
+        [data-testid="stHeader"] {{
+            direction: {direction};
+        }}
+
+        .app-header {{
+            direction: {direction};
             display: flex;
             align-items: center;
+            justify-content: center;
+            text-align: center;
             gap: 1rem;
-            padding: 1.5rem;
+            padding: 1.8rem 1.5rem;
             margin: .5rem 0 1.2rem;
             border-radius: 1.25rem;
             color: white;
@@ -3716,52 +3789,67 @@ def inject_css():
             );
             box-shadow: 0 12px 30px
                 rgba(15, 23, 42, .15);
-        }
+        }}
 
-        .brand-mark {
-            width: 4.2rem;
-            height: 4.2rem;
+        .app-header-content {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }}
+
+        .brand-mark {{
+            width: 4.5rem;
+            height: 4.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 1.1rem;
-            background: rgba(255, 255, 255, .17);
-            font-size: 2.3rem;
-        }
+            border-radius: 1.2rem;
+            background: rgba(255, 255, 255, .18);
+            font-size: 2.5rem;
+        }}
 
-        .brand-title {
-            font-size: clamp(1.35rem, 3vw, 2.15rem);
+        .brand-title {{
+            margin-top: .8rem;
+            font-size: clamp(1.35rem, 3vw, 2.2rem);
             font-weight: 800;
-            line-height: 1.3;
-        }
+            line-height: 1.35;
+            text-align: center;
+        }}
 
-        .brand-subtitle {
-            margin-top: .35rem;
+        .brand-subtitle {{
+            max-width: 850px;
+            margin-top: .45rem;
             opacity: .92;
-            line-height: 1.7;
-        }
+            line-height: 1.8;
+            text-align: center;
+        }}
 
-        .language-title {
+        .language-title {{
+            direction: ltr;
             text-align: center;
             color: #64748b;
             font-size: .85rem;
             margin-bottom: .35rem;
-        }
+        }}
 
-        div[data-testid="stHorizontalBlock"] button {
+        div[data-testid="stHorizontalBlock"] button {{
             border-radius: 999px;
             min-height: 2.3rem;
-        }
+        }}
 
-        div[data-baseweb="tag"] {
+        div[data-baseweb="tag"] {{
             margin: 3px !important;
             padding: 4px 8px !important;
             border-radius: 999px !important;
             background: #dbeafe !important;
             color: #1e3a8a !important;
-        }
+        }}
 
-        .result-card {
+        .result-card {{
+            direction: {direction};
+            text-align: {text_align};
             padding: 1rem;
             margin: .7rem 0;
             border: 1px solid #e2e8f0;
@@ -3769,12 +3857,42 @@ def inject_css():
             background: white;
             box-shadow: 0 4px 12px
                 rgba(15, 23, 42, .05);
-        }
+        }}
 
-        .muted {
+        .muted {{
             color: #64748b;
             font-size: .88rem;
-        }
+        }}
+
+        div[data-testid="stExpander"] {{
+            direction: {direction};
+            text-align: {text_align};
+        }}
+
+        div[data-testid="stExpander"] summary {{
+            direction: {direction};
+            text-align: {text_align};
+        }}
+
+        textarea, input {{
+            direction: {direction} !important;
+            text-align: {text_align} !important;
+        }}
+
+        [data-baseweb="select"] {{
+            direction: {direction};
+            text-align: {text_align};
+        }}
+
+        [data-baseweb="popover"] {{
+            direction: {direction};
+            text-align: {text_align};
+        }}
+
+        .section-title {{
+            direction: {direction};
+            text-align: {text_align};
+        }}
         </style>
         """,
         unsafe_allow_html=True,
@@ -3832,8 +3950,8 @@ def render_header(lang: str):
         f"""
         <div class="app-header"
              dir="{meta['direction']}">
-            <div class="brand-mark">📚</div>
-            <div>
+            <div class="app-header-content">
+                <div class="brand-mark">📚</div>
                 <div class="brand-title">
                     {text["app_title"]}
                 </div>
@@ -3966,23 +4084,21 @@ def render_results(
             )
 
     for result in results:
+        topic_label = TOPICS.get(
+            result.topic,
+            TOPICS["other"],
+        ).get(
+            lang,
+            TOPICS["other"]["ar"],
+        )
+
         st.markdown(
-            '<div class="result-card" dir="rtl">',
+            '<div class="result-card">',
             unsafe_allow_html=True,
         )
 
         st.subheader(result.title)
-        st.caption(
-            TOPICS.get(
-                result.topic,
-                TOPICS["other"],
-            ).get(
-                lang,
-                result.topic,
-            )
-            if isinstance(result.topic, dict)
-            else result.topic
-        )
+        st.caption(topic_label)
 
         columns = st.columns(
             len(result.cards)
@@ -3993,12 +4109,22 @@ def render_results(
             result.cards,
         ):
             with column:
-                st.markdown(
-                    f"### {card['label']}"
+                label = MADHHAB_NAMES.get(
+                    card.get("code", ""),
+                    {},
+                ).get(
+                    lang,
+                    card.get("label", ""),
                 )
+
+                st.markdown(
+                    f"### {label or card['label']}"
+                )
+
                 st.write(
                     card["answer"]
                 )
+
                 st.caption(
                     card["note"]
                 )
@@ -4021,9 +4147,7 @@ def render_glossary(
             text["warning_terms"]
         )
 
-        for index, data in enumerate(
-            GLOSSARY.values()
-        ):
+        for data in GLOSSARY.values():
             label = data["label"].get(
                 lang,
                 data["label"]["ar"],
@@ -4066,9 +4190,7 @@ def render_countries(
             text["country_note"]
         )
 
-        for index, item in enumerate(
-            COUNTRIES
-        ):
+        for item in COUNTRIES:
             country = item["country"].get(
                 lang,
                 item["country"]["ar"],
@@ -4100,9 +4222,7 @@ def render_rules(
         text["rules"],
         expanded=False,
     ):
-        for index, rule in enumerate(
-            FIQH_RULES
-        ):
+        for rule in FIQH_RULES:
             title = rule["title"].get(
                 lang,
                 rule["title"]["ar"],
@@ -4134,6 +4254,7 @@ def render_rules(
 
 
 def render_comments(
+    lang: str,
     text: Dict[str, str],
 ):
     if "comments" not in st.session_state:
@@ -4320,6 +4441,41 @@ def render_reference_admin(
                 )
 
 
+def render_gemini_test(
+    ai: AIService,
+    text: Dict[str, str],
+):
+    with st.expander(
+        text["test_gemini"],
+        expanded=False,
+    ):
+        if not ai.available:
+            st.warning(
+                text["ai_status_off"]
+            )
+            return
+
+        if st.button(
+            text["test_gemini"],
+            key="test_gemini_button",
+        ):
+            response = ai.generate(
+                "Reply with exactly: GEMINI_OK",
+                json_mode=False,
+            )
+
+            if response:
+                st.success(
+                    text["test_success"].format(
+                        response
+                    )
+                )
+            else:
+                st.error(
+                    text["test_failed"]
+                )
+
+
 def render_search(
     db: DatabaseManager,
     ai: AIService,
@@ -4377,10 +4533,13 @@ def render_search(
         )
         return
 
-    chunks = references.retrieve_relevant_chunks(
-        query=question,
-        madhabs=madhabs,
-    )
+    chunks = []
+
+    if db.count_reference_chunks() > 0:
+        chunks = references.retrieve_relevant_chunks(
+            query=question,
+            madhabs=madhabs,
+        )
 
     if chunks and ai.available:
         with st.spinner(
@@ -4405,7 +4564,7 @@ def render_search(
 
             for code, answer in answers.items():
                 st.markdown(
-                    '<div class="result-card" dir="rtl">',
+                    '<div class="result-card">',
                     unsafe_allow_html=True,
                 )
 
@@ -4449,7 +4608,7 @@ def render_search(
 
             for code, answer in fallback_answers.items():
                 st.markdown(
-                    '<div class="result-card" dir="rtl">',
+                    '<div class="result-card">',
                     unsafe_allow_html=True,
                 )
 
@@ -4477,13 +4636,14 @@ def render_search(
 
 
 # ============================================================
-# التشغيل
+# التشغيل الرئيسي
 # ============================================================
 
 def main():
-    inject_css()
-
     lang = render_language_bar()
+
+    inject_css(lang)
+
     text = UI[lang]
 
     render_header(lang)
@@ -4525,7 +4685,10 @@ def main():
             )
 
     st.markdown(
-        f"## {text['write_question']}"
+        f'<div class="section-title">'
+        f"<h2>{text['write_question']}</h2>"
+        f"</div>",
+        unsafe_allow_html=True,
     )
 
     render_search(
@@ -4556,6 +4719,7 @@ def main():
     )
 
     render_comments(
+        lang,
         text,
     )
 
@@ -4565,6 +4729,11 @@ def main():
         references=references,
         lang=lang,
         text=text,
+    )
+
+    render_gemini_test(
+        ai,
+        text,
     )
 
 
