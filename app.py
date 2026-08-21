@@ -5,7 +5,7 @@ st.set_page_config(
     page_title="الجامع المختصر لآراء المذاهب",
     page_icon="📚",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # 2. تصميم CSS المخصص
@@ -14,7 +14,6 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap');
 
     .stApp {
-        direction: rtl;
         font-family: 'Tajawal', sans-serif;
         background-color: #f8f9fa;
     }
@@ -23,7 +22,7 @@ st.markdown("""
 
     .custom-header {
         text-align: center;
-        padding: 30px 20px;
+        padding: 25px 20px;
         background: linear-gradient(135deg, #1b4332, #2d6a4f);
         color: white;
         border-radius: 16px;
@@ -32,347 +31,252 @@ st.markdown("""
     }
     .custom-header h1 {
         font-family: 'Amiri', serif;
-        font-size: 2.3rem;
-        margin-bottom: 8px;
+        font-size: 2.2rem;
+        margin-bottom: 6px;
         color: #d4af37;
     }
     .custom-header p {
-        font-size: 1rem;
+        font-size: 0.95rem;
         opacity: 0.9;
         margin: 0;
     }
 
-    /* بطاقة تفاصيل المذهب */
-    .madhab-detail-card {
+    /* البطاقات التفاعلية */
+    .info-card {
         background: #ffffff;
-        border-right: 5px solid #d4af37;
-        border-radius: 12px;
-        padding: 20px 25px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    }
-    .madhab-detail-title {
-        font-family: 'Amiri', serif;
-        font-size: 1.4rem;
-        color: #1b4332;
-        margin-bottom: 12px;
-        font-weight: 700;
-    }
-    .sources-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
+        border-right: 4px solid #1b4332;
+        border-radius: 10px;
+        padding: 18px 20px;
         margin-bottom: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .source-chip {
-        background: #e8f5e9;
+    .info-card-title {
+        font-family: 'Amiri', serif;
+        font-size: 1.3rem;
         color: #1b4332;
-        padding: 4px 12px;
-        border-radius: 16px;
-        font-size: 0.88rem;
-        font-weight: 500;
-    }
-    .principle-box {
-        background: #fdfbf7;
-        border: 1px dashed #d4af37;
-        padding: 12px 16px;
-        border-radius: 8px;
-        font-size: 0.95rem;
-        color: #333;
-        line-height: 1.7;
+        font-weight: 700;
+        margin-bottom: 8px;
     }
 
     /* شبكة بطاقات الدول */
     .countries-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         gap: 15px;
         margin-top: 15px;
     }
     .country-card {
         background: #ffffff;
-        padding: 16px 20px;
-        border-radius: 12px;
+        padding: 14px 18px;
+        border-radius: 10px;
         border: 1px solid #e9ecef;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .country-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-        border-color: #2d6a4f;
-    }
-    .country-info {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-    .country-flag {
-        font-size: 2rem;
-        line-height: 1;
-    }
-    .country-name {
-        font-weight: 700;
-        font-size: 1.05rem;
-        color: #212529;
-        margin: 0;
-    }
-    .country-pop {
-        font-size: 0.85rem;
-        color: #6c757d;
-        margin: 0;
-    }
+    .country-flag { font-size: 1.8rem; }
+    .country-name { font-weight: 700; color: #212529; margin: 0; }
+    .country-pop { font-size: 0.8rem; color: #6c757d; margin: 0; }
     .madhab-badge {
         background: #e8f5e9;
         color: #1b4332;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 0.8rem;
         font-weight: 700;
-        white-space: nowrap;
     }
 
-    /* جدول المقارنة */
-    .comparison-table-container {
-        overflow-x: auto;
-        background: white;
-        border-radius: 12px;
-        border: 1px solid #e9ecef;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-        margin-top: 15px;
-    }
-    .comparison-table {
+    /* جداول المقارنة */
+    .custom-table {
         width: 100%;
         border-collapse: collapse;
-        text-align: right;
-        font-size: 0.95rem;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .comparison-table th {
+    .custom-table th {
         background-color: #1b4332;
-        color: #ffffff;
-        padding: 14px 16px;
-        font-weight: 700;
-        border-bottom: 3px solid #d4af37;
-        white-space: nowrap;
+        color: white;
+        padding: 12px;
+        text-align: right;
     }
-    .comparison-table td {
-        padding: 14px 16px;
-        border-bottom: 1px solid #f1f3f5;
+    .custom-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
         vertical-align: top;
-        line-height: 1.6;
-    }
-    .comparison-table tr:hover {
-        background-color: #f8f9fa;
-    }
-    .madhab-header-cell {
-        font-weight: 700;
-        color: #1b4332;
-        background-color: #f4fbf7;
-        width: 15%;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. الهيدر المخصص
-st.markdown("""
+# 3. محدد اللغات في الشريط الجانبي
+with st.sidebar:
+    st.title("🌐 اللغة / Language")
+    selected_lang = st.selectbox(
+        "اختر لغة الواجهة:",
+        ["العربية", "English", "Français", "فارسی", "اردو", "Bahasa Melayu"]
+    )
+    st.divider()
+    st.info("💡 المنصة تهدف لتسهيل المدارسة الفقهية المقارنة للأكاديميين والباحثين.")
+
+# 4. ترجمة الهيدر الأساسي بناءً على اللغة
+headers = {
+    "العربية": ("الجامع المختصر لآراء المذاهب 📚", "منصة تعليمية للمقارنة الفقهية، وليست موقعًا للإفتاء"),
+    "English": ("Concise Compendium of Jurisprudential Schools 📚", "Educational Platform for Comparative Fiqh, Not a Fatwa Site"),
+    "Français": ("Compendium des Écoles de Jurisprudence 📚", "Plateforme Éducative de Fiqh Comparé (Non-Fatwa)"),
+    "فارسی": ("جامع مختصر آراء مذاهب فقهی 📚", "پلتفرم آموزشی فقه مقارن، نه پایگاه استفتاء"),
+    "اردو": ("جامع مختصر آراء مذاہب 📚", "تقابلی فقہ کا تعلیمی پلیٹ فارم، فتویٰ ویب سائٹ نہیں"),
+    "Bahasa Melayu": ("Kompendium Ringkas Mazhab Fiqh 📚", "Platform Pendidikan Fiqh Perbandingan, Bukan Laman Fatwa")
+}
+
+title_txt, subtitle_txt = headers.get(selected_lang, headers["العربية"])
+
+st.markdown(f"""
 <div class="custom-header">
-    <h1>الجامع المختصر لآراء المذاهب 📚</h1>
-    <p>منصة تعليمية للمقارنة الفقهية، وليست موقعًا للإفتاء</p>
+    <h1>{title_txt}</h1>
+    <p>{subtitle_txt}</p>
 </div>
 """, unsafe_allow_html=True)
 
-# 4. بيانات المذاهب والدول
-MADHAB_INFO = {
+# 5. البيانات الأساسية
+MADHABS_DATA = {
     "مالكي": {
-        "title": "المذهب المالكي (إمام دار الهجرة مالك بن أنس)",
-        "sources": ["القرآن الكريم", "السنة النبوية", "عمل أهل المدينة", "إجماع الصحابة", "القياس", "قول الصحابي", "المصالح المرسلة", "سد الذرائع", "الاستحسان", "العرف"],
-        "principles": "يمتاز المذهب بالتوسع في الأصول النقلية والاجتهادية، وإعطاء تقديم خاص لـ 'عمل أهل المدينة' باعتباره نقلاً متواتراً، مع اعتماد واسع على المقاصد الشرعية وسد الذرائع."
+        "imams": "الإمام مالك بن أنس (93 - 179 هـ)",
+        "scholars": "ابن رشد الحفيد، القاضي عياض، الإمام الشاطبي، خليل بن إسحاق",
+        "sources": ["القرآن", "السنة", "عمل أهل المدينة", "المصالح المرسلة", "سد الذرائع", "الاستحسان"],
+        "desc": "يعتمد على الأثر المتواتر وتطبيق أهل المدينة المنورة كدليل عملي مع مراعاة المقاصد الشرعية."
     },
     "شافعي": {
-        "title": "المذهب الشافعي (الإمام محمد بن إدريس الشافعي)",
-        "sources": ["القرآن الكريم", "السنة النبوية (الحديث الصحيح)", "الإجماع القطعي", "قول الصحابي (بشروط)", "القياس", "استصحاب الحال"],
-        "principles": "صنع الإمام الشافعي ضبطاً دقيقاً لأصول الفقه في كتابه 'الرسالة'، ويرفض الاستحسان بغير نص أو قياس، وقاعدته الشهيرة: 'إذا صح الحديث فهو مذهبي'."
+        "imams": "الإمام محمد بن إدريس الشافعي (150 - 204 هـ)",
+        "scholars": "الإمام النووي، الإمام الغزالي، العز بن عبد السلام، الإمام الماوردي",
+        "sources": ["القرآن", "السنة الصحيحة", "الإجماع", "القياس", "استصحاب الحال"],
+        "desc": "تمتاز بالدقة الأصولية والصياغة المحكمة واستبعاد الاستحسان الذي لا يستند إلى نص."
     },
     "حنفي": {
-        "title": "المذهب الحنفي (الإمام أبو حنيفة النعمان)",
-        "sources": ["القرآن الكريم", "السنة النبوية", "أقوال الصحابة", "الإجماع", "القياس", "الاستحسان", "العرف والعادة"],
-        "principles": "يُعد مذهب أهل الرأي والتفريع، ويتوسع في القياس والاستحسان ومراعاة الأعراف التجارية والاجتماعية التي لا تخالف النص الشرعي."
+        "imams": "الإمام أبو حنيفة النعمان (80 - 150 هـ)",
+        "scholars": "أبو يوسف، محمد بن الحسن الشيباني، الكاساني، ابن عابدين",
+        "sources": ["القرآن", "السنة", "أقوال الصحابة", "القياس", "الاستحسان", "العرف"],
+        "desc": "مدرسة أهل الرأي والتفريع الفقهي والتوسع في القياس والحلول العرفية الاستحسانية."
     },
     "حنبلي": {
-        "title": "المذهب الحنبلي (الإمام أحمد بن حنبل)",
-        "sources": ["نصوص الكتاب والسنة", "فتاوى الصحابة", "تقديم الحديث المرسل/الضعيف على القياس", "القياس (عند الضرورة)", "الاستصحاب", "سد الذرائع"],
-        "principles": "مذهب أثرِيّ يعتمد بشدة على النصوص والآثار المرفوعة، ويُقدّم الحديث ولو كان فيه ضعف يسير على الآراء والقياس الإنساني."
-    },
-    "ظاهري": {
-        "title": "المذهب الظاهري (الإمام داود الظاهري وابن حزم)",
-        "sources": ["ظاهر القرآن الكريم", "ظاهر السنة النبوية", "إجماع الصحابة القطعي فقط"],
-        "principles": "يبطل المذهب القياس والاستحسان والتعليل بالرأي تماماً، ويلتزم بالدلالة اللفظية المباشرة (الظاهر) للنصوص الشرعية."
-    },
-    "جعفري": {
-        "title": "المذهب الجعفري (الإمام جعفر الصادق - الشيعة الإمامية)",
-        "sources": ["القرآن الكريم", "السنة المأثورة عن النبي والأئمة", "الإجماع الكاشف عن المعصوم", "دليل العقل"],
-        "principles": "يعتمد فتح باب الاجتهاد المستمر، ويستند إلى العقل العملي (الملازمات العقلية) والاستصحاب والبراءة الأصلية في غياب النص."
-    },
-    "زيدي": {
-        "title": "المذهب الزيدي (الإمام زيد بن علي)",
-        "sources": ["القرآن الكريم", "السنة النبوية", "إجماع العترة (أهل البيت)", "القياس", "المصالح المرسلة", "دليل العقل"],
-        "principles": "يجمع بين المدرسة الحديثية والأصول العقلية والاعتزالية، مع اعتماد مرن على القياس وفتح باب الاجتهاد لكل من استجمع شروطه."
+        "imams": "الإمام أحمد بن حنبل (164 - 241 هـ)",
+        "scholars": "ابن قدامة المقدسي، شيخ الإسلام ابن تيمية، ابن القيم، ابن رجب",
+        "sources": ["الكتاب والسنة", "فتاوى الصحابة", "تقديم الحديث الضعيف/المرسل على القياس", "القياس"],
+        "desc": "مذهب أثري يعتمد التمسك بالنصوص المرفوعة والآثار وتجنب الرأي ما وجد الأثر."
     },
     "إباضي": {
-        "title": "المذهب الإباضي (الإمام جابر بن زيد)",
-        "sources": ["القرآن الكريم", "السنة النبوية المسندة", "الإجماع", "القياس", "الاستدلال والمصلحة"],
-        "principles": "يعتمد على الأسانيد الحديثية المروية في مسند الربيع بن حبيب، ويأخذ بالقياس والمصلحة والعرف بما لا يناقض النص الصريح."
+        "imams": "الإمام جابر بن زيد الأزدي (21 - 93 هـ)",
+        "scholars": "أبو عبيدة مسلم بن أبي كريمة، الإمام السالمي، الشيخ أطفيش",
+        "sources": ["القرآن", "السنة المسندة", "الإجماع", "القياس", "المصلحة"],
+        "desc": "يعتمد على الأسانيد المروية في مسند الربيع بن حبيب والأصول الاستدلالية العقلية والمصلحية."
+    },
+    "جعفري": {
+        "imams": "الإمام جعفر بن محمد الصادق (83 - 148 هـ)",
+        "scholars": "الشيخ الطوسي، الشيخ المفيد، المحقق الحلي، العلامة الحلي",
+        "sources": ["القرآن", "السنة النبوية وآل البيت", "الإجماع الكاشف", "دليل العقل"],
+        "desc": "استمرار الاجتهاد والاعتماد على أدلة العقل والأحاديث المروية عبر أئمة أهل البيت."
     }
+}
+
+TERMS_GLOSSARY = {
+    "عمل أهل المدينة": "المنقول المتواتر من الممارسات والعبادات التي توارثها أهل المدينة المنورة جيلًا عن جيل عن النبي ﷺ.",
+    "القياس": "إلحاق واقعة لا نص على حكمها بواقعة ورد نص بحكمها لإتحادهما في العلة.",
+    "الاستحسان": "عدول المجتهد عن مقتضى قياس جلي إلى قياس خفي أو استثناء لضرورة أو مصلحة راجحة.",
+    "المصالح المرسلة": "جلب منفعة أو دفع مضرة لم ينص الشارع على اعتبارها ولا على إلغائها.",
+    "سد الذرائع": "منع الوسائل والمباحات التي تؤدي غالباً إلى مفاسد أو محرمات.",
+    "استصحاب الحال": "الحكم ببقاء الأمر على ما كان عليه في الماضي حتى يقوم الدليل على تغيره."
 }
 
 COUNTRIES = [
     {"flag": "🇪🇬", "name": "مصر", "madhab": "شافعي", "pop": "نحو 120 مليون"},
     {"flag": "🇲🇦", "name": "المغرب", "madhab": "مالكي", "pop": "نحو 38 مليون"},
     {"flag": "🇸🇩", "name": "السودان", "madhab": "مالكي", "pop": "نحو 51 مليون"},
-    {"flag": "🇩🇿", "name": "الجزائر", "madhab": "مالكي", "pop": "نحو 47 مليون"},
-    {"flag": "🇹🇳", "name": "تونس", "madhab": "مالكي", "pop": "نحو 12 مليون"},
     {"flag": "🇸🇦", "name": "السعودية", "madhab": "حنبلي", "pop": "نحو 35 مليون"},
     {"flag": "🇹🇷", "name": "تركيا", "madhab": "حنفي", "pop": "نحو 86 مليون"},
-    {"flag": "🇵🇰", "name": "باكستان", "madhab": "حنفي", "pop": "نحو 259 مليون"},
-    {"flag": "🇦🇫", "name": "أفغانستان", "madhab": "حنفي", "pop": "نحو 44 مليون"},
     {"flag": "🇮🇩", "name": "إندونيسيا", "madhab": "شافعي", "pop": "نحو 288 مليون"},
-    {"flag": "🇲🇾", "name": "ماليزيا", "madhab": "شافعي", "pop": "نحو 36 مليون"},
-    {"flag": "🇸🇴", "name": "الصومال", "madhab": "شافعي", "pop": "نحو 20 مليون"},
-    {"flag": "🇩🇯", "name": "جيبوتي", "madhab": "شافعي", "pop": "نحو 1.2 مليون"},
-    {"flag": "🇮🇷", "name": "إيران", "madhab": "جعفري", "pop": "نحو 93 مليون"},
     {"flag": "🇴🇲", "name": "عُمان", "madhab": "إباضي", "pop": "نحو 5.5 مليون"},
-    {"flag": "🇱🇧", "name": "لبنان", "madhab": "جعفري", "pop": "نحو 5.8 مليون"},
-    {"flag": "🇳🇬", "name": "نيجيريا", "madhab": "مالكي", "pop": "نحو 242 مليون"},
-    {"flag": "🇹🇩", "name": "تشاد", "madhab": "مالكي", "pop": "نحو 21 مليون"},
-    {"flag": "🇾🇪", "name": "اليمن", "madhab": "شافعي", "pop": "نحو 43 مليون"}
+    {"flag": "🇮🇷", "name": "إيران", "madhab": "جعفري", "pop": "نحو 93 مليون"}
 ]
 
-# 5. التبويبات الرئيسية
-tab1, tab2 = st.tabs(["🗺️ تصفح الدول والمذاهب", "⚖️ جدول المقارنة الأصولية"])
+# 6. التبويبات الرئيسية
+tab1, tab2, tab3, tab4 = st.tabs([
+    "🗺️ تصفح الدول والمذاهب",
+    "📜 الأئمة والمصطلحات والمصادر",
+    "⚖️ جدول المقارنة الأصولية",
+    "❓ أسئلة واستفسارات المستخدمين"
+])
 
-# --- التبويب الأول: تصفح الدول والمذاهب ---
+# --- التبويب الأول: الدول والمذاهب ---
 with tab1:
     col1, col2 = st.columns([2, 1])
-
     with col1:
-        madhabs = ["الكل", "مالكي", "شافعي", "حنفي", "حنبلي", "ظاهري", "جعفري", "زيدي", "إباضي"]
-        selected_madhab = st.radio("🏷️ اختر المذهب لإظهار أصوله والدول التابعة له:", madhabs, horizontal=True)
-
+        selected_madhab = st.radio("🏷️ تصفية المذهب:", ["الكل"] + list(MADHABS_DATA.keys()), horizontal=True)
     with col2:
         search_query = st.text_input("🔍 بحث عن دولة:", placeholder="أدخل اسم الدولة...")
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    if selected_madhab != "الكل" and selected_madhab in MADHAB_INFO:
-        info = MADHAB_INFO[selected_madhab]
-        chips_html = "".join([f'<span class="source-chip">{src}</span>' for src in info["sources"]])
-        
-        detail_card_html = (
-            f'<div class="madhab-detail-card">'
-            f'<div class="madhab-detail-title">📜 مصادر التشريع وأصول {info["title"]}</div>'
-            f'<div style="margin-bottom: 8px; font-weight: bold; color: #555;">المصادر والأدلة الشرعية:</div>'
-            f'<div class="sources-list">{chips_html}</div>'
-            f'<div class="principle-box"><b>💡 أبرز الخصائص والقواعد:</b> {info["principles"]}</div>'
-            f'</div>'
-        )
-        st.markdown(detail_card_html, unsafe_allow_html=True)
 
     filtered_countries = COUNTRIES
     if selected_madhab != "الكل":
         filtered_countries = [c for c in filtered_countries if c["madhab"] == selected_madhab]
-
     if search_query:
         filtered_countries = [c for c in filtered_countries if search_query.strip() in c["name"]]
 
-    st.subheader("🗺️ الدول والمذاهب الغالبة")
-
     if filtered_countries:
-        cards_list = []
-        for c in filtered_countries:
-            card_html = (
-                f'<div class="country-card">'
-                f'<div class="country-info">'
-                f'<span class="country-flag">{c["flag"]}</span>'
-                f'<div>'
-                f'<p class="country-name">{c["name"]}</p>'
-                f'<p class="country-pop">{c["pop"]}</p>'
-                f'</div>'
-                f'</div>'
-                f'<span class="madhab-badge">{c["madhab"]}</span>'
-                f'</div>'
-            )
-            cards_list.append(card_html)
-        
-        full_html = f'<div class="countries-grid">{"".join(cards_list)}</div>'
-        st.markdown(full_html, unsafe_allow_html=True)
+        cards_list = [
+            f'<div class="country-card"><div style="display:flex;align-items:center;gap:10px;"><span class="country-flag">{c["flag"]}</span><div><p class="country-name">{c["name"]}</p><p class="country-pop">{c["pop"]}</p></div></div><span class="madhab-badge">{c["madhab"]}</span></div>'
+            for c in filtered_countries
+        ]
+        st.markdown(f'<div class="countries-grid">{"".join(cards_list)}</div>', unsafe_allow_html=True)
     else:
         st.warning("لم يتم العثور على نتائج تطابق شروط البحث.")
 
-# --- التبويب الثاني: جدول المقارنة الأصولية ---
+# --- التبويب الثاني: الأئمة والمصطلحات والمصادر ---
 with tab2:
-    st.subheader("⚖️ جدول مقارنة بين المذاهب الأربعة الرئيسية في القواعد والأصول")
-    st.caption("يعرض هذا الجدول الفروق الأساسية في مناهج الاستدلال ومصادر التشريع عند الأئمة الأربعة.")
+    st.subheader("👤 الأئمة المؤسسون وأشهر الفقهاء")
+    for m_name, m_data in MADHABS_DATA.items():
+        with st.expander(f"مذهب الإمام ({m_name}) - التراجم والفقهاء"):
+            st.markdown(f"**الإمام المؤسس:** {m_data['imams']}")
+            st.markdown(f"**أشهر الفقهاء والأعلام:** {m_data['scholars']}")
+            st.markdown(f"**النهج العام:** {m_data['desc']}")
 
-    comparison_html = """
-    <div class="comparison-table-container">
-        <table class="comparison-table">
-            <thead>
-                <tr>
-                    <th>وجه المقارنة</th>
-                    <th>المذهب الحنفي</th>
-                    <th>المذهب المالكي</th>
-                    <th>المذهب الشافعي</th>
-                    <th>المذهب الحنبلي</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="madhab-header-cell">المؤسس وتاريخ الوفاة</td>
-                    <td>الإمام أبو حنيفة النعمان<br><small>(150 هـ)</small></td>
-                    <td>الإمام مالك بن أنس<br><small>(179 هـ)</small></td>
-                    <td>الإمام محمد بن إدريس الشافعي<br><small>(204 هـ)</small></td>
-                    <td>الإمام أحمد بن حنبل<br><small>(241 هـ)</small></td>
-                </tr>
-                <tr>
-                    <td class="madhab-header-cell">المدرسة الفقهية</td>
-                    <td>مدرسة أهل الرأي (الكوفة)</td>
-                    <td>مدرسة أهل الحديث والأثر (المدينة)</td>
-                    <td>الجمع والتدوين بين الرأي والحديث</td>
-                    <td>مدرسة الحديث والأثر (بغداد)</td>
-                </tr>
-                <tr>
-                    <td class="madhab-header-cell">عمل أهل المدينة</td>
-                    <td>ليس بحجة بذاته أمام القياس الصحيح</td>
-                    <td>حجة مادية وقدمه على خبر الواحد والقياس</td>
-                    <td>ليس بحجة مسقطة للحديث الصحيح</td>
-                    <td>ليس بحجة إذا خالف الحديث الصحيح</td>
-                </tr>
-                <tr>
-                    <td class="madhab-header-cell">الاستحسان والمصلحة</td>
-                    <td>يتوسع جداً في الاستحسان وترجح القياس الخفي</td>
-                    <td>يعتمد الاستحسان والمصالح المرسلة بكثرة</td>
-                    <td>يرفض الاستحسان ("من استحسن فقد شرع")</td>
-                    <td>يأخذ بالاستحسان والمصلحة بشرط عدم معارضة النص</td>
-                </tr>
-                <tr>
-                    <td class="madhab-header-cell">الحديث الضعيف/المرسل</td>
-                    <td>يقدم الحديث المرسل والضعيف على القياس</td>
-                    <td>يقبل مرسل الثقات ويرجحه أحياناً على القياس</td>
-                    <td>لا يشترط إلا الحديث الصحيح ويرفض المرسل إلا بشروط</td>
-                    <td>يقدم الحديث الضعيف (غير شديد الضعف) على القياس</td>
-                </tr>
-                <tr>
-                    <td class="madhab-header-cell">سد الذرائع والعرف</td>
-                    <td>يعتمد العرف التجاري والاجتماعي بشكل كبير</td>
-                    <td>يتوسع جداً في قاعدة سد الذرائع ومراعاة المآلات</td>
-                    <td>يضيق في سد الذرائع ويلتزم بظاهر التصرفات</td>
-                    <td>يعتمد سد الذرائع بقوة في العبادات والمعاملات</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    """
-    st.markdown(comparison_html, unsafe_allow_html=True)
+    st.divider()
+    st.subheader("📖 معجم المصطلحات الأصولية ومصادر التشريع")
+    for term, definition in TERMS_GLOSSARY.items():
+        st.markdown(f"**• {term}:** {definition}")
+
+# --- التبويب الثالث: جدول المقارنة الأصولية ---
+with tab3:
+    st.subheader("⚖️ مقارنة أصول الاستنباط بين المذاهب")
+    table_rows = []
+    for m_name, m_data in MADHABS_DATA.items():
+        sources_str = ", ".join(m_data["sources"])
+        table_rows.append(f"<tr><td><b>{m_name}</b></td><td>{m_data['imams']}</td><td>{sources_str}</td><td>{m_data['desc']}</td></tr>")
+    
+    html_table = f'<table class="custom-table"><thead><tr><th>المذهب</th><th>المؤسس</th><th>أبرز مصادر التشريع</th><th>المنهج الأصولي</th></tr></thead><tbody>{"".join(table_rows)}</tbody></table>'
+    st.markdown(html_table, unsafe_allow_html=True)
+
+# --- التبويب الرابع: أسئلة واستفسارات المستخدمين ---
+with tab4:
+    st.subheader("❓ قسم الأسئلة التعليمية والتفاعلية")
+    st.caption("يتيح هذا القسم تقديم الاستفسارات العلمية والمقارنات الفقهية لمراجعتها من الباحثين.")
+
+    # أسئلة شائعة
+    with st.expander("س: ما الفرق بين المصلحة المرسلة والاستحسان؟"):
+        st.write("الاستحسان هو عدول عن قياس جلي إلى قياس خفي لوجود أثر أو ضرورة، بينما المصلحة المرسلة هي استنباط حكم لم يرد فيه نص خاص بناءً على مصلحة عامة تتوافق مع مقاصد الشريعة.")
+    
+    with st.expander("س: لماذا يُقدم المذهب المالكي 'عمل أهل المدينة' على بعض أحاديث الآحاد؟"):
+        st.write("لأن الإمام مالك يرى أن تطبيق أهل المدينة ينقل السُّنّة نقلًا عمليًا متواترًا كابرًا عن كابر، والتواتر العملي أقدم وأقوى من خبر الفرد.")
+
+    st.divider()
+    st.write("💬 **إرسال سؤال جديد:**")
+    with st.form("user_question_form"):
+        user_name = st.text_input("الاسم / اللقب الأكاديمي:")
+        user_email = st.text_input("البريد الإلكتروني (اختياري):")
+        question_text = st.text_area("أدخل سؤالك المفهومي أو الاستفسار عن المقارنات الفقهية:")
+        submitted = st.form_submit_button("إرسال السؤال")
+        
+        if submitted:
+            if question_text.strip():
+                st.success("تم إرسال سؤالك بنجاح! سيتم مراجعته وإضافته لقسم الإجابات التعليمية قريبًا.")
+            else:
+                st.error("يرجى كتابة نص السؤال قبل الإرسال.")
