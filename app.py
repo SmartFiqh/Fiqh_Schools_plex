@@ -23,16 +23,16 @@ st.markdown("""
 
     .custom-header {
         text-align: center;
-        padding: 35px 20px;
+        padding: 30px 20px;
         background: linear-gradient(135deg, #1b4332, #2d6a4f);
         color: white;
         border-radius: 16px;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
     .custom-header h1 {
         font-family: 'Amiri', serif;
-        font-size: 2.5rem;
+        font-size: 2.3rem;
         margin-bottom: 8px;
         color: #d4af37;
     }
@@ -48,12 +48,12 @@ st.markdown("""
         border-right: 5px solid #d4af37;
         border-radius: 12px;
         padding: 20px 25px;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     }
     .madhab-detail-title {
         font-family: 'Amiri', serif;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         color: #1b4332;
         margin-bottom: 12px;
         font-weight: 700;
@@ -85,7 +85,7 @@ st.markdown("""
     /* شبكة بطاقات الدول */
     .countries-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
         gap: 15px;
         margin-top: 15px;
     }
@@ -134,6 +134,45 @@ st.markdown("""
         font-weight: 700;
         white-space: nowrap;
     }
+
+    /* جدول المقارنة */
+    .comparison-table-container {
+        overflow-x: auto;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        margin-top: 15px;
+    }
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: right;
+        font-size: 0.95rem;
+    }
+    .comparison-table th {
+        background-color: #1b4332;
+        color: #ffffff;
+        padding: 14px 16px;
+        font-weight: 700;
+        border-bottom: 3px solid #d4af37;
+        white-space: nowrap;
+    }
+    .comparison-table td {
+        padding: 14px 16px;
+        border-bottom: 1px solid #f1f3f5;
+        vertical-align: top;
+        line-height: 1.6;
+    }
+    .comparison-table tr:hover {
+        background-color: #f8f9fa;
+    }
+    .madhab-header-cell {
+        font-weight: 700;
+        color: #1b4332;
+        background-color: #f4fbf7;
+        width: 15%;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -145,7 +184,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 4. قواعد بيانات مصادر وتشريع المذاهب
+# 4. بيانات المذاهب والدول
 MADHAB_INFO = {
     "مالكي": {
         "title": "المذهب المالكي (إمام دار الهجرة مالك بن أنس)",
@@ -189,7 +228,6 @@ MADHAB_INFO = {
     }
 }
 
-# 5. قائمة الدول
 COUNTRIES = [
     {"flag": "🇪🇬", "name": "مصر", "madhab": "شافعي", "pop": "نحو 120 مليون"},
     {"flag": "🇲🇦", "name": "المغرب", "madhab": "مالكي", "pop": "نحو 38 مليون"},
@@ -212,61 +250,129 @@ COUNTRIES = [
     {"flag": "🇾🇪", "name": "اليمن", "madhab": "شافعي", "pop": "نحو 43 مليون"}
 ]
 
-# 6. عناصر التصفية
-col1, col2 = st.columns([2, 1])
+# 5. التبويبات الرئيسية
+tab1, tab2 = st.tabs(["🗺️ تصفح الدول والمذاهب", "⚖️ جدول المقارنة الأصولية"])
 
-with col1:
-    madhabs = ["الكل", "مالكي", "شافعي", "حنفي", "حنبلي", "ظاهري", "جعفري", "زيدي", "إباضي"]
-    selected_madhab = st.radio("🏷️ اختر المذهب لإظهار أصوله والدول التابعة له:", madhabs, horizontal=True)
+# --- التبويب الأول: تصفح الدول والمذاهب ---
+with tab1:
+    col1, col2 = st.columns([2, 1])
 
-with col2:
-    search_query = st.text_input("🔍 بحث عن دولة:", placeholder="أدخل اسم الدولة...")
+    with col1:
+        madhabs = ["الكل", "مالكي", "شافعي", "حنفي", "حنبلي", "ظاهري", "جعفري", "زيدي", "إباضي"]
+        selected_madhab = st.radio("🏷️ اختر المذهب لإظهار أصوله والدول التابعة له:", madhabs, horizontal=True)
 
-st.markdown("<br>", unsafe_allow_html=True)
+    with col2:
+        search_query = st.text_input("🔍 بحث عن دولة:", placeholder="أدخل اسم الدولة...")
 
-# 7. عرض قسم مصادر وقواعد المذهب المختار
-if selected_madhab != "الكل" and selected_madhab in MADHAB_INFO:
-    info = MADHAB_INFO[selected_madhab]
-    chips_html = "".join([f'<span class="source-chip">{src}</span>' for src in info["sources"]])
-    
-    detail_card_html = (
-        f'<div class="madhab-detail-card">'
-        f'<div class="madhab-detail-title">📜 مصادر التشريع وأصول {info["title"]}</div>'
-        f'<div style="margin-bottom: 8px; font-weight: bold; color: #555;">المصادر والأدلة الشرعية:</div>'
-        f'<div class="sources-list">{chips_html}</div>'
-        f'<div class="principle-box"><b>💡 أبرز الخصائص والقواعد:</b> {info["principles"]}</div>'
-        f'</div>'
-    )
-    st.markdown(detail_card_html, unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
 
-# 8. منطق التصفية وعرض البطاقات
-filtered_countries = COUNTRIES
-if selected_madhab != "الكل":
-    filtered_countries = [c for c in filtered_countries if c["madhab"] == selected_madhab]
-
-if search_query:
-    filtered_countries = [c for c in filtered_countries if search_query.strip() in c["name"]]
-
-st.subheader("🗺️ الدول والمذاهب الغالبة")
-
-if filtered_countries:
-    cards_list = []
-    for c in filtered_countries:
-        card_html = (
-            f'<div class="country-card">'
-            f'<div class="country-info">'
-            f'<span class="country-flag">{c["flag"]}</span>'
-            f'<div>'
-            f'<p class="country-name">{c["name"]}</p>'
-            f'<p class="country-pop">{c["pop"]}</p>'
-            f'</div>'
-            f'</div>'
-            f'<span class="madhab-badge">{c["madhab"]}</span>'
+    if selected_madhab != "الكل" and selected_madhab in MADHAB_INFO:
+        info = MADHAB_INFO[selected_madhab]
+        chips_html = "".join([f'<span class="source-chip">{src}</span>' for src in info["sources"]])
+        
+        detail_card_html = (
+            f'<div class="madhab-detail-card">'
+            f'<div class="madhab-detail-title">📜 مصادر التشريع وأصول {info["title"]}</div>'
+            f'<div style="margin-bottom: 8px; font-weight: bold; color: #555;">المصادر والأدلة الشرعية:</div>'
+            f'<div class="sources-list">{chips_html}</div>'
+            f'<div class="principle-box"><b>💡 أبرز الخصائص والقواعد:</b> {info["principles"]}</div>'
             f'</div>'
         )
-        cards_list.append(card_html)
-    
-    full_html = f'<div class="countries-grid">{"".join(cards_list)}</div>'
-    st.markdown(full_html, unsafe_allow_html=True)
-else:
-    st.warning("لم يتم العثور على نتائج تطابق شروط البحث.")
+        st.markdown(detail_card_html, unsafe_allow_html=True)
+
+    filtered_countries = COUNTRIES
+    if selected_madhab != "الكل":
+        filtered_countries = [c for c in filtered_countries if c["madhab"] == selected_madhab]
+
+    if search_query:
+        filtered_countries = [c for c in filtered_countries if search_query.strip() in c["name"]]
+
+    st.subheader("🗺️ الدول والمذاهب الغالبة")
+
+    if filtered_countries:
+        cards_list = []
+        for c in filtered_countries:
+            card_html = (
+                f'<div class="country-card">'
+                f'<div class="country-info">'
+                f'<span class="country-flag">{c["flag"]}</span>'
+                f'<div>'
+                f'<p class="country-name">{c["name"]}</p>'
+                f'<p class="country-pop">{c["pop"]}</p>'
+                f'</div>'
+                f'</div>'
+                f'<span class="madhab-badge">{c["madhab"]}</span>'
+                f'</div>'
+            )
+            cards_list.append(card_html)
+        
+        full_html = f'<div class="countries-grid">{"".join(cards_list)}</div>'
+        st.markdown(full_html, unsafe_allow_html=True)
+    else:
+        st.warning("لم يتم العثور على نتائج تطابق شروط البحث.")
+
+# --- التبويب الثاني: جدول المقارنة الأصولية ---
+with tab2:
+    st.subheader("⚖️ جدول مقارنة بين المذاهب الأربعة الرئيسية في القواعد والأصول")
+    st.caption("يعرض هذا الجدول الفروق الأساسية في مناهج الاستدلال ومصادر التشريع عند الأئمة الأربعة.")
+
+    comparison_html = """
+    <div class="comparison-table-container">
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>وجه المقارنة</th>
+                    <th>المذهب الحنفي</th>
+                    <th>المذهب المالكي</th>
+                    <th>المذهب الشافعي</th>
+                    <th>المذهب الحنبلي</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="madhab-header-cell">المؤسس وتاريخ الوفاة</td>
+                    <td>الإمام أبو حنيفة النعمان<br><small>(150 هـ)</small></td>
+                    <td>الإمام مالك بن أنس<br><small>(179 هـ)</small></td>
+                    <td>الإمام محمد بن إدريس الشافعي<br><small>(204 هـ)</small></td>
+                    <td>الإمام أحمد بن حنبل<br><small>(241 هـ)</small></td>
+                </tr>
+                <tr>
+                    <td class="madhab-header-cell">المدرسة الفقهية</td>
+                    <td>مدرسة أهل الرأي (الكوفة)</td>
+                    <td>مدرسة أهل الحديث والأثر (المدينة)</td>
+                    <td>الجمع والتدوين بين الرأي والحديث</td>
+                    <td>مدرسة الحديث والأثر (بغداد)</td>
+                </tr>
+                <tr>
+                    <td class="madhab-header-cell">عمل أهل المدينة</td>
+                    <td>ليس بحجة بذاته أمام القياس الصحيح</td>
+                    <td>حجة مادية وقدمه على خبر الواحد والقياس</td>
+                    <td>ليس بحجة مسقطة للحديث الصحيح</td>
+                    <td>ليس بحجة إذا خالف الحديث الصحيح</td>
+                </tr>
+                <tr>
+                    <td class="madhab-header-cell">الاستحسان والمصلحة</td>
+                    <td>يتوسع جداً في الاستحسان وترجح القياس الخفي</td>
+                    <td>يعتمد الاستحسان والمصالح المرسلة بكثرة</td>
+                    <td>يرفض الاستحسان ("من استحسن فقد شرع")</td>
+                    <td>يأخذ بالاستحسان والمصلحة بشرط عدم معارضة النص</td>
+                </tr>
+                <tr>
+                    <td class="madhab-header-cell">الحديث الضعيف/المرسل</td>
+                    <td>يقدم الحديث المرسل والضعيف على القياس</td>
+                    <td>يقبل مرسل الثقات ويرجحه أحياناً على القياس</td>
+                    <td>لا يشترط إلا الحديث الصحيح ويرفض المرسل إلا بشروط</td>
+                    <td>يقدم الحديث الضعيف (غير شديد الضعف) على القياس</td>
+                </tr>
+                <tr>
+                    <td class="madhab-header-cell">سد الذرائع والعرف</td>
+                    <td>يعتمد العرف التجاري والاجتماعي بشكل كبير</td>
+                    <td>يتوسع جداً في قاعدة سد الذرائع ومراعاة المآلات</td>
+                    <td>يضيق في سد الذرائع ويلتزم بظاهر التصرفات</td>
+                    <td>يعتمد سد الذرائع بقوة في العبادات والمعاملات</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    """
+    st.markdown(comparison_html, unsafe_allow_html=True)
