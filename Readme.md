@@ -1,75 +1,62 @@
-# Fiqh Schools 
+# 🕌📚 SmartFiqh
 
-منصة تعليمية لعرض ومقارنة الآراء الفقهية بين المذاهب، مع دعم البحث المحلي، وتحليل الأسئلة بواسطة Gemini، وإدارة المراجع النصية.
+## A Simple Guide to Fiqh Schools
 
-> هذا المشروع تعليمي وبحثي، وليس منصة لإصدار الفتاوى.
+SmartFiqh is an educational application that helps users explore and compare Islamic fiqh opinions across different schools of thought.
 
-## المزايا
+## App Idea
 
-- مقارنة آراء المذاهب الفقهية جنبًا إلى جنب.
-- دعم المذاهب:
-  - المالكي.
-  - الشافعي.
-  - الحنفي.
-  - الحنبلي.
-  - الظاهري.
-  - الجعفري.
-  - الزيدي.
-  - الإباضي.
-- دعم اللغات:
-  - العربية.
-  - الإنجليزية.
-  - الفرنسية.
-  - الفارسية.
-  - الملايوية.
-  - الأردية.
-- اتجاه تلقائي للكتابة:
-  - العربية والفارسية والأردية: من اليمين إلى اليسار.
-  - الإنجليزية والفرنسية والملايوية: من اليسار إلى اليمين.
-- ترويسة رئيسية وشعار في وسط الصفحة.
-- بحث محلي في قاعدة SQLite.
-- تحسين فهم السؤال باستخدام Gemini.
-- إجابة احتياطية من Gemini عند عدم وجود نتيجة محلية.
-- نظام RAG للبحث في المراجع المرفوعة.
-- قاموس للمصطلحات الفقهية.
-- عرض الدول والمذاهب الفقهية الغالبة.
-- عرض القواعد والأصول الفقهية مع التعريف والأمثلة.
-- أقسام قابلة للفتح والإغلاق.
-- إدارة المراجع للمشرفين فقط.
-- حفظ الملاحظات داخل جلسة المستخدم.
+The application presents fiqh topics in a clear and organized way, allowing users to:
 
-## تنبيه علمي
+- Choose one or more fiqh schools.
+- Ask questions about Islamic rulings.
+- Compare different opinions.
+- Explore important fiqh terminology.
+- Learn about fiqh principles and legal maxims.
+- Discover the prevailing schools in different countries.
+- Read information in multiple languages.
 
-الإجابات المعروضة في التطبيق ليست فتاوى شخصية.
+## Objectives
 
-قد تختلف الأحكام والتعريفات والتفصيلات بين:
+SmartFiqh aims to:
 
-- المذاهب.
-- الكتب المعتمدة.
-- الروايات داخل المذهب.
-- اختلاف ظروف المسألة.
-- اختلاف الأعراف والقوانين المحلية.
+- Make fiqh knowledge easier to access.
+- Present differences between schools respectfully.
+- Support learning and academic research.
+- Encourage understanding of Islamic legal diversity.
+- Provide clear and organized educational content.
+- Help users explore fiqh topics in a simple way.
 
-ينبغي مراجعة المسائل المهمة لدى عالم أو باحث متخصص، خصوصًا في:
+## Available Schools
 
-- الطلاق.
-- المواريث.
-- المعاملات المالية.
-- مسائل الأسرة.
-- النوازل الطبية.
-- المسائل التي يترتب عليها حق أو التزام.
+The application includes information about:
 
-## متطلبات التشغيل
+- Maliki.
+- Shafi'i.
+- Hanafi.
+- Hanbali.
+- Zahiri.
+- Ja'fari.
+- Zaidi.
+- Ibadi.
 
-- Python 3.10 أو أحدث.
-- Streamlit.
-- NumPy.
-- Google GenAI SDK.
-- Python-dotenv اختياريًا.
+## Available Languages
 
-## التثبيت
+SmartFiqh supports:
 
-أنشئ بيئة افتراضية:
+- Arabic.
+- English.
+- French.
+- Persian.
+- Malay.
+- Urdu.
 
-```bash
-python -m venv .venv
+## Important Notice
+
+SmartFiqh is an educational and research tool.
+
+It is not a fatwa service and does not replace qualified scholars or academic references. Users should consult specialists for personal, legal, financial, or sensitive religious matters.
+
+## Project Vision
+
+SmartFiqh seeks to promote accessible lear
