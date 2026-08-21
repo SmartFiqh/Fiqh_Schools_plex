@@ -9,21 +9,16 @@ import re
 import sqlite3
 from collections import OrderedDict
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 import streamlit as st
 
 
-# ============================================================
-# Configuration
-# ============================================================
-
 st.set_page_config(
     page_title="SmartFiqh",
     page_icon="📚",
     layout="wide",
-    initial_sidebar_state="expanded",
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -32,14 +27,6 @@ logger = logging.getLogger(__name__)
 DB_PATH = os.getenv("FIQH_DB_PATH", "fiqh.db")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "gemini-embedding-001")
-
-
-try:
-    from dotenv import load_dotenv
-
-    load_dotenv()
-except ImportError:
-    pass
 
 
 try:
@@ -53,7 +40,7 @@ except ImportError:
     GENAI_AVAILABLE = False
 
 
-def secret(name: str, default: str = "") -> str:
+def get_secret(name: str, default: str = "") -> str:
     try:
         value = st.secrets.get(name)
         if value:
@@ -64,38 +51,39 @@ def secret(name: str, default: str = "") -> str:
     return os.getenv(name, default)
 
 
-GEMINI_API_KEY = secret("GEMINI_API_KEY")
-ADMIN_PASSWORD = secret("ADMIN_PASSWORD")
+GEMINI_API_KEY = get_secret("GEMINI_API_KEY")
+ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD")
 
-USE_GEMINI = bool(GEMINI_API_KEY and GENAI_AVAILABLE)
+USE_GEMINI = bool(
+    GEMINI_API_KEY and GENAI_AVAILABLE
+)
+
 gemini_client = None
 
 if USE_GEMINI:
     try:
-        gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+        gemini_client = genai.Client(
+            api_key=GEMINI_API_KEY
+        )
     except Exception:
         USE_GEMINI = False
         logger.exception("Gemini initialization failed")
 
 
-# ============================================================
-# Languages and UI
-# ============================================================
-
 LANGS = {
-    "ar": ("العربية", "🇪🇬", "rtl", "right"),
-    "en": ("English", "🇬🇧", "ltr", "left"),
-    "fr": ("Français", "🇫🇷", "ltr", "left"),
-    "fa": ("فارسی", "🇮🇷", "rtl", "right"),
-    "ms": ("Melayu", "🇲🇾", "ltr", "left"),
-    "ur": ("اردو", "🇵🇰", "rtl", "right"),
+    "ar": ("العربية", "🇪🇬", "rtl"),
+    "en": ("English", "🇬🇧", "ltr"),
+    "fr": ("Français", "🇫🇷", "ltr"),
+    "fa": ("فارسی", "🇮🇷", "rtl"),
+    "ms": ("Melayu", "🇲🇾", "ltr"),
+    "ur": ("اردو", "🇵🇰", "rtl"),
 }
+
 
 UI = {
     "ar": {
         "title": "الجامع المختصر لآراء المذاهب",
         "subtitle": "منصة تعليمية للمقارنة الفقهية، وليست موقعًا للإفتاء.",
-        "madhab": "اختر المذهب",
         "madhabs": "اختر مذهبًا واحدًا أو أكثر",
         "topic": "اختر الموضوع",
         "all": "كل الموضوعات",
@@ -121,7 +109,6 @@ UI = {
         "references": "📁 إدارة المراجع — للمشرفين",
         "definition": "التعريف",
         "example": "مثال",
-        "note": "ملاحظة",
         "admin_password": "كلمة مرور المشرف",
         "access_denied": "لا تملك الصلاحية.",
         "comment": "اكتب ملاحظتك",
@@ -131,14 +118,12 @@ UI = {
         "source_title": "عنوان المصدر",
         "source_madhab": "المذهب",
         "source_text": "نص المرجع",
-        "source_file": "أو ارفع ملف TXT",
         "add": "إضافة المرجع",
         "added": "تمت إضافة {} مقاطع.",
     },
     "en": {
         "title": "The Concise Compendium of Madhhab Opinions",
         "subtitle": "An educational fiqh comparison platform, not a fatwa service.",
-        "madhab": "Choose a madhhab",
         "madhabs": "Choose one or more schools",
         "topic": "Choose a topic",
         "all": "All topics",
@@ -164,7 +149,6 @@ UI = {
         "references": "📁 Reference management — admins",
         "definition": "Definition",
         "example": "Example",
-        "note": "Note",
         "admin_password": "Admin password",
         "access_denied": "Access denied.",
         "comment": "Write your note",
@@ -174,14 +158,12 @@ UI = {
         "source_title": "Source title",
         "source_madhab": "Madhhab",
         "source_text": "Reference text",
-        "source_file": "Or upload a TXT file",
         "add": "Add reference",
         "added": "{} chunks were added.",
     },
     "fr": {
         "title": "Recueil concis des avis des écoles juridiques",
-        "subtitle": "Plateforme éducative de comparaison du fiqh, pas un service de fatwa.",
-        "madhab": "Choisir l’école",
+        "subtitle": "Plateforme éducative de comparaison du fiqh.",
         "madhabs": "Choisissez une ou plusieurs écoles",
         "topic": "Choisir le sujet",
         "all": "Tous les sujets",
@@ -207,7 +189,6 @@ UI = {
         "references": "📁 Gestion des références",
         "definition": "Définition",
         "example": "Exemple",
-        "note": "Note",
         "admin_password": "Mot de passe admin",
         "access_denied": "Accès refusé.",
         "comment": "Votre note",
@@ -217,7 +198,6 @@ UI = {
         "source_title": "Titre de la source",
         "source_madhab": "École",
         "source_text": "Texte de référence",
-        "source_file": "Ou fichier TXT",
         "add": "Ajouter",
         "added": "{} segments ajoutés.",
     },
@@ -227,10 +207,10 @@ UI = {
 for code in ("fa", "ms", "ur"):
     UI[code] = UI["en"].copy()
 
+
 UI["fa"].update({
     "title": "مجموعه مختصر دیدگاه‌های مذاهب فقهی",
     "subtitle": "سامانه‌ای آموزشی برای مقایسه دیدگاه‌های فقهی.",
-    "madhab": "مذهب را انتخاب کنید",
     "madhabs": "یک یا چند مذهب را انتخاب کنید",
     "topic": "موضوع را انتخاب کنید",
     "all": "همه موضوعات",
@@ -260,7 +240,6 @@ UI["fa"].update({
 UI["ms"].update({
     "title": "Himpunan Ringkas Pandangan Mazhab",
     "subtitle": "Platform pendidikan untuk perbandingan pandangan fiqh.",
-    "madhab": "Pilih mazhab",
     "madhabs": "Pilih satu atau lebih mazhab",
     "topic": "Pilih topik",
     "all": "Semua topik",
@@ -290,7 +269,6 @@ UI["ms"].update({
 UI["ur"].update({
     "title": "مذاہب فقہ کے مختصر آراء کا مجموعہ",
     "subtitle": "فقہی آراء کے تقابلی مطالعے کا تعلیمی پلیٹ فارم۔",
-    "madhab": "مسلک منتخب کریں",
     "madhabs": "ایک یا زیادہ مسالک منتخب کریں",
     "topic": "موضوع منتخب کریں",
     "all": "تمام موضوعات",
@@ -318,10 +296,6 @@ UI["ur"].update({
 })
 
 
-# ============================================================
-# Core data
-# ============================================================
-
 MADHABS = {
     "maliki": ("مالكي", "Maliki"),
     "shafii": ("شافعي", "Shafi'i"),
@@ -339,6 +313,7 @@ TOPICS = {
     "family": ("الأسرة", "Family"),
     "other": ("مواضيع أخرى", "Other topics"),
 }
+
 
 ISSUES = [
     {
@@ -359,7 +334,10 @@ ISSUES = [
     {
         "topic": "ibadat",
         "title": "العمرة",
-        "keywords": "عمرة العمرة عمره umrah umra omrah ihram tawaf sai",
+        "keywords": (
+            "عمرة العمرة عمره umrah umra omrah "
+            "ihram tawaf sai pilgrimage"
+        ),
         "rulings": {
             code: "تحتاج إلى تفصيل بحسب المذهب وشروط المسألة."
             for code in MADHABS
@@ -398,15 +376,6 @@ ISSUES = [
         "keywords": "ربا فائدة قرض مال زيادة riba interest loan",
         "rulings": {
             code: "الربا محرم في الجملة، وتفصيل الصور يحتاج إلى دراسة العقد."
-            for code in MADHABS
-        },
-    },
-    {
-        "topic": "family",
-        "title": "النفقة",
-        "keywords": "نفقة زوجة أولاد أسرة maintenance family",
-        "rulings": {
-            code: "تختلف تفاصيل النفقة بحسب القرابة والحاجة والعرف."
             for code in MADHABS
         },
     },
@@ -482,7 +451,7 @@ GLOSSARY = [
     ("الحرام", "Haram", "ما طلب الشرع تركه طلبًا جازمًا.", "What Islamic law definitively prohibits."),
     ("المكروه", "Disliked", "ما طلب الشرع تركه دون إلزام.", "What is discouraged without strict prohibition."),
     ("الواجب", "Wajib", "ما طلب الشرع فعله طلبًا جازمًا.", "What Islamic law demands decisively."),
-    ("الفرض", "Fard", "ما ثبت بدليل قطعي عند من يفرق بينه وبين الواجب.", "An obligation established by definitive evidence."),
+    ("الفرض", "Fard", "ما ثبت بدليل قطعي.", "An obligation established by definitive evidence."),
     ("فرض الكفاية", "Communal obligation", "واجب يسقط عن الباقين بقيام عدد كافٍ به.", "A communal obligation fulfilled by enough people."),
     ("المستحب", "Recommended", "ما يثاب فاعله ولا يعاقب تاركه.", "An act whose doer is rewarded."),
     ("المندوب", "Mandub", "ما رغب الشرع في فعله دون إلزام.", "An act encouraged without obligation."),
@@ -537,10 +506,6 @@ RULES = [
 ]
 
 
-# ============================================================
-# Models and helpers
-# ============================================================
-
 @dataclass
 class Issue:
     topic: str
@@ -549,22 +514,16 @@ class Issue:
     rulings: Dict[str, str]
 
 
-def now_iso() -> str:
-    return dt.datetime.now(dt.timezone.utc).isoformat()
+def normalize(text: str) -> str:
+    text = text.lower()
 
-
-def norm(text: str) -> str:
-    replacements = {
+    for old, new in {
         "أ": "ا",
         "إ": "ا",
         "آ": "ا",
         "ى": "ي",
         "ة": "ه",
-    }
-
-    text = text.lower()
-
-    for old, new in replacements.items():
+    }.items():
         text = text.replace(old, new)
 
     text = re.sub(r"[\u064B-\u065F\u0670]", "", text)
@@ -572,16 +531,11 @@ def norm(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def json_load(value: Any, default: Any = None) -> Any:
-    try:
-        return json.loads(value)
-    except Exception:
-        return default
+def timestamp() -> str:
+    return dt.datetime.now(
+        dt.timezone.utc
+    ).isoformat()
 
-
-# ============================================================
-# Database
-# ============================================================
 
 class Database:
     def __init__(self, path: str = DB_PATH):
@@ -611,13 +565,13 @@ class Database:
             """)
 
             db.execute("""
-                CREATE TABLE IF NOT EXISTS references (
+                CREATE TABLE IF NOT EXISTS reference_chunks (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     title TEXT NOT NULL,
                     madhab TEXT DEFAULT '',
                     text TEXT NOT NULL,
                     embedding TEXT NOT NULL,
-                    hash TEXT UNIQUE NOT NULL,
+                    content_hash TEXT UNIQUE NOT NULL,
                     created_at TEXT NOT NULL
                 )
             """)
@@ -671,9 +625,8 @@ class Database:
                 topic=row["topic"],
                 title=row["title"],
                 keywords=row["keywords"],
-                rulings=json_load(
-                    row["rulings"],
-                    {},
+                rulings=json.loads(
+                    row["rulings"]
                 ),
             )
             for row in rows
@@ -686,7 +639,7 @@ class Database:
         text: str,
         embedding: List[float],
     ) -> bool:
-        digest = hashlib.sha256(
+        content_hash = hashlib.sha256(
             f"{title}|{madhab}|{text}".encode()
         ).hexdigest()
 
@@ -694,8 +647,14 @@ class Database:
             try:
                 db.execute(
                     """
-                    INSERT INTO references
-                    (title, madhab, text, embedding, hash, created_at)
+                    INSERT INTO reference_chunks (
+                        title,
+                        madhab,
+                        text,
+                        embedding,
+                        content_hash,
+                        created_at
+                    )
                     VALUES (?, ?, ?, ?, ?, ?)
                     """,
                     (
@@ -703,8 +662,8 @@ class Database:
                         madhab,
                         text,
                         json.dumps(embedding),
-                        digest,
-                        now_iso(),
+                        content_hash,
+                        timestamp(),
                     ),
                 )
 
@@ -714,25 +673,15 @@ class Database:
             except sqlite3.IntegrityError:
                 return False
 
-    def references(self):
-        with self.conn() as db:
-            return [
-                dict(row)
-                for row in db.execute(
-                    "SELECT * FROM references"
-                ).fetchall()
-            ]
-
     def reference_count(self) -> int:
         with self.conn() as db:
             return db.execute(
-                "SELECT COUNT(*) FROM references"
+                """
+                SELECT COUNT(*)
+                FROM reference_chunks
+                """
             ).fetchone()[0]
 
-
-# ============================================================
-# Gemini
-# ============================================================
 
 class AI:
     def __init__(self):
@@ -768,32 +717,6 @@ class AI:
             )
             return None
 
-    def embed(
-        self,
-        text: str,
-        task_type: str = "RETRIEVAL_DOCUMENT",
-    ) -> Optional[List[float]]:
-        if not self.enabled:
-            return None
-
-        try:
-            response = gemini_client.models.embed_content(
-                model=EMBED_MODEL,
-                contents=text,
-                config=types.EmbedContentConfig(
-                    task_type=task_type,
-                    output_dimensionality=768,
-                ),
-            )
-
-            return response.embeddings[0].values
-
-        except Exception:
-            logger.exception(
-                "Embedding failed"
-            )
-            return None
-
     def answer(
         self,
         question: str,
@@ -807,9 +730,14 @@ class AI:
             "very_short": "one or two words",
             "short": "one line",
             "full": "three to five lines",
-        }.get(level, "one line")
+        }.get(
+            level,
+            "one line",
+        )
 
-        labels = chr(10).join(
+        newline = chr(10)
+
+        labels = newline.join(
             f"{MADHABS[code][1]}: write the answer"
             for code in madhabs
         )
@@ -824,13 +752,14 @@ Question:
 Requested schools:
 {", ".join(MADHABS[code][1] for code in madhabs)}
 
+Detail level:
+{detail}
+
 Instructions:
 - Answer the exact question.
 - Mention meaningful disagreement.
 - Do not invent sources.
-- Write in English if the question is English.
-- Use Arabic if the question is Arabic.
-- Detail level: {detail}.
+- Use English for English questions and Arabic for Arabic questions.
 - Do not use JSON.
 - Do not add an introduction or conclusion.
 
@@ -843,15 +772,15 @@ Use exactly this format:
         if not raw:
             return None
 
-        answers = {}
-        current = None
-        buffer = []
-
         names = {}
 
         for code in madhabs:
             names[MADHABS[code][0]] = code
             names[MADHABS[code][1]] = code
+
+        answers = {}
+        current = None
+        buffer = []
 
         for line in raw.splitlines():
             line = line.strip()
@@ -877,9 +806,19 @@ Use exactly this format:
                 buffer = []
 
                 if ":" in line:
-                    buffer.append(line.split(":", 1)[1].strip())
+                    buffer.append(
+                        line.split(
+                            ":",
+                            1,
+                        )[1].strip()
+                    )
                 elif "：" in line:
-                    buffer.append(line.split("：", 1)[1].strip())
+                    buffer.append(
+                        line.split(
+                            "：",
+                            1,
+                        )[1].strip()
+                    )
 
             elif current:
                 buffer.append(line)
@@ -891,17 +830,19 @@ Use exactly this format:
             return answers
 
         if len(madhabs) == 1:
-            return {madhabs[0]: raw}
+            return {
+                madhabs[0]: raw
+            }
 
         return None
 
 
-# ============================================================
-# Search and references
-# ============================================================
-
 class Search:
-    def __init__(self, db: Database, ai: AI):
+    def __init__(
+        self,
+        db: Database,
+        ai: AI,
+    ):
         self.db = db
         self.ai = ai
         self.cache = OrderedDict()
@@ -911,7 +852,7 @@ class Search:
         question: str,
         topic: str,
         madhabs: List[str],
-    ) -> List[Dict[str, Any]]:
+    ):
         key = "|".join([
             question,
             topic,
@@ -921,11 +862,11 @@ class Search:
         if key in self.cache:
             return self.cache[key]
 
-        query = norm(question)
-        results = []
+        query = normalize(question)
+        matches = []
 
         for issue in self.db.issues(topic):
-            pool = norm(
+            pool = normalize(
                 " ".join([
                     issue.title,
                     issue.keywords,
@@ -939,60 +880,51 @@ class Search:
             )
 
             if score:
-                results.append(
+                matches.append(
                     (
                         score,
                         issue,
                     )
                 )
 
-        results.sort(
+        matches.sort(
             key=lambda item: item[0],
             reverse=True,
         )
 
-        output = []
+        result = []
 
-        for _, issue in results[:5]:
-            cards = []
-
-            for code in madhabs:
-                cards.append({
-                    "code": code,
-                    "answer": issue.rulings.get(
-                        code,
-                        "No detailed ruling available.",
-                    ),
-                })
-
-            output.append({
+        for _, issue in matches[:5]:
+            result.append({
                 "title": issue.title,
                 "topic": issue.topic,
-                "cards": cards,
+                "cards": [
+                    {
+                        "code": code,
+                        "answer": issue.rulings.get(
+                            code,
+                            "No detailed ruling available.",
+                        ),
+                    }
+                    for code in madhabs
+                ],
             })
 
-        self.cache[key] = output
+        self.cache[key] = result
 
         while len(self.cache) > 200:
             self.cache.popitem(last=False)
 
-        return output
+        return result
 
 
-# ============================================================
-# UI components
-# ============================================================
-
-def css(lang: str):
-    _, _, direction, align = LANGS[lang]
+def apply_css(lang: str):
+    _, _, direction = LANGS[lang]
+    align = "right" if direction == "rtl" else "left"
 
     st.markdown(
         f"""
         <style>
-        [data-testid="stAppViewContainer"] {{
-            background: #f8fafc;
-        }}
-
         [data-testid="stAppViewContainer"] .main,
         [data-testid="stSidebar"] {{
             direction: {direction};
@@ -1007,7 +939,7 @@ def css(lang: str):
             direction: {direction};
             text-align: center;
             padding: 2rem 1rem;
-            margin: .5rem 0 1.5rem;
+            margin-bottom: 1.5rem;
             border-radius: 1.25rem;
             color: white;
             background: linear-gradient(
@@ -1015,8 +947,6 @@ def css(lang: str):
                 #0f766e,
                 #1d4ed8
             );
-            box-shadow: 0 12px 30px
-                rgba(15, 23, 42, .15);
         }}
 
         .logo {{
@@ -1032,7 +962,6 @@ def css(lang: str):
         .subtitle {{
             margin-top: .5rem;
             line-height: 1.8;
-            opacity: .92;
         }}
 
         textarea,
@@ -1061,19 +990,24 @@ def css(lang: str):
     )
 
 
-def language_bar() -> str:
+def language_bar():
     if "lang" not in st.session_state:
         st.session_state.lang = "ar"
 
-    columns = st.columns(len(LANGS))
+    columns = st.columns(
+        len(LANGS)
+    )
 
-    for column, code in zip(columns, LANGS):
+    for column, code in zip(
+        columns,
+        LANGS,
+    ):
         with column:
-            label, flag, _, _ = LANGS[code]
+            label, flag, _ = LANGS[code]
 
             if st.button(
                 f"{flag} {label}",
-                key=f"lang_{code}",
+                key=f"language_{code}",
                 use_container_width=True,
                 type=(
                     "primary"
@@ -1087,7 +1021,7 @@ def language_bar() -> str:
     return st.session_state.lang
 
 
-def header(lang: str):
+def render_header(lang: str):
     text = UI[lang]
 
     st.markdown(
@@ -1099,68 +1033,6 @@ def header(lang: str):
         </div>
         """,
         unsafe_allow_html=True,
-    )
-
-
-def select_madhabs(
-    lang: str,
-    text: Dict[str, str],
-) -> List[str]:
-    options = list(MADHABS.keys())
-
-    labels = {
-        code: MADHABS[code][
-            0 if lang != "en" else 1
-        ]
-        for code in options
-    }
-
-    return st.multiselect(
-        text["madhabs"],
-        options=options,
-        default=[
-            "maliki",
-            "shafii",
-            "hanafi",
-            "hanbali",
-        ],
-        format_func=lambda code: labels[code],
-    )
-
-
-def select_topic(
-    lang: str,
-    text: Dict[str, str],
-) -> str:
-    options = ["all", *TOPICS.keys()]
-
-    return st.selectbox(
-        text["topic"],
-        options=options,
-        format_func=lambda code: (
-            text["all"]
-            if code == "all"
-            else TOPICS[code][
-                0 if lang != "en" else 1
-            ]
-        ),
-    )
-
-
-def select_level(
-    text: Dict[str, str],
-) -> str:
-    values = {
-        "very_short": text["very_short"],
-        "short": text["short"],
-        "full": text["full"],
-    }
-
-    return st.radio(
-        text["level"],
-        options=list(values),
-        format_func=lambda code: values[code],
-        horizontal=True,
     )
 
 
@@ -1205,7 +1077,7 @@ def render_search(
 
     if results:
         for result in results:
-            topic_label = TOPICS[result["topic"]][
+            topic_name = TOPICS[result["topic"]][
                 0 if lang != "en" else 1
             ]
 
@@ -1215,7 +1087,7 @@ def render_search(
             )
 
             st.subheader(result["title"])
-            st.caption(topic_label)
+            st.caption(topic_name)
 
             columns = st.columns(
                 len(result["cards"])
@@ -1234,7 +1106,10 @@ def render_search(
                     st.markdown(
                         f"### {label}"
                     )
-                    st.write(card["answer"])
+
+                    st.write(
+                        card["answer"]
+                    )
 
             st.markdown(
                 "</div>",
@@ -1266,7 +1141,6 @@ def render_search(
 
                 st.subheader(label)
                 st.write(answer)
-                st.caption(text["ai_badge"])
 
                 st.markdown(
                     "</div>",
@@ -1294,7 +1168,9 @@ def render_countries(
 
         st.caption(note)
 
-        for flag, ar_name, en_name, ar_madhab, en_madhab, ar_pop, en_pop in COUNTRIES:
+        for row in COUNTRIES:
+            flag, ar_name, en_name, ar_madhab, en_madhab, ar_pop, en_pop = row
+
             if lang == "en":
                 name = en_name
                 madhab = en_madhab
@@ -1385,9 +1261,7 @@ def render_rules(
                 )
 
 
-def render_comments(
-    text: Dict[str, str],
-):
+def render_comments(text: Dict[str, str]):
     with st.expander(
         text["comments"],
         expanded=False,
@@ -1440,11 +1314,9 @@ def render_references(
             text["source_madhab"],
             [""] + list(MADHABS.keys()),
             format_func=lambda code: (
-                text["general_source"]
+                "General"
                 if not code
-                else MADHABS[code][
-                    0
-                ]
+                else MADHABS[code][0]
             ),
         )
 
@@ -1455,11 +1327,11 @@ def render_references(
 
         if st.button(text["add"]):
             if not title.strip() or not source.strip():
-                st.warning(text["reference_empty"])
+                st.warning(text["source_text"])
                 return
 
             if not ai.enabled:
-                st.error(text["reference_failed"])
+                st.error(text["ai_off"])
                 return
 
             chunks = [
@@ -1490,10 +1362,6 @@ def render_references(
             )
 
 
-# ============================================================
-# App
-# ============================================================
-
 @st.cache_resource
 def services():
     db = Database()
@@ -1506,25 +1374,50 @@ def main():
     lang = language_bar()
     text = UI[lang]
 
-    css(lang)
-    header(lang)
+    apply_css(lang)
+    render_header(lang)
 
     db, ai, search = services()
 
     with st.sidebar:
-        st.header(text["madhab"])
+        st.header(text["madhabs"])
 
-        madhabs = select_madhabs(
-            lang,
-            text,
+        madhabs = st.multiselect(
+            text["madhabs"],
+            options=list(MADHABS.keys()),
+            default=[
+                "maliki",
+                "shafii",
+                "hanafi",
+                "hanbali",
+            ],
+            format_func=lambda code: MADHABS[code][
+                0 if lang != "en" else 1
+            ],
         )
 
-        topic = select_topic(
-            lang,
-            text,
+        topic = st.selectbox(
+            text["topic"],
+            options=["all", *TOPICS.keys()],
+            format_func=lambda code: (
+                text["all"]
+                if code == "all"
+                else TOPICS[code][
+                    0 if lang != "en" else 1
+                ]
+            ),
         )
 
-        level = select_level(text)
+        level = st.radio(
+            text["level"],
+            options=[
+                "very_short",
+                "short",
+                "full",
+            ],
+            format_func=lambda code: text[code],
+            horizontal=True,
+        )
 
         st.divider()
 
@@ -1537,14 +1430,14 @@ def main():
     st.subheader(text["question"])
 
     render_search(
-        db,
-        ai,
-        search,
-        madhabs,
-        topic,
-        level,
-        lang,
-        text,
+        db=db,
+        ai=ai,
+        search=search,
+        madhabs=madhabs,
+        topic=topic,
+        level=level,
+        lang=lang,
+        text=text,
     )
 
     render_countries(
