@@ -54,17 +54,13 @@ def get_secret(name: str, default: str = "") -> str:
 GEMINI_API_KEY = get_secret("GEMINI_API_KEY")
 ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD")
 
-USE_GEMINI = bool(
-    GEMINI_API_KEY and GENAI_AVAILABLE
-)
+USE_GEMINI = bool(GEMINI_API_KEY and GENAI_AVAILABLE)
 
 gemini_client = None
 
 if USE_GEMINI:
     try:
-        gemini_client = genai.Client(
-            api_key=GEMINI_API_KEY
-        )
+        gemini_client = genai.Client(api_key=GEMINI_API_KEY)
     except Exception:
         USE_GEMINI = False
         logger.exception("Gemini initialization failed")
@@ -386,7 +382,7 @@ COUNTRIES = [
     ("🇪🇬", "مصر", "Egypt", "تنوع فقهي", "Juristic diversity", "نحو 120 مليون", "About 120 million"),
     ("🇲🇦", "المغرب", "Morocco", "مالكي", "Maliki", "نحو 38 مليون", "About 38 million"),
     ("🇸🇩", "السودان", "Sudan", "مالكي", "Maliki", "نحو 51 مليون", "About 51 million"),
-    ("🇩🇿", "الجزائر", "Algeria", "مالكي", "Maliki", "نحو 47 مليون", "About 47 million"),
+    ("🇩زاد", "الجزائر", "Algeria", "مالكي", "Maliki", "نحو 47 مليون", "About 47 million"),
     ("🇹🇳", "تونس", "Tunisia", "مالكي", "Maliki", "نحو 12 مليون", "About 12 million"),
     ("🇸🇦", "السعودية", "Saudi Arabia", "حنبلي", "Hanbali", "نحو 35 مليون", "About 35 million"),
     ("🇹🇷", "تركيا", "Turkey", "حنفي", "Hanafi", "نحو 86 مليون", "About 86 million"),
@@ -532,9 +528,7 @@ def normalize(text: str) -> str:
 
 
 def timestamp() -> str:
-    return dt.datetime.now(
-        dt.timezone.utc
-    ).isoformat()
+    return dt.datetime.now(dt.timezone.utc).isoformat()
 
 
 class Database:
@@ -572,6 +566,15 @@ class Database:
                     text TEXT NOT NULL,
                     embedding TEXT NOT NULL,
                     content_hash TEXT UNIQUE NOT NULL,
+                    created_at TEXT NOT NULL
+                )
+            """)
+
+            db.execute("""
+                CREATE TABLE IF NOT EXISTS feedback (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    comment TEXT,
+                    rating INTEGER,
                     created_at TEXT NOT NULL
                 )
             """)
@@ -625,9 +628,7 @@ class Database:
                 topic=row["topic"],
                 title=row["title"],
                 keywords=row["keywords"],
-                rulings=json.loads(
-                    row["rulings"]
-                ),
+                rulings=json.loads(row["rulings"]),
             )
             for row in rows
         ]
@@ -682,12 +683,21 @@ class Database:
                 """
             ).fetchone()[0]
 
+    def add_feedback(self, comment: str, rating: int):
+        with self.conn() as db:
+            db.execute(
+                """
+                INSERT INTO feedback (comment, rating, created_at)
+                VALUES (?, ?, ?)
+                """,
+                (comment, rating, timestamp()),
+            )
+            db.commit()
+
 
 class AI:
     def __init__(self):
-        self.enabled = bool(
-            USE_GEMINI and gemini_client
-        )
+        self.enabled = bool(USE_GEMINI and gemini_client)
 
     def generate(
         self,
@@ -712,9 +722,7 @@ class AI:
             )
 
         except Exception:
-            logger.exception(
-                "Gemini generation failed"
-            )
+            logger.exception("Gemini generation failed")
             return None
 
     def answer(
@@ -730,10 +738,7 @@ class AI:
             "very_short": "one or two words",
             "short": "one line",
             "full": "three to five lines",
-        }.get(
-            level,
-            "one line",
-        )
+        }.get(level, "one line")
 
         newline = chr(10)
 
@@ -791,10 +796,7 @@ Use exactly this format:
             found = None
 
             for name, code in names.items():
-                if (
-                    line.startswith(name + ":")
-                    or line.startswith(name + "：")
-                ):
+                if line.startswith(name + ":") or line.startswith(name + "："):
                     found = code
                     break
 
@@ -806,19 +808,9 @@ Use exactly this format:
                 buffer = []
 
                 if ":" in line:
-                    buffer.append(
-                        line.split(
-                            ":",
-                            1,
-                        )[1].strip()
-                    )
+                    buffer.append(line.split(":", 1)[1].strip())
                 elif "：" in line:
-                    buffer.append(
-                        line.split(
-                            "：",
-                            1,
-                        )[1].strip()
-                    )
+                    buffer.append(line.split("：", 1)[1].strip())
 
             elif current:
                 buffer.append(line)
@@ -830,9 +822,7 @@ Use exactly this format:
             return answers
 
         if len(madhabs) == 1:
-            return {
-                madhabs[0]: raw
-            }
+            return {madhabs[0]: raw}
 
         return None
 
@@ -880,12 +870,7 @@ class Search:
             )
 
             if score:
-                matches.append(
-                    (
-                        score,
-                        issue,
-                    )
-                )
+                matches.append((score, issue))
 
         matches.sort(
             key=lambda item: item[0],
@@ -994,14 +979,9 @@ def language_bar():
     if "lang" not in st.session_state:
         st.session_state.lang = "ar"
 
-    columns = st.columns(
-        len(LANGS)
-    )
+    columns = st.columns(len(LANGS))
 
-    for column, code in zip(
-        columns,
-        LANGS,
-    ):
+    for column, code in zip(columns, LANGS):
         with column:
             label, flag, _ = LANGS[code]
 
@@ -1074,8 +1054,36 @@ def render_search(
             topic,
             madhabs,
         )
+        ai_answers = (
+            ai.answer(question, madhabs, level)
+            if ai.enabled
+            else None
+        )
 
-    if results:
+    if ai_answers:
+        st.info(text["ai_note"])
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.subheader(question)
+
+        columns = st.columns(len(madhabs))
+        for col, code in zip(columns, madhabs):
+            with col:
+                m_name = (
+                    MADHABS[code][0]
+                    if lang != "en"
+                    else MADHABS[code][1]
+                )
+                st.markdown(f"**{m_name}**")
+                st.write(
+                    ai_answers.get(
+                        code,
+                        text["no_result"],
+                    )
+                )
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    elif results:
         for result in results:
             topic_name = TOPICS[result["topic"]][
                 0 if lang != "en" else 1
@@ -1089,384 +1097,175 @@ def render_search(
             st.subheader(result["title"])
             st.caption(topic_name)
 
-            columns = st.columns(
-                len(result["cards"])
-            )
-
-            for column, card in zip(
-                columns,
-                result["cards"],
-            ):
-                with column:
-                    code = card["code"]
-                    label = MADHABS[code][
-                        0 if lang != "en" else 1
-                    ]
-
-                    st.markdown(
-                        f"### {label}"
+            columns = st.columns(len(result["cards"]))
+            for col, card in zip(columns, result["cards"]):
+                with col:
+                    m_name = (
+                        MADHABS[card["code"]][0]
+                        if lang != "en"
+                        else MADHABS[card["code"]][1]
                     )
+                    st.markdown(f"**{m_name}**")
+                    st.write(card["answer"])
 
-                    st.write(
-                        card["answer"]
-                    )
+            st.markdown("</div>", unsafe_allow_html=True)
 
-            st.markdown(
-                "</div>",
-                unsafe_allow_html=True,
-            )
-
-        return
-
-    if ai.enabled:
-        with st.spinner(text["loading"]):
-            answers = ai.answer(
-                question,
-                madhabs,
-                level,
-            )
-
-        if answers:
-            st.warning(text["ai_note"])
-
-            for code, answer in answers.items():
-                label = MADHABS[code][
-                    0 if lang != "en" else 1
-                ]
-
-                st.markdown(
-                    '<div class="card">',
-                    unsafe_allow_html=True,
-                )
-
-                st.subheader(label)
-                st.write(answer)
-
-                st.markdown(
-                    "</div>",
-                    unsafe_allow_html=True,
-                )
-
-            return
-
-    st.warning(text["no_result"])
+    else:
+        st.warning(text["no_result"])
 
 
-def render_countries(
-    lang: str,
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["countries"],
-        expanded=False,
-    ):
-        note = (
-            "Population figures are approximate."
-            if lang == "en"
-            else "أعداد السكان تقريبية."
-        )
-
-        st.caption(note)
-
-        for row in COUNTRIES:
-            flag, ar_name, en_name, ar_madhab, en_madhab, ar_pop, en_pop = row
-
-            if lang == "en":
-                name = en_name
-                madhab = en_madhab
-                population = en_pop
-            else:
-                name = ar_name
-                madhab = ar_madhab
-                population = ar_pop
-
-            st.markdown(
-                f"{flag} **{name}** — "
-                f"{madhab} — {population}"
-            )
-
-
-def render_sources(
-    lang: str,
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["sources"],
-        expanded=False,
-    ):
-        for ar_name, en_name, ar_desc, en_desc in LEGAL_SOURCES:
-            name = en_name if lang == "en" else ar_name
-            description = (
-                en_desc
-                if lang == "en"
-                else ar_desc
-            )
-
-            with st.expander(
-                name,
-                expanded=False,
-            ):
-                st.write(description)
-
-
-def render_glossary(
-    lang: str,
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["glossary"],
-        expanded=False,
-    ):
-        for ar_name, en_name, ar_desc, en_desc in GLOSSARY:
-            name = en_name if lang == "en" else ar_name
-            description = (
-                en_desc
-                if lang == "en"
-                else ar_desc
-            )
-
-            with st.expander(
-                name,
-                expanded=False,
-            ):
-                st.markdown(
-                    f"**{text['definition']}:** "
-                    f"{description}"
-                )
-
-
-def render_rules(
-    lang: str,
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["rules"],
-        expanded=False,
-    ):
-        for ar_title, en_title, ar_desc, en_desc in RULES:
-            title = en_title if lang == "en" else ar_title
-            description = (
-                en_desc
-                if lang == "en"
-                else ar_desc
-            )
-
-            with st.expander(
-                title,
-                expanded=False,
-            ):
-                st.markdown(
-                    f"**{text['definition']}:** "
-                    f"{description}"
-                )
-
-
-def render_comments(text: Dict[str, str]):
-    with st.expander(
-        text["comments"],
-        expanded=False,
-    ):
-        rating = st.slider(
-            text["rating"],
-            1,
-            5,
-            4,
-        )
-
-        comment = st.text_area(
-            text["comment"]
-        )
-
-        if st.button(text["send"]):
-            if comment.strip():
-                st.success(
-                    text["saved"]
-                )
-
-
-def render_references(
+def render_sidebar(
     db: Database,
     ai: AI,
+    lang: str,
     text: Dict[str, str],
 ):
-    with st.expander(
-        text["references"],
-        expanded=False,
-    ):
-        if not ADMIN_PASSWORD:
-            st.info(text["access_denied"])
-            return
-
-        password = st.text_input(
-            text["admin_password"],
-            type="password",
-        )
-
-        if password != ADMIN_PASSWORD:
-            st.info(text["access_denied"])
-            return
-
-        title = st.text_input(
-            text["source_title"]
-        )
-
-        madhab = st.selectbox(
-            text["source_madhab"],
-            [""] + list(MADHABS.keys()),
-            format_func=lambda code: (
-                "General"
-                if not code
-                else MADHABS[code][0]
-            ),
-        )
-
-        source = st.text_area(
-            text["source_text"],
-            height=220,
-        )
-
-        if st.button(text["add"]):
-            if not title.strip() or not source.strip():
-                st.warning(text["source_text"])
-                return
-
-            if not ai.enabled:
-                st.error(text["ai_off"])
-                return
-
-            chunks = [
-                source[i:i + 700]
-                for i in range(
-                    0,
-                    len(source),
-                    600,
-                )
-                if len(source[i:i + 700]) > 30
-            ]
-
-            added = 0
-
-            for chunk in chunks:
-                vector = ai.embed(chunk)
-
-                if vector and db.add_reference(
-                    title,
-                    madhab,
-                    chunk,
-                    vector,
-                ):
-                    added += 1
-
-            st.success(
-                text["added"].format(added)
-            )
-
-
-@st.cache_resource
-def services():
-    db = Database()
-    ai = AI()
-    search = Search(db, ai)
-    return db, ai, search
-
-
-def main():
-    lang = language_bar()
-    text = UI[lang]
-
-    apply_css(lang)
-    render_header(lang)
-
-    db, ai, search = services()
-
     with st.sidebar:
-        st.header(text["madhabs"])
-
-        madhabs = st.multiselect(
-            text["madhabs"],
-            options=list(MADHABS.keys()),
-            default=[
-                "maliki",
-                "shafii",
-                "hanafi",
-                "hanbali",
-            ],
-            format_func=lambda code: MADHABS[code][
-                0 if lang != "en" else 1
-            ],
-        )
-
-        topic = st.selectbox(
-            text["topic"],
-            options=["all", *TOPICS.keys()],
-            format_func=lambda code: (
-                text["all"]
-                if code == "all"
-                else TOPICS[code][
-                    0 if lang != "en" else 1
-                ]
-            ),
-        )
-
-        level = st.radio(
-            text["level"],
-            options=[
-                "very_short",
-                "short",
-                "full",
-            ],
-            format_func=lambda code: text[code],
-            horizontal=True,
-        )
+        st.subheader(text["madhabs"])
+        selected_madhabs = []
+        for code, (ar_name, en_name) in MADHABS.items():
+            name = ar_name if lang != "en" else en_name
+            if st.checkbox(name, value=(code in ("maliki", "shafii", "hanafi", "hanbali")), key=f"madhab_{code}"):
+                selected_madhabs.append(code)
 
         st.divider()
 
-        st.success(
-            text["ai_on"]
-            if ai.enabled
-            else text["ai_off"]
+        st.subheader(text["topic"])
+        topic_options = {"all": text["all"]}
+        for code, (ar_t, en_t) in TOPICS.items():
+            topic_options[code] = ar_t if lang != "en" else en_t
+
+        selected_topic = st.selectbox(
+            text["topic"],
+            options=list(topic_options.keys()),
+            format_func=lambda x: topic_options[x],
+            label_visibility="collapsed",
         )
 
-    st.subheader(text["question"])
+        st.subheader(text["level"])
+        level_options = {
+            "very_short": text["very_short"],
+            "short": text["short"],
+            "full": text["full"],
+        }
+        selected_level = st.radio(
+            text["level"],
+            options=list(level_options.keys()),
+            format_func=lambda x: level_options[x],
+            label_visibility="collapsed",
+        )
+
+        st.divider()
+        if ai.enabled:
+            st.success(text["ai_on"])
+        else:
+            st.info(text["ai_off"])
+
+    return selected_madhabs, selected_topic, selected_level
+
+
+def render_auxiliary_tabs(
+    db: Database,
+    lang: str,
+    text: Dict[str, str],
+):
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        text["countries"],
+        text["sources"],
+        text["glossary"],
+        text["rules"],
+        text["comments"],
+        text["references"],
+    ])
+
+    with tab1:
+        for flag, ar_c, en_c, ar_m, en_m, ar_p, en_p in COUNTRIES:
+            country = ar_c if lang != "en" else en_c
+            madhab = ar_m if lang != "en" else en_m
+            pop = ar_p if lang != "en" else en_p
+            st.markdown(f"**{flag} {country}** — {madhab} ({pop})")
+
+    with tab2:
+        for ar_s, en_s, ar_d, en_d in LEGAL_SOURCES:
+            src = ar_s if lang != "en" else en_s
+            desc = ar_d if lang != "en" else en_d
+            st.markdown(f"**{src}**: {desc}")
+
+    with tab3:
+        for ar_t, en_t, ar_d, en_d in GLOSSARY:
+            term = ar_t if lang != "en" else en_t
+            desc = ar_d if lang != "en" else en_d
+            st.markdown(f"**{term}**: {desc}")
+
+    with tab4:
+        for ar_r, en_r, ar_d, en_d in RULES:
+            rule = ar_r if lang != "en" else en_r
+            desc = ar_d if lang != "en" else en_d
+            st.markdown(f"**{rule}**: {desc}")
+
+    with tab5:
+        with st.form("feedback_form"):
+            comment = st.text_area(text["comment"])
+            rating = st.slider(text["rating"], 1, 5, 5)
+            send = st.form_submit_button(text["send"])
+
+            if send and comment.strip():
+                db.add_feedback(comment, rating)
+                st.success(text["saved"])
+
+    with tab6:
+        pwd = st.text_input(
+            text["admin_password"], type="password"
+        )
+        if ADMIN_PASSWORD and pwd == ADMIN_PASSWORD:
+            with st.form("ref_form"):
+                ref_title = st.text_input(text["source_title"])
+                ref_madhab = st.selectbox(
+                    text["source_madhab"],
+                    options=list(MADHABS.keys()),
+                    format_func=lambda x: (
+                        MADHABS[x][0]
+                        if lang != "en"
+                        else MADHABS[x][1]
+                    ),
+                )
+                ref_text = st.text_area(text["source_text"])
+                add_btn = st.form_submit_button(text["add"])
+
+                if add_btn and ref_text.strip():
+                    db.add_reference(
+                        title=ref_title,
+                        madhab=ref_madhab,
+                        text=ref_text,
+                        embedding=[0.0],
+                    )
+                    st.success(text["added"].format(1))
+        elif pwd:
+            st.error(text["access_denied"])
+
+
+def main():
+    db = Database()
+    ai = AI()
+    search = Search(db, ai)
+
+    lang = language_bar()
+    text = UI[lang]
+    apply_css(lang)
+
+    render_header(lang)
+
+    madhabs, topic, level = render_sidebar(
+        db, ai, lang, text
+    )
 
     render_search(
-        db=db,
-        ai=ai,
-        search=search,
-        madhabs=madhabs,
-        topic=topic,
-        level=level,
-        lang=lang,
-        text=text,
+        db, ai, search, madhabs, topic, level, lang, text
     )
 
-    render_countries(
-        lang,
-        text,
-    )
+    st.divider()
 
-    render_sources(
-        lang,
-        text,
-    )
-
-    render_glossary(
-        lang,
-        text,
-    )
-
-    render_rules(
-        lang,
-        text,
-    )
-
-    render_comments(text)
-
-    render_references(
-        db,
-        ai,
-        text,
-    )
+    render_auxiliary_tabs(db, lang, text)
 
 
 if __name__ == "__main__":
