@@ -2378,19 +2378,19 @@ def normalize_arabic(text: str) -> str:
         text = text.replace(old, new)
 
     text = re.sub(
-        r"[\u064B-\u065F\u0670]",
+        r"[ً-ٰٟ]",
         "",
         text,
     )
 
     text = re.sub(
-        r"[^\w\s]",
+        r"[^ws]",
         " ",
         text,
     )
 
     text = re.sub(
-        r"\s+",
+        r"s+",
         " ",
         text,
     )
@@ -3137,7 +3137,8 @@ class AIService:
             for code in madhabs
         )
 
-        output_format = "\n".join(
+        output_format = "
+".join(
             f"{MADHHAB_NAMES[code]['ar']}: "
             "اكتب الإجابة هنا"
             for code in madhabs
@@ -3225,7 +3226,8 @@ class AIService:
             "سطر واحد",
         )
 
-        labels = "\n".join(
+        labels = "
+".join(
             f"{MADHHAB_NAMES[code]['ar']}: "
             "اكتب الإجابة هنا"
             for code in madhabs
@@ -3293,7 +3295,7 @@ class ReferenceManager:
             )
 
         text = re.sub(
-            r"\s+",
+            r"s+",
             " ",
             text,
         ).strip()
