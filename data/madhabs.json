@@ -3,104 +3,472 @@
     "group": "sunni",
     "name": {
       "ar": "مالكي",
-      "en": "Maliki"
+      "en": "Maliki",
+      "fr": "Malikite",
+      "fa": "مالکی",
+      "ms": "Maliki",
+      "ur": "مالکی"
     },
     "founder": {
       "ar": "الإمام مالك بن أنس",
-      "en": "Imam Malik ibn Anas"
+      "en": "Imam Malik ibn Anas",
+      "fr": "Imam Malik ibn Anas",
+      "fa": "امام مالک بن انس",
+      "ms": "Imam Malik ibn Anas",
+      "ur": "امام مالک بن انس"
     },
     "life": {
       "ar": "93–179 هـ / 711–795 م",
-      "en": "93–179 AH / 711–795 CE"
+      "en": "93–179 AH / 711–795 CE",
+      "fr": "93–179 H / 711–795",
+      "fa": "۹۳–۱۷۹ هجری / ۷۱۱–۷۹۵ میلادی",
+      "ms": "93–179 H / 711–795 M",
+      "ur": "93–179 ہجری / 711–795 عیسوی"
     },
     "birthplace": {
       "ar": "المدينة المنورة",
-      "en": "Medina"
+      "en": "Medina",
+      "fr": "Médine",
+      "fa": "مدینه",
+      "ms": "Madinah",
+      "ur": "مدینہ منورہ"
     },
     "origin": {
-      "ar": "نشأ في المدينة وانتشر في شمال وغرب إفريقيا",
-      "en": "Developed in Medina and spread through North and West Africa"
+      "ar": "نشأ في المدينة وانتشر في شمال وغرب إفريقيا.",
+      "en": "Developed in Medina and spread through North and West Africa.",
+      "fr": "S’est développé à Médine et s’est répandu en Afrique du Nord et de l’Ouest.",
+      "fa": "در مدینه شکل گرفت و در شمال و غرب آفریقا گسترش یافت.",
+      "ms": "Berkembang di Madinah dan tersebar di Afrika Utara serta Barat.",
+      "ur": "مدینہ میں نشوونما پایا اور شمالی و مغربی افریقہ میں پھیلا۔"
     },
     "scholars": {
-      "ar": "ابن القاسم، سحنون، القرافي، ابن عبد البر",
-      "en": "Ibn al-Qasim, Sahnun, al-Qarafi, Ibn Abd al-Barr"
+      "ar": "ابن القاسم، سحنون، القرافي، ابن عبد البر.",
+      "en": "Ibn al-Qasim, Sahnun, al-Qarafi, Ibn Abd al-Barr.",
+      "fr": "Ibn al-Qasim, Sahnun, al-Qarafi, Ibn Abd al-Barr.",
+      "fa": "ابن قاسم، سحنون، قرافی و ابن عبدالبر.",
+      "ms": "Ibn al-Qasim, Sahnun, al-Qarafi, Ibn Abd al-Barr.",
+      "ur": "ابن قاسم، سحنون، قرافی اور ابن عبدالبر۔"
+    },
+    "summary": {
+      "ar": "مدرسة فقهية سنية ارتبطت بعمل أهل المدينة والمصلحة والعرف.",
+      "en": "A Sunni school associated with the practice of Medina, public interest, and custom.",
+      "fr": "Une école sunnite associée à la pratique de Médine, à l’intérêt public et à la coutume.",
+      "fa": "مکتب فقهی اهل سنت که با عمل اهل مدینه، مصلحت و عرف شناخته می‌شود.",
+      "ms": "Mazhab Sunni yang dikaitkan dengan amalan penduduk Madinah, maslahah dan adat.",
+      "ur": "اہل سنت کا فقہی مکتب جو عملِ اہل مدینہ، مصلحت اور عرف سے معروف ہے۔"
     }
   },
   "shafii": {
     "group": "sunni",
     "name": {
       "ar": "شافعي",
-      "en": "Shafi'i"
+      "en": "Shafi'i",
+      "fr": "Chaféite",
+      "fa": "شافعی",
+      "ms": "Syafie",
+      "ur": "شافعی"
     },
     "founder": {
       "ar": "الإمام محمد بن إدريس الشافعي",
-      "en": "Imam Muhammad ibn Idris al-Shafi'i"
+      "en": "Imam Muhammad ibn Idris al-Shafi'i",
+      "fr": "Imam Muhammad ibn Idris al-Shafi'i",
+      "fa": "امام محمد بن ادریس شافعی",
+      "ms": "Imam Muhammad ibn Idris al-Shafi'i",
+      "ur": "امام محمد بن ادریس شافعی"
+    },
+    "life": {
+      "ar": "150–204 هـ / 767–820 م",
+      "en": "150–204 AH / 767–820 CE",
+      "fr": "150–204 H / 767–820",
+      "fa": "۱۵۰–۲۰۴ هجری / ۷۶۷–۸۲۰ میلادی",
+      "ms": "150–204 H / 767–820 M",
+      "ur": "150–204 ہجری / 767–820 عیسوی"
+    },
+    "birthplace": {
+      "ar": "غزة",
+      "en": "Gaza",
+      "fr": "Gaza",
+      "fa": "غزه",
+      "ms": "Gaza",
+      "ur": "غزہ"
+    },
+    "origin": {
+      "ar": "تبلور في مكة والعراق ومصر، وانتشر في شرق إفريقيا وجنوب شرق آسيا.",
+      "en": "Formed through Mecca, Iraq, and Egypt; spread across East Africa and Southeast Asia.",
+      "fr": "S’est formé à La Mecque, en Irak et en Égypte; répandu en Afrique de l’Est et en Asie du Sud-Est.",
+      "fa": "در مکه، عراق و مصر شکل گرفت و در شرق آفریقا و جنوب شرق آسیا گسترش یافت.",
+      "ms": "Terbentuk di Makkah, Iraq dan Mesir; tersebar di Afrika Timur dan Asia Tenggara.",
+      "ur": "مکہ، عراق اور مصر میں تشکیل پایا اور مشرقی افریقہ و جنوب مشرقی ایشیا میں پھیلا۔"
+    },
+    "scholars": {
+      "ar": "المزني، البويطي، النووي، الرافعي، ابن حجر الهيتمي.",
+      "en": "Al-Muzani, al-Buwayti, al-Nawawi, al-Rafi'i, Ibn Hajar al-Haytami.",
+      "fr": "Al-Muzani, al-Buwayti, al-Nawawi, al-Rafi'i, Ibn Hajar al-Haytami.",
+      "fa": "مزنی، بویطی، نووی، رافعی و ابن حجر هیتمی.",
+      "ms": "Al-Muzani, al-Buwayti, al-Nawawi, al-Rafi'i, Ibn Hajar al-Haytami.",
+      "ur": "مزنی، بویطی، نووی، رافعی اور ابن حجر ہیتمی۔"
+    },
+    "summary": {
+      "ar": "مدرسة سنية عرفت بالعناية بتقعيد أصول الاستدلال.",
+      "en": "A Sunni school known for systematic legal theory.",
+      "fr": "Une école sunnite connue pour sa théorie juridique structurée.",
+      "fa": "مکتب فقهی اهل سنت با توجه ویژه به اصول استدلال.",
+      "ms": "Mazhab Sunni yang terkenal dengan teori usul fiqh yang tersusun.",
+      "ur": "اہل سنت کا مکتب جو اصولِ استدلال کی تدوین کے لیے معروف ہے۔"
     }
   },
   "hanafi": {
     "group": "sunni",
     "name": {
       "ar": "حنفي",
-      "en": "Hanafi"
+      "en": "Hanafi",
+      "fr": "Hanafite",
+      "fa": "حنفی",
+      "ms": "Hanafi",
+      "ur": "حنفی"
     },
     "founder": {
       "ar": "الإمام أبو حنيفة النعمان",
-      "en": "Imam Abu Hanifa al-Nu'man"
+      "en": "Imam Abu Hanifa al-Nu'man",
+      "fr": "Imam Abu Hanifa al-Nu'man",
+      "fa": "امام ابوحنیفه نعمان",
+      "ms": "Imam Abu Hanifa al-Nu'man",
+      "ur": "امام ابو حنیفہ نعمان"
+    },
+    "life": {
+      "ar": "80–150 هـ / 699–767 م",
+      "en": "80–150 AH / 699–767 CE",
+      "fr": "80–150 H / 699–767",
+      "fa": "۸۰–۱۵۰ هجری / ۶۹۹–۷۶۷ میلادی",
+      "ms": "80–150 H / 699–767 M",
+      "ur": "80–150 ہجری / 699–767 عیسوی"
+    },
+    "birthplace": {
+      "ar": "الكوفة",
+      "en": "Kufa",
+      "fr": "Koufa",
+      "fa": "کوفه",
+      "ms": "Kufah",
+      "ur": "کوفہ"
+    },
+    "origin": {
+      "ar": "نشأ في العراق وانتشر في العراق وآسيا الوسطى وجنوب آسيا.",
+      "en": "Developed in Iraq and spread through Central and South Asia.",
+      "fr": "S’est développé en Irak et s’est répandu en Asie centrale et du Sud.",
+      "fa": "در عراق شکل گرفت و در آسیای مرکزی و جنوبی گسترش یافت.",
+      "ms": "Berkembang di Iraq dan tersebar di Asia Tengah serta Selatan.",
+      "ur": "عراق میں نشوونما پایا اور وسطی و جنوبی ایشیا میں پھیلا۔"
+    },
+    "scholars": {
+      "ar": "أبو يوسف، محمد الشيباني، السرخسي، الكاساني، ابن عابدين.",
+      "en": "Abu Yusuf, al-Shaybani, al-Sarakhsi, al-Kasani, Ibn Abidin.",
+      "fr": "Abu Yusuf, al-Shaybani, al-Sarakhsi, al-Kasani, Ibn Abidin.",
+      "fa": "ابویوسف، شیبانی، سرخسی، کاسانی و ابن عابدین.",
+      "ms": "Abu Yusuf, al-Shaybani, al-Sarakhsi, al-Kasani, Ibn Abidin.",
+      "ur": "ابو یوسف، محمد شیبانی، سرخسی، کاسانی اور ابن عابدین۔"
+    },
+    "summary": {
+      "ar": "مدرسة سنية عرفت بالعناية بالقياس والاجتهاد والاستحسان.",
+      "en": "A Sunni school known for analogy, reasoning, and juristic preference.",
+      "fr": "Une école sunnite connue pour l’analogie et le raisonnement juridique.",
+      "fa": "مکتب فقهی اهل سنت با توجه به قیاس، اجتهاد و استحسان.",
+      "ms": "Mazhab Sunni yang terkenal dengan qiyas, ijtihad dan istihsan.",
+      "ur": "اہل سنت کا مکتب جو قیاس، اجتہاد اور استحسان کے لیے معروف ہے۔"
     }
   },
   "hanbali": {
     "group": "sunni",
     "name": {
       "ar": "حنبلي",
-      "en": "Hanbali"
+      "en": "Hanbali",
+      "fr": "Hanbalite",
+      "fa": "حنبلی",
+      "ms": "Hanbali",
+      "ur": "حنبلی"
     },
     "founder": {
       "ar": "الإمام أحمد بن حنبل",
-      "en": "Imam Ahmad ibn Hanbal"
+      "en": "Imam Ahmad ibn Hanbal",
+      "fr": "Imam Ahmad ibn Hanbal",
+      "fa": "امام احمد بن حنبل",
+      "ms": "Imam Ahmad ibn Hanbal",
+      "ur": "امام احمد بن حنبل"
+    },
+    "life": {
+      "ar": "164–241 هـ / 780–855 م",
+      "en": "164–241 AH / 780–855 CE",
+      "fr": "164–241 H / 780–855",
+      "fa": "۱۶۴–۲۴۱ هجری / ۷۸۰–۸۵۵ میلادی",
+      "ms": "164–241 H / 780–855 M",
+      "ur": "164–241 ہجری / 780–855 عیسوی"
+    },
+    "birthplace": {
+      "ar": "بغداد",
+      "en": "Baghdad",
+      "fr": "Bagdad",
+      "fa": "بغداد",
+      "ms": "Baghdad",
+      "ur": "بغداد"
+    },
+    "origin": {
+      "ar": "نشأ في بغداد وانتشر في أجزاء من الجزيرة العربية والعراق.",
+      "en": "Developed in Baghdad and spread through parts of Arabia and Iraq.",
+      "fr": "S’est développé à Bagdad et s’est répandu en Arabie et en Irak.",
+      "fa": "در بغداد شکل گرفت و در بخش‌هایی از عربستان و عراق گسترش یافت.",
+      "ms": "Berkembang di Baghdad dan tersebar di sebahagian Arab dan Iraq.",
+      "ur": "بغداد میں تشکیل پایا اور جزیرہ عرب و عراق کے بعض علاقوں میں پھیلا۔"
+    },
+    "scholars": {
+      "ar": "الخلال، ابن قدامة، ابن تيمية، ابن القيم، المرداوي.",
+      "en": "Al-Khallal, Ibn Qudamah, Ibn Taymiyyah, Ibn al-Qayyim, al-Mardawi.",
+      "fr": "Al-Khallal, Ibn Qudamah, Ibn Taymiyyah, Ibn al-Qayyim, al-Mardawi.",
+      "fa": "خلال، ابن قدامه، ابن تیمیه، ابن قیم و مرداوی.",
+      "ms": "Al-Khallal, Ibn Qudamah, Ibn Taymiyyah, Ibn al-Qayyim, al-Mardawi.",
+      "ur": "خلال، ابن قدامہ، ابن تیمیہ، ابن قیم اور مرداوی۔"
+    },
+    "summary": {
+      "ar": "مدرسة سنية عرفت بالعناية بالنصوص والآثار.",
+      "en": "A Sunni school known for emphasis on textual evidence and reports.",
+      "fr": "Une école sunnite attachée aux textes et aux traditions.",
+      "fa": "مکتب فقهی اهل سنت با تأکید بر نصوص و آثار.",
+      "ms": "Mazhab Sunni yang menekankan nas dan athar.",
+      "ur": "اہل سنت کا مکتب جو نصوص اور آثار پر توجہ کے لیے معروف ہے۔"
     }
   },
   "zahiri": {
     "group": "sunni",
     "name": {
       "ar": "ظاهري",
-      "en": "Zahiri"
+      "en": "Zahiri",
+      "fr": "Zahirite",
+      "fa": "ظاهری",
+      "ms": "Zahiri",
+      "ur": "ظاہری"
     },
     "founder": {
-      "ar": "داود الظاهري",
-      "en": "Dawud al-Zahiri"
+      "ar": "داود بن علي الظاهري",
+      "en": "Dawud ibn Ali al-Zahiri",
+      "fr": "Dawud ibn Ali al-Zahiri",
+      "fa": "داود بن علی ظاهری",
+      "ms": "Dawud ibn Ali al-Zahiri",
+      "ur": "داود بن علی ظاہری"
+    },
+    "life": {
+      "ar": "202–270 هـ / 815–884 م",
+      "en": "202–270 AH / 815–884 CE",
+      "fr": "202–270 H / 815–884",
+      "fa": "۲۰۲–۲۷۰ هجری / ۸۱۵–۸۸۴ میلادی",
+      "ms": "202–270 H / 815–884 M",
+      "ur": "202–270 ہجری / 815–884 عیسوی"
+    },
+    "birthplace": {
+      "ar": "الكوفة",
+      "en": "Kufa",
+      "fr": "Koufa",
+      "fa": "کوفه",
+      "ms": "Kufah",
+      "ur": "کوفہ"
+    },
+    "origin": {
+      "ar": "نشأ في العراق، ومن أشهر ممثليه ابن حزم في الأندلس.",
+      "en": "Developed in Iraq; Ibn Hazm was its most prominent Andalusian representative.",
+      "fr": "S’est développé en Irak; Ibn Hazm en fut le représentant andalou majeur.",
+      "fa": "در عراق شکل گرفت و ابن حزم نماینده برجسته آن در اندلس بود.",
+      "ms": "Berkembang di Iraq; Ibn Hazm ialah tokoh utamanya di Andalus.",
+      "ur": "عراق میں تشکیل پایا؛ اندلس میں ابن حزم اس کے نمایاں نمائندے تھے۔"
+    },
+    "scholars": {
+      "ar": "ابن حزم، ابن المغلس، ابن حزم الأندلسي.",
+      "en": "Ibn Hazm and later Zahiri scholars.",
+      "fr": "Ibn Hazm et les juristes zahirites postérieurs.",
+      "fa": "ابن حزم و دیگر فقیهان ظاهری.",
+      "ms": "Ibn Hazm dan ulama Zahiri terkemudian.",
+      "ur": "ابن حزم اور بعد کے ظاہری علماء۔"
+    },
+    "summary": {
+      "ar": "مدرسة تعتمد ظاهر النصوص وترفض التوسع في القياس.",
+      "en": "A school emphasizing the apparent meanings of texts and limiting analogy.",
+      "fr": "Une école privilégiant le sens apparent des textes et limitant l’analogie.",
+      "fa": "مکتبی که بر ظاهر نصوص تأکید دارد و قیاس را محدود می‌کند.",
+      "ms": "Mazhab yang menekankan makna zahir nas dan mengehadkan qiyas.",
+      "ur": "وہ مکتب جو نصوص کے ظاہری مفہوم پر زور دیتا اور قیاس کو محدود کرتا ہے۔"
     }
   },
   "jafari": {
     "group": "shia",
     "name": {
       "ar": "جعفري",
-      "en": "Ja'fari"
+      "en": "Ja'fari",
+      "fr": "Jaafarite",
+      "fa": "جعفری",
+      "ms": "Jaafari",
+      "ur": "جعفری"
     },
     "founder": {
-      "ar": "الإمام جعفر الصادق",
-      "en": "Imam Ja'far al-Sadiq"
+      "ar": "ينسب إلى مدرسة الإمام جعفر الصادق",
+      "en": "Associated with the school of Imam Ja'far al-Sadiq",
+      "fr": "Associé à l’école de l’imam Ja‘far al-Sadiq",
+      "fa": "منسوب به مدرسه امام جعفر صادق",
+      "ms": "Dikaitkan dengan madrasah Imam Ja'far al-Sadiq",
+      "ur": "امام جعفر صادق کے علمی مکتب سے منسوب"
+    },
+    "life": {
+      "ar": "80–148 هـ / 699–765 م",
+      "en": "80–148 AH / 699–765 CE",
+      "fr": "80–148 H / 699–765",
+      "fa": "۸۰–۱۴۸ هجری / ۶۹۹–۷۶۵ میلادی",
+      "ms": "80–148 H / 699–765 M",
+      "ur": "80–148 ہجری / 699–765 عیسوی"
+    },
+    "birthplace": {
+      "ar": "المدينة المنورة",
+      "en": "Medina",
+      "fr": "Médine",
+      "fa": "مدینه",
+      "ms": "Madinah",
+      "ur": "مدینہ منورہ"
+    },
+    "origin": {
+      "ar": "تبلور في المدينة وانتشر خصوصًا في العراق وإيران ولبنان.",
+      "en": "Developed in Medina and spread especially through Iraq, Iran, and Lebanon.",
+      "fr": "S’est développé à Médine et s’est répandu notamment en Irak, Iran et au Liban.",
+      "fa": "در مدینه شکل گرفت و به‌ویژه در عراق، ایران و لبنان گسترش یافت.",
+      "ms": "Berkembang di Madinah dan tersebar khususnya di Iraq, Iran dan Lubnan.",
+      "ur": "مدینہ میں تشکیل پایا اور خصوصاً عراق، ایران اور لبنان میں پھیلا۔"
+    },
+    "scholars": {
+      "ar": "الكليني، الصدوق، الطوسي، الحلي، الخوئي.",
+      "en": "Al-Kulayni, al-Saduq, al-Tusi, al-Hilli, al-Khoei.",
+      "fr": "Al-Kulayni, al-Saduq, al-Tusi, al-Hilli, al-Khoei.",
+      "fa": "کلینی، صدوق، طوسی، حلی و خوئی.",
+      "ms": "Al-Kulayni, al-Saduq, al-Tusi, al-Hilli, al-Khoei.",
+      "ur": "کلینی، صدوق، طوسی، حلی اور خوئی۔"
+    },
+    "summary": {
+      "ar": "المدرسة الفقهية الإمامية الاثنا عشرية.",
+      "en": "The jurisprudential school of Twelver Imami Shiism.",
+      "fr": "L’école juridique du chiisme imamite duodécimain.",
+      "fa": "مکتب فقهی شیعه امامیه دوازده‌امامی.",
+      "ms": "Mazhab fiqh Syiah Imam Dua Belas.",
+      "ur": "اثنا عشری امامی شیعہ کا فقہی مکتب۔"
     }
   },
   "zaidi": {
     "group": "shia",
     "name": {
       "ar": "زيدي",
-      "en": "Zaidi"
+      "en": "Zaidi",
+      "fr": "Zaydite",
+      "fa": "زیدی",
+      "ms": "Zaidi",
+      "ur": "زیدی"
     },
     "founder": {
       "ar": "الإمام زيد بن علي",
-      "en": "Imam Zayd ibn Ali"
+      "en": "Imam Zayd ibn Ali",
+      "fr": "Imam Zayd ibn Ali",
+      "fa": "امام زید بن علی",
+      "ms": "Imam Zayd ibn Ali",
+      "ur": "امام زید بن علی"
+    },
+    "life": {
+      "ar": "75–122 هـ / 694–740 م",
+      "en": "75–122 AH / 694–740 CE",
+      "fr": "75–122 H / 694–740",
+      "fa": "۷۵–۱۲۲ هجری / ۶۹۴–۷۴۰ میلادی",
+      "ms": "75–122 H / 694–740 M",
+      "ur": "75–122 ہجری / 694–740 عیسوی"
+    },
+    "birthplace": {
+      "ar": "المدينة المنورة",
+      "en": "Medina",
+      "fr": "Médine",
+      "fa": "مدینه",
+      "ms": "Madinah",
+      "ur": "مدینہ منورہ"
+    },
+    "origin": {
+      "ar": "ارتبط تاريخيًا باليمن، مع وجوده في مناطق أخرى.",
+      "en": "Historically associated with Yemen, with presence elsewhere.",
+      "fr": "Historiquement associé au Yémen, avec une présence ailleurs.",
+      "fa": "از نظر تاریخی با یمن پیوند دارد و در مناطق دیگر نیز حضور داشته است.",
+      "ms": "Secara sejarah dikaitkan dengan Yaman, dengan kehadiran di tempat lain.",
+      "ur": "تاریخی طور پر یمن سے وابستہ، دیگر علاقوں میں بھی موجود۔"
+    },
+    "scholars": {
+      "ar": "القاسم الرسي، الهادي إلى الحق، الشوكاني.",
+      "en": "Al-Qasim al-Rassi, al-Hadi ila al-Haqq, al-Shawkani.",
+      "fr": "Al-Qasim al-Rassi, al-Hadi ila al-Haqq, al-Shawkani.",
+      "fa": "قاسم رسی، هادی الی الحق و شوکانی.",
+      "ms": "Al-Qasim al-Rassi, al-Hadi ila al-Haqq, al-Shawkani.",
+      "ur": "قاسم رسی، ہادی الی الحق اور شوکانی۔"
+    },
+    "summary": {
+      "ar": "مدرسة شيعية فقهية ارتبط حضورها التاريخي باليمن.",
+      "en": "A Shia legal school historically associated with Yemen.",
+      "fr": "Une école juridique chiite historiquement associée au Yémen.",
+      "fa": "مکتب فقهی شیعه که از نظر تاریخی با یمن مرتبط است.",
+      "ms": "Mazhab fiqh Syiah yang secara sejarah dikaitkan dengan Yaman.",
+      "ur": "شیعی فقہی مکتب جو تاریخی طور پر یمن سے وابستہ ہے۔"
     }
   },
   "ibadi": {
     "group": "ibadi",
     "name": {
       "ar": "إباضي",
-      "en": "Ibadi"
+      "en": "Ibadi",
+      "fr": "Ibadite",
+      "fa": "اباضی",
+      "ms": "Ibadi",
+      "ur": "اباضی"
     },
     "founder": {
-      "ar": "ينسب المذهب إلى المدرسة الإباضية المبكرة",
-      "en": "The school is associated with the early Ibadi tradition"
+      "ar": "ينسب إلى المدرسة الإباضية المبكرة، ومن أعلامها جابر بن زيد.",
+      "en": "Associated with the early Ibadi tradition; Jabir ibn Zayd is a major early figure.",
+      "fr": "Associé à la tradition ibadite primitive, dont Jabir ibn Zayd est une figure majeure.",
+      "fa": "منسوب به مدرسه نخستین اباضی؛ جابر بن زید از چهره‌های برجسته آن است.",
+      "ms": "Dikaitkan dengan tradisi Ibadi awal; Jabir ibn Zayd ialah tokoh penting.",
+      "ur": "ابتدائی اباضی مکتب سے منسوب؛ جابر بن زید اس کے نمایاں بزرگ ہیں۔"
+    },
+    "life": {
+      "ar": "القرن الأول والثاني الهجري",
+      "en": "First and second Islamic centuries",
+      "fr": "Premier et deuxième siècles islamiques",
+      "fa": "قرن اول و دوم هجری",
+      "ms": "Abad pertama dan kedua Islam",
+      "ur": "پہلی اور دوسری صدی ہجری"
+    },
+    "birthplace": {
+      "ar": "البصرة وما حولها في نشأة المدرسة المبكرة",
+      "en": "Basra and its surrounding region in the early tradition",
+      "fr": "Bassora et sa région dans la tradition primitive",
+      "fa": "بصره و نواحی آن در دوره نخستین",
+      "ms": "Basrah dan kawasan sekitarnya pada peringkat awal",
+      "ur": "بصرہ اور اس کے اطراف میں ابتدائی نشوونما"
+    },
+    "origin": {
+      "ar": "برز تاريخيًا في عُمان وشمال إفريقيا وبعض مناطق الصحراء.",
+      "en": "Historically prominent in Oman, North Africa, and parts of the Sahara.",
+      "fr": "Historiquement présent à Oman, en Afrique du Nord et au Sahara.",
+      "fa": "از نظر تاریخی در عمان، شمال آفریقا و بخش‌هایی از صحرا برجسته است.",
+      "ms": "Secara sejarah menonjol di Oman, Afrika Utara dan sebahagian Sahara.",
+      "ur": "تاریخی طور پر عمان، شمالی افریقہ اور صحارا کے بعض علاقوں میں نمایاں۔"
+    },
+    "scholars": {
+      "ar": "جابر بن زيد، أبو عبيدة مسلم بن أبي كريمة، نور الدين السالمي.",
+      "en": "Jabir ibn Zayd, Abu Ubayda Muslim ibn Abi Karima, Nur al-Din al-Salimi.",
+      "fr": "Jabir ibn Zayd, Abu Ubayda Muslim ibn Abi Karima, Nur al-Din al-Salimi.",
+      "fa": "جابر بن زید، ابوعبیده مسلم بن ابی کریمه و نورالدین سالمی.",
+      "ms": "Jabir ibn Zayd, Abu Ubayda Muslim ibn Abi Karima, Nur al-Din al-Salimi.",
+      "ur": "جابر بن زید، ابو عبیدہ مسلم بن ابی کریمہ اور نورالدین سالمی۔"
+    },
+    "summary": {
+      "ar": "مدرسة فقهية إسلامية مستقلة ذات حضور تاريخي خاص.",
+      "en": "An independent Islamic legal tradition with a distinct historical presence.",
+      "fr": "Une tradition juridique islamique indépendante à présence historique distincte.",
+      "fa": "مکتب فقهی مستقل اسلامی با حضور تاریخی ویژه.",
+      "ms": "Tradisi fiqh Islam yang tersendiri dengan sejarah yang khusus.",
+      "ur": "ایک مستقل اسلامی فقہی مکتب جس کی تاریخی شناخت الگ ہے۔"
     }
   }
 }
