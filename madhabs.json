@@ -1,0 +1,30 @@
+{
+  "maliki": {
+    "name": {
+      "ar": "مالكي",
+      "en": "Maliki"
+    },
+    "founder": {
+      "ar": "الإمام مالك بن أنس",
+      "en": "Imam Malik ibn Anas"
+    }
+  },
+  "shafii": {
+    "name": {
+      "ar": "شافعي",
+      "en": "Shafi'i"
+    }
+  },
+  "hanafi": {
+    "name": {
+      "ar": "حنفي",
+      "en": "Hanafi"
+    }
+  },
+  "hanbali": {
+    "name": {
+      "ar": "حنبلي",
+      "en": "Hanbali"
+    }
+  }
+}
