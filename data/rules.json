@@ -1,5 +1,6 @@
 [
   {
+    "category": "major",
     "name": {
       "ar": "الأمور بمقاصدها",
       "en": "Actions are judged by intentions",
@@ -8,24 +9,25 @@
       "ms": "Amalan dinilai berdasarkan niat",
       "ur": "اعمال کا دارومدار نیتوں پر ہے"
     },
-    "description": {
-      "ar": "تعتبر المقاصد والنيات في فهم الأفعال وترتيب آثارها.",
-      "en": "Intentions are considered when determining legal effects.",
+    "definition": {
+      "ar": "تعتبر المقاصد والنيات في فهم الأفعال وترتيب آثارها الشرعية.",
+      "en": "Intentions and purposes are considered when determining legal effects.",
       "fr": "Les intentions sont prises en compte pour déterminer les effets juridiques.",
       "fa": "نیت و هدف در تعیین آثار شرعی اعمال معتبر است.",
       "ms": "Niat dan tujuan diambil kira dalam menentukan hukum.",
-      "ur": "اعمال کے شرعی اثرات میں نیتوں کا اعتبار کیا جاتا ہے۔"
+      "ur": "اعمال کے شرعی اثرات میں نیتوں اور مقاصد کا اعتبار کیا جاتا ہے۔"
     },
     "example": {
-      "ar": "يختلف دفع المال باختلاف كونه صدقة أو قرضًا.",
-      "en": "Giving money differs depending on whether it is charity or a loan.",
-      "fr": "Le don d’argent diffère selon qu’il s’agit d’une aumône ou d’un prêt.",
-      "fa": "دادن پول با توجه به صدقه یا قرض بودن متفاوت است.",
-      "ms": "Pemberian wang berbeza sama ada sedekah atau pinjaman.",
-      "ur": "مال دینے کا حکم صدقہ یا قرض ہونے کے لحاظ سے مختلف ہوتا ہے۔"
+      "ar": "يختلف دفع المال باختلاف كونه صدقة أو قرضًا أو هبة.",
+      "en": "Giving money differs depending on whether it is charity, a loan, or a gift.",
+      "fr": "Le don d’argent diffère selon qu’il s’agit d’une aumône, d’un prêt ou d’un don.",
+      "fa": "دادن پول بر اساس صدقه، قرض یا هدیه بودن متفاوت است.",
+      "ms": "Pemberian wang berbeza sama ada sedekah, pinjaman atau hadiah.",
+      "ur": "مال دینے کا حکم صدقہ، قرض یا ہبہ ہونے کے لحاظ سے مختلف ہوتا ہے۔"
     }
   },
   {
+    "category": "major",
     "name": {
       "ar": "اليقين لا يزول بالشك",
       "en": "Certainty is not removed by doubt",
@@ -34,7 +36,7 @@
       "ms": "Keyakinan tidak dihilangkan oleh keraguan",
       "ur": "یقین شک سے زائل نہیں ہوتا"
     },
-    "description": {
+    "definition": {
       "ar": "الحكم الثابت بيقين لا يرفع بمجرد شك طارئ.",
       "en": "An established certainty is not overturned by mere doubt.",
       "fr": "Une certitude établie n’est pas annulée par un simple doute.",
@@ -46,12 +48,13 @@
       "ar": "من تيقن الطهارة وشك في الحدث يبقى على طهارته.",
       "en": "One certain of purity remains pure when merely doubting impurity.",
       "fr": "Celui qui est certain d’être pur le reste malgré un simple doute.",
-      "fa": "کسی که به طهارت یقین دارد و شک می‌کند، پاک باقی می‌ماند.",
-      "ms": "Orang yang yakin berwuduk kekal suci apabila ragu-ragu.",
+      "fa": "کسی که به طهارت یقین دارد و در حدث شک می‌کند، پاک باقی می‌ماند.",
+      "ms": "Orang yang yakin berwuduk kekal suci apabila hanya ragu-ragu.",
       "ur": "جسے طہارت کا یقین ہو وہ محض شک سے بے وضو نہیں ہوگا۔"
     }
   },
   {
+    "category": "major",
     "name": {
       "ar": "المشقة تجلب التيسير",
       "en": "Hardship brings facilitation",
@@ -60,9 +63,9 @@
       "ms": "Kesukaran membawa kemudahan",
       "ur": "مشقت آسانی کا سبب بنتی ہے"
     },
-    "description": {
-      "ar": "المشقة غير المعتادة سبب معتبر للتخفيف الشرعي.",
-      "en": "Unusual hardship may justify a legal concession.",
+    "definition": {
+      "ar": "المشقة غير المعتادة سبب معتبر للتخفيف الشرعي وفق ضوابطه.",
+      "en": "Unusual hardship may justify a legally recognized concession.",
       "fr": "Une difficulté inhabituelle peut justifier une facilité juridique.",
       "fa": "مشقت غیر عادی می‌تواند موجب تخفیف شرعی شود.",
       "ms": "Kesukaran luar biasa boleh membawa rukhsah syarak.",
@@ -78,6 +81,7 @@
     }
   },
   {
+    "category": "major",
     "name": {
       "ar": "الضرر يزال",
       "en": "Harm must be removed",
@@ -86,13 +90,13 @@
       "ms": "Kemudaratan hendaklah dihilangkan",
       "ur": "ضرر کو دور کیا جائے گا"
     },
-    "description": {
-      "ar": "يجب رفع الضرر أو تقليله بقدر الإمكان.",
-      "en": "Harm should be removed or reduced as far as possible.",
-      "fr": "Le préjudice doit être supprimé ou réduit autant que possible.",
-      "fa": "ضرر باید تا حد امکان برطرف یا کاهش داده شود.",
-      "ms": "Kemudaratan hendaklah dihapuskan atau dikurangkan.",
-      "ur": "ضرر کو حتی الامکان دور یا کم کیا جائے۔"
+    "definition": {
+      "ar": "يجب رفع الضرر أو تقليله بقدر الإمكان دون إحداث ضرر أكبر.",
+      "en": "Harm should be removed or reduced without causing greater harm.",
+      "fr": "Le préjudice doit être supprimé ou réduit sans causer un dommage plus grand.",
+      "fa": "ضرر باید تا حد امکان بدون ایجاد ضرر بزرگ‌تر برطرف شود.",
+      "ms": "Kemudaratan hendaklah dihapuskan tanpa menimbulkan mudarat yang lebih besar.",
+      "ur": "ضرر کو اس طرح دور کیا جائے کہ اس سے بڑا ضرر پیدا نہ ہو۔"
     },
     "example": {
       "ar": "منع استعمال طريق يضر بالمارة.",
@@ -104,6 +108,7 @@
     }
   },
   {
+    "category": "major",
     "name": {
       "ar": "العادة محكمة",
       "en": "Custom is authoritative",
@@ -112,47 +117,291 @@
       "ms": "Adat menjadi pertimbangan",
       "ur": "عرف معتبر ہے"
     },
-    "description": {
+    "definition": {
       "ar": "تعتبر العادة الصحيحة فيما لم يرد فيه تحديد شرعي خاص.",
       "en": "Sound custom is considered where no specific legal determination exists.",
       "fr": "La coutume saine est prise en compte en l’absence de règle précise.",
-      "fa": "در موارد بدون حکم خاص، عرف صحیح معتبر است.",
+      "fa": "در مواردی که حکم خاصی نیست، عرف صحیح معتبر است.",
       "ms": "Adat yang sahih diambil kira apabila tiada penetapan khusus.",
       "ur": "جہاں شرعی تحدید نہ ہو وہاں صحیح عرف کا اعتبار کیا جاتا ہے۔"
     },
     "example": {
       "ar": "تحديد بعض صور النفقة بحسب عرف البلد.",
       "en": "Determining aspects of maintenance according to local custom.",
-      "fr": "Déterminer la pension selon la coutume locale.",
+      "fr": "Déterminer certains aspects de la pension selon la coutume locale.",
       "fa": "تعیین برخی صور نفقه بر اساس عرف محل.",
       "ms": "Menentukan sebahagian nafkah berdasarkan adat setempat.",
       "ur": "نفقہ کی بعض صورتوں کا تعین مقامی عرف کے مطابق کرنا۔"
     }
   },
   {
+    "category": "secondary",
     "name": {
-      "ar": "الأصل في المعاملات الإباحة",
-      "en": "Transactions are presumed permissible",
-      "fr": "Les transactions sont présumées permises",
-      "fa": "اصل در معاملات اباحه است",
-      "ms": "Asal muamalat ialah harus",
-      "ur": "معاملات میں اصل اباحت ہے"
+      "ar": "الضرر لا يزال بالضرر",
+      "en": "Harm is not removed by equivalent harm",
+      "fr": "Le préjudice ne se supprime pas par un autre préjudice",
+      "fa": "ضرر با ضرر برطرف نمی‌شود",
+      "ms": "Kemudaratan tidak dihilangkan dengan kemudaratan",
+      "ur": "ضرر کو دوسرے ضرر سے دور نہیں کیا جائے گا"
     },
-    "description": {
-      "ar": "الأصل في المعاملات الجديدة الجواز ما لم تتضمن محظورًا.",
-      "en": "New transactions are presumed permissible unless prohibited.",
-      "fr": "Les nouvelles transactions sont permises sauf interdit.",
-      "fa": "معاملات جدید اصلًا جایز هستند مگر اینکه محظور باشند.",
-      "ms": "Urus niaga baharu asalnya harus kecuali dilarang.",
-      "ur": "نئے معاملات اصلًا جائز ہیں جب تک ممانعت نہ ہو۔"
+    "definition": {
+      "ar": "لا يجوز علاج ضرر بإحداث ضرر مساو أو أشد.",
+      "en": "Harm cannot be remedied by causing equal or greater harm.",
+      "fr": "Un préjudice ne peut être traité par un dommage équivalent ou supérieur.",
+      "fa": "رفع ضرر با ایجاد ضرر مساوی یا بیشتر جایز نیست.",
+      "ms": "Kemudaratan tidak boleh diatasi dengan kemudaratan yang sama atau lebih besar.",
+      "ur": "ضرر کو برابر یا اس سے بڑے ضرر کے ذریعے دور نہیں کیا جا سکتا۔"
     },
     "example": {
-      "ar": "جواز وسيلة بيع جديدة إذا خلت من الربا والغرر.",
-      "en": "A new sales method is permissible if free from riba and excessive uncertainty.",
-      "fr": "Une méthode de vente est permise sans usure ni aléa excessif.",
-      "fa": "روش فروش جدید اگر از ربا و غرر خالی باشد جایز است.",
-      "ms": "Kaedah jual beli baharu harus jika bebas daripada riba dan gharar.",
-      "ur": "نیا طریقۂ فروخت اگر سود اور غرر سے پاک ہو تو جائز ہے۔"
+      "ar": "لا يزال ضرر جار بإتلاف ملك جار آخر.",
+      "en": "A neighbor's harm cannot be removed by destroying another neighbor's property.",
+      "fr": "On ne supprime pas le tort d’un voisin en détruisant le bien d’un autre.",
+      "fa": "ضرر همسایه با تخریب ملک همسایه دیگر رفع نمی‌شود.",
+      "ms": "Mudarat jiran tidak boleh dihilangkan dengan merosakkan harta jiran lain.",
+      "ur": "ایک پڑوسی کا ضرر دوسرے پڑوسی کی جائیداد تباہ کرکے دور نہیں کیا جا سکتا۔"
+    }
+  },
+  {
+    "category": "secondary",
+    "name": {
+      "ar": "الضرورات تبيح المحظورات",
+      "en": "Necessities permit prohibited matters",
+      "fr": "Les nécessités permettent les interdits",
+      "fa": "ضرورت‌ها محرمات را مباح می‌کنند",
+      "ms": "Darurat mengharuskan perkara terlarang",
+      "ur": "ضرورتیں ممنوع چیزوں کو جائز کر دیتی ہیں"
+    },
+    "definition": {
+      "ar": "الضرورة المنضبطة قد تبيح المحظور بقدر الحاجة.",
+      "en": "A genuine necessity may permit a prohibited act only as needed.",
+      "fr": "Une nécessité réelle peut permettre l’interdit dans la mesure nécessaire.",
+      "fa": "ضرورت واقعی می‌تواند محظور را به اندازه نیاز مباح کند.",
+      "ms": "Darurat sebenar boleh mengharuskan perkara terlarang sekadar keperluan.",
+      "ur": "حقیقی ضرورت بقدر ضرورت ممنوع چیز کو جائز کر سکتی ہے۔"
+    },
+    "example": {
+      "ar": "تناول المحرم عند خوف الهلاك بقدر الحاجة.",
+      "en": "Consuming a prohibited item to avoid death, only as needed.",
+      "fr": "Consommer un interdit pour éviter la mort, uniquement à hauteur du besoin.",
+      "fa": "خوردن حرام هنگام ترس از مرگ به اندازه نیاز.",
+      "ms": "Mengambil yang haram ketika takut maut sekadar keperluan.",
+      "ur": "ہلاکت کے خوف میں بقدر ضرورت حرام چیز کھانا۔"
+    }
+  },
+  {
+    "category": "secondary",
+    "name": {
+      "ar": "الضرورة تقدر بقدرها",
+      "en": "Necessity is measured by its extent",
+      "fr": "La nécessité est limitée à son étendue",
+      "fa": "ضرورت به اندازه خود سنجیده می‌شود",
+      "ms": "Darurat diukur mengikut kadarnya",
+      "ur": "ضرورت کا اندازہ بقدر ضرورت ہوگا"
+    },
+    "definition": {
+      "ar": "الرخصة الناتجة عن الضرورة لا تتجاوز مقدار الحاجة.",
+      "en": "A concession due to necessity does not exceed what is needed.",
+      "fr": "La concession ne dépasse pas la mesure de la nécessité.",
+      "fa": "رخصت ناشی از ضرورت از اندازه نیاز فراتر نمی‌رود.",
+      "ms": "Rukhsah darurat tidak boleh melebihi kadar keperluan.",
+      "ur": "ضرورت کی رخصت بقدر ضرورت سے زیادہ نہیں ہوگی۔"
+    },
+    "example": {
+      "ar": "لا يتوسع المضطر بعد زوال الخطر.",
+      "en": "The person in necessity does not exceed the need after danger ends.",
+      "fr": "La personne en nécessité ne dépasse pas le besoin après la fin du danger.",
+      "fa": "پس از رفع خطر، شخص مضطر نباید زیاده‌روی کند.",
+      "ms": "Orang yang darurat tidak boleh berlebihan selepas bahaya hilang.",
+      "ur": "خطر ختم ہونے کے بعد مضطر شخص ضرورت سے زیادہ نہیں لے گا۔"
+    }
+  },
+  {
+    "category": "secondary",
+    "name": {
+      "ar": "ما لا يتم الواجب إلا به فهو واجب",
+      "en": "Whatever is necessary to fulfill an obligation is obligatory",
+      "fr": "Ce qui est nécessaire à l’obligation devient obligatoire",
+      "fa": "مقدمه واجب، واجب است",
+      "ms": "Sesuatu yang diperlukan untuk kewajipan menjadi wajib",
+      "ur": "جس کے بغیر واجب مکمل نہ ہو وہ بھی واجب ہے"
+    },
+    "definition": {
+      "ar": "الوسيلة اللازمة لتحقيق واجب تأخذ حكم الوجوب بقدر لزومها.",
+      "en": "A necessary means to fulfill an obligation takes its ruling.",
+      "fr": "Le moyen nécessaire à l’accomplissement d’une obligation devient obligatoire.",
+      "fa": "وسیله ضروری برای انجام واجب به اندازه ضرورت حکم وجوب می‌گیرد.",
+      "ms": "Sarana yang diperlukan untuk melaksanakan kewajipan turut menjadi wajib.",
+      "ur": "واجب کی تکمیل کے لیے ضروری ذریعہ بقدر ضرورت واجب ہو جاتا ہے۔"
+    },
+    "example": {
+      "ar": "تعلم القدر اللازم لصحة الصلاة.",
+      "en": "Learning what is necessary for a valid prayer.",
+      "fr": "Apprendre ce qui est nécessaire à la validité de la prière.",
+      "fa": "یادگیری مقدار لازم برای صحت نماز.",
+      "ms": "Mempelajari perkara yang diperlukan untuk sah solat.",
+      "ur": "نماز کی صحت کے لیے ضروری علم حاصل کرنا۔"
+    }
+  },
+  {
+    "category": "secondary",
+    "name": {
+      "ar": "الوسائل لها أحكام المقاصد",
+      "en": "Means take the ruling of their ends",
+      "fr": "Les moyens prennent le statut des finalités",
+      "fa": "وسایل حکم مقاصد را دارند",
+      "ms": "Sarana mengambil hukum tujuannya",
+      "ur": "ذرائع مقاصد کا حکم رکھتے ہیں"
+    },
+    "definition": {
+      "ar": "تأخذ الوسيلة حكم الغاية بحسب علاقتها بها ونتيجتها.",
+      "en": "A means may take the ruling of its intended end according to its effect.",
+      "fr": "Le moyen peut prendre le statut de sa finalité selon son effet.",
+      "fa": "وسیله با توجه به ارتباط و نتیجه‌اش حکم مقصد را می‌گیرد.",
+      "ms": "Sarana mengambil hukum tujuan berdasarkan hubungan dan kesannya.",
+      "ur": "ذریعہ اپنے مقصد اور نتیجے کے لحاظ سے اس کا حکم لے سکتا ہے۔"
+    },
+    "example": {
+      "ar": "تحريم وسيلة تؤدي غالبًا إلى محرم قطعي.",
+      "en": "Prohibiting a means that normally leads to a definite prohibition.",
+      "fr": "Interdire un moyen qui conduit généralement à un interdit certain.",
+      "fa": "حرام کردن وسیله‌ای که غالباً به حرام قطعی می‌انجامد.",
+      "ms": "Melarang sarana yang biasanya membawa kepada perkara haram.",
+      "ur": "ایسے ذریعے کی ممانعت جو عموماً قطعی حرام تک پہنچاتا ہو۔"
+    }
+  },
+  {
+    "category": "secondary",
+    "name": {
+      "ar": "العبرة في العقود للمقاصد والمعاني",
+      "en": "Contracts are judged by purposes and meanings",
+      "fr": "Les contrats sont jugés selon leurs finalités",
+      "fa": "اعتبار در عقود با مقاصد و معانی است",
+      "ms": "Kontrak dinilai berdasarkan tujuan dan makna",
+      "ur": "عقود میں مقاصد اور معانی کا اعتبار ہے"
+    },
+    "definition": {
+      "ar": "تعتبر حقيقة العقد وآثاره لا مجرد ألفاظه أو اسمه.",
+      "en": "The substance and effects of a contract matter, not merely its label.",
+      "fr": "La réalité et les effets du contrat comptent, non son simple nom.",
+      "fa": "حقیقت و آثار عقد معتبر است نه فقط نام و الفاظ آن.",
+      "ms": "Hakikat dan kesan kontrak diambil kira, bukan namanya sahaja.",
+      "ur": "عقد کی حقیقت اور اثرات معتبر ہیں، صرف نام نہیں۔"
+    },
+    "example": {
+      "ar": "لا يصبح القرض المحرم مباحًا بمجرد تغيير اسمه.",
+      "en": "Renaming a prohibited loan does not make it permissible.",
+      "fr": "Changer le nom d’un prêt interdit ne le rend pas permis.",
+      "fa": "تغییر نام قرض حرام آن را حلال نمی‌کند.",
+      "ms": "Menukar nama pinjaman yang haram tidak menjadikannya harus.",
+      "ur": "حرام قرض کا نام بدلنے سے وہ جائز نہیں ہو جاتا۔"
+    }
+  },
+  {
+    "category": "secondary",
+    "name": {
+      "ar": "الأصل براءة الذمة",
+      "en": "The basic assumption is freedom from liability",
+      "fr": "La présomption est l’absence de responsabilité",
+      "fa": "اصل برائت ذمه است",
+      "ms": "Asal seseorang bebas daripada tanggungan",
+      "ur": "اصل براءتِ ذمہ ہے"
+    },
+    "definition": {
+      "ar": "الأصل عدم شغل ذمة الشخص بحق أو التزام حتى يثبت الدليل.",
+      "en": "A person is presumed free of a claim or obligation until proven otherwise.",
+      "fr": "Une personne est présumée libre de toute obligation jusqu’à preuve du contraire.",
+      "fa": "اصل بر این است که ذمه شخص تا اثبات دلیل مشغول نیست.",
+      "ms": "Asal seseorang tidak menanggung tuntutan sehingga dibuktikan.",
+      "ur": "دلیل ثابت ہونے تک انسان کی ذمہ داری سے براءت اصل ہے۔"
+    },
+    "example": {
+      "ar": "من ادعى دينًا فعليه إثباته.",
+      "en": "Whoever claims a debt must prove it.",
+      "fr": "Celui qui réclame une dette doit la prouver.",
+      "fa": "مدعی بدهی باید آن را ثابت کند.",
+      "ms": "Orang yang mendakwa hutang hendaklah membuktikannya.",
+      "ur": "جو قرض کا دعویٰ کرے اس پر ثبوت لازم ہے۔"
+    }
+  },
+  {
+    "category": "secondary",
+    "name": {
+      "ar": "الأصل في العبادات التوقيف",
+      "en": "Worship is based on textual authorization",
+      "fr": "Les actes cultuels reposent sur une preuve",
+      "fa": "اصل در عبادات توقیف است",
+      "ms": "Ibadah berdasarkan dalil",
+      "ur": "عبادات توقیفی ہیں"
+    },
+    "definition": {
+      "ar": "لا تشرع عبادة مخصوصة بصفة أو وقت أو عدد إلا بدليل معتبر.",
+      "en": "A specific form, time, or number of worship requires valid evidence.",
+      "fr": "Une forme, un temps ou un nombre précis exige une preuve valable.",
+      "fa": "عبادت مخصوص با کیفیت یا زمان و تعداد خاص نیازمند دلیل معتبر است.",
+      "ms": "Bentuk, masa atau bilangan ibadah tertentu memerlukan dalil yang sah.",
+      "ur": "کسی عبادت کی مخصوص کیفیت، وقت یا تعداد کے لیے معتبر دلیل لازم ہے۔"
+    },
+    "example": {
+      "ar": "عدم تخصيص ذكر بعدد تعبدي بلا دليل.",
+      "en": "Not assigning a specific devotional number without evidence.",
+      "fr": "Ne pas fixer un nombre cultuel sans preuve.",
+      "fa": "تعیین تعداد خاص برای ذکر بدون دلیل.",
+      "ms": "Tidak menetapkan bilangan zikir tanpa dalil.",
+      "ur": "بغیر دلیل کسی ذکر کے لیے خاص تعداد مقرر نہ کرنا۔"
+    }
+  },
+  {
+    "category": "secondary",
+    "name": {
+      "ar": "الاجتهاد لا ينقض بالاجتهاد",
+      "en": "One ijtihad is not overturned by another",
+      "fr": "Un ijtihad n’est pas annulé par un autre",
+      "fa": "اجتهاد با اجتهاد نقض نمی‌شود",
+      "ms": "Ijtihad tidak dibatalkan oleh ijtihad lain",
+      "ur": "ایک اجتہاد دوسرے اجتہاد سے ختم نہیں ہوتا"
+    },
+    "definition": {
+      "ar": "الحكم الاجتهادي لا ينقض لمجرد ظهور اجتهاد آخر.",
+      "en": "A reasoned judgment is not overturned merely because another opinion appears.",
+      "fr": "Un jugement raisonné n’est pas annulé par la seule apparition d’un autre avis.",
+      "fa": "حکم اجتهادی صرف به سبب ظهور اجتهاد دیگر نقض نمی‌شود.",
+      "ms": "Hukum ijtihad tidak terbatal hanya kerana muncul ijtihad lain.",
+      "ur": "محض دوسرے اجتہاد کے ظاہر ہونے سے پہلا اجتہاد ختم نہیں ہوتا۔"
+    },
+    "example": {
+      "ar": "عدم إبطال أحكام ماضية مبنية على اجتهاد معتبر.",
+      "en": "Past judgments based on valid reasoning are not automatically invalidated.",
+      "fr": "Les jugements passés fondés sur un ijtihad valide ne sont pas automatiquement annulés.",
+      "fa": "احکام گذشته مبتنی بر اجتهاد معتبر خودبه‌خود باطل نمی‌شوند.",
+      "ms": "Keputusan lama berdasarkan ijtihad sah tidak terbatal secara automatik.",
+      "ur": "معتبر اجتہاد پر مبنی سابقہ فیصلے خود بخود باطل نہیں ہوتے۔"
+    }
+  },
+  {
+    "category": "secondary",
+    "name": {
+      "ar": "الحكم يدور مع علته وجودًا وعدمًا",
+      "en": "A ruling follows its effective cause",
+      "fr": "Le jugement suit sa cause effective",
+      "fa": "حکم با علت خود وجوداً و عدماً می‌گردد",
+      "ms": "Hukum beredar bersama illahnya",
+      "ur": "حکم علت کے ساتھ وجود اور عدم میں ہوتا ہے"
+    },
+    "definition": {
+      "ar": "إذا ثبتت العلة ثبت الحكم المرتبط بها وإذا انتفت انتفى.",
+      "en": "When the effective cause exists, the related ruling applies; when it ends, it ends.",
+      "fr": "Le jugement existe avec sa cause et cesse lorsque sa cause cesse.",
+      "fa": "با وجود علت حکم وجود دارد و با نبود آن حکم مربوط نیز منتفی می‌شود.",
+      "ms": "Apabila illah wujud, hukum berlaku; apabila tiada, hukum berakhir.",
+      "ur": "علت موجود ہو تو حکم بھی موجود ہوتا ہے اور علت نہ ہو تو حکم بھی نہیں رہتا۔"
+    },
+    "example": {
+      "ar": "ارتباط رخصة السفر بوصف السفر.",
+      "en": "The travel concession is linked to the status of travel.",
+      "fr": "La concession du voyage est liée au fait d’être voyageur.",
+      "fa": "ارتباط رخصت سفر با وجود سفر.",
+      "ms": "Rukhsah musafir berkaitan dengan keadaan musafir.",
+      "ur": "سفر کی رخصت کا سفر کی حالت کے ساتھ تعلق۔"
     }
   }
 ]
