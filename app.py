@@ -16,7 +16,7 @@ import streamlit as st
 
 
 # ============================================================
-# Page and configuration
+# Configuration
 # ============================================================
 
 st.set_page_config(
@@ -31,7 +31,6 @@ logger = logging.getLogger(__name__)
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
-REFERENCES_DIR = ROOT / "references"
 DB_PATH = ROOT / "fiqh.db"
 
 GEMINI_MODEL = os.getenv(
@@ -44,6 +43,10 @@ EMBED_MODEL = os.getenv(
     "gemini-embedding-001",
 )
 
+
+# ============================================================
+# Gemini setup
+# ============================================================
 
 try:
     from google import genai
@@ -93,7 +96,7 @@ if USE_GEMINI:
 
 
 # ============================================================
-# UI languages
+# Languages
 # ============================================================
 
 LANGUAGES = {
@@ -143,9 +146,7 @@ UI = {
             "منصة تعليمية للمقارنة الفقهية، "
             "وليست موقعًا للإفتاء."
         ),
-        "language": "اللغة",
         "madhab": "تصفية المذهب",
-        "all_madhabs": "كل المذاهب",
         "topic": "اختر الموضوع",
         "all_topics": "كل الموضوعات",
         "answer_type": "نوع الإجابة",
@@ -187,9 +188,7 @@ UI = {
             "An educational fiqh comparison platform, "
             "not a fatwa service."
         ),
-        "language": "Language",
         "madhab": "Madhhab filter",
-        "all_madhabs": "All schools",
         "topic": "Choose a topic",
         "all_topics": "All topics",
         "answer_type": "Answer type",
@@ -235,9 +234,7 @@ for code in ("fr", "fa", "ms", "ur"):
 UI["fa"].update({
     "title": "مجموعه مختصر دیدگاه‌های مذاهب فقهی",
     "subtitle": "سامانه‌ای آموزشی برای مقایسه دیدگاه‌های فقهی.",
-    "language": "زبان",
     "madhab": "مذهب را انتخاب کنید",
-    "all_madhabs": "همه مذاهب",
     "topic": "موضوع را انتخاب کنید",
     "all_topics": "همه موضوعات",
     "answer_type": "نوع پاسخ",
@@ -262,16 +259,12 @@ UI["fa"].update({
     "references": "📁 مدیریت منابع",
     "definition": "تعریف",
     "example": "مثال",
-    "population_note": "آمار جمعیت تقریبی است.",
 })
-
 
 UI["ms"].update({
     "title": "Himpunan Ringkas Pandangan Mazhab",
     "subtitle": "Platform pendidikan untuk perbandingan pandangan fiqh.",
-    "language": "Bahasa",
     "madhab": "Pilih mazhab",
-    "all_madhabs": "Semua mazhab",
     "topic": "Pilih topik",
     "all_topics": "Semua topik",
     "answer_type": "Jenis jawapan",
@@ -296,16 +289,12 @@ UI["ms"].update({
     "references": "📁 Pengurusan rujukan",
     "definition": "Takrif",
     "example": "Contoh",
-    "population_note": "Angka penduduk adalah anggaran.",
 })
-
 
 UI["ur"].update({
     "title": "مذاہب فقہ کے مختصر آراء کا مجموعہ",
     "subtitle": "فقہی آراء کے تقابلی مطالعے کا تعلیمی پلیٹ فارم۔",
-    "language": "زبان",
     "madhab": "مسلک منتخب کریں",
-    "all_madhabs": "تمام مسالک",
     "topic": "موضوع منتخب کریں",
     "all_topics": "تمام موضوعات",
     "answer_type": "جواب کی نوعیت",
@@ -330,7 +319,6 @@ UI["ur"].update({
     "references": "📁 مراجع کا انتظام",
     "definition": "تعریف",
     "example": "مثال",
-    "population_note": "آبادی کے اعداد تقریباً ہیں۔",
 })
 
 
@@ -359,9 +347,38 @@ def load_json(
         return default
 
 
-MADHABS = load_json(
-    "madhabs.json",
-    {},
+def normalize_madhabs(
+    value: Any,
+) -> Dict[str, Dict[str, Any]]:
+    if isinstance(value, dict):
+        return {
+            str(code): item
+            for code, item in value.items()
+            if isinstance(item, dict)
+        }
+
+    if isinstance(value, list):
+        result = {}
+
+        for item in value:
+            if not isinstance(item, dict):
+                continue
+
+            code = item.get("code")
+
+            if code:
+                result[str(code)] = item
+
+        return result
+
+    return {}
+
+
+MADHABS = normalize_madhabs(
+    load_json(
+        "madhabs.json",
+        {},
+    )
 )
 
 COUNTRIES = load_json(
@@ -386,7 +403,7 @@ LEGAL_SOURCES = load_json(
 
 
 # ============================================================
-# Utility functions
+# Helpers
 # ============================================================
 
 def text_for(
@@ -408,7 +425,9 @@ def text_for(
     return default
 
 
-def normalize(text: str) -> str:
+def normalize_text(
+    text: str,
+) -> str:
     replacements = {
         "أ": "ا",
         "إ": "ا",
@@ -464,7 +483,7 @@ def topic_name(
     code: str,
     lang: str,
 ) -> str:
-    names = {
+    topics = {
         "ibadat": {
             "ar": "العبادات",
             "en": "Worship",
@@ -484,14 +503,14 @@ def topic_name(
     }
 
     return text_for(
-        names.get(code, {}),
+        topics.get(code, {}),
         lang,
         code,
     )
 
 
 # ============================================================
-# SQLite database
+# Database
 # ============================================================
 
 class Database:
@@ -558,7 +577,9 @@ class Database:
         embedding: List[float],
     ) -> bool:
         content_hash = hashlib.sha256(
-            f"{title}|{madhab}|{text}".encode()
+            f"{title}|{madhab}|{text}".encode(
+                "utf-8"
+            )
         ).hexdigest()
 
         with self.connection() as db:
@@ -593,7 +614,7 @@ class Database:
 
 
 # ============================================================
-# Gemini service
+# Gemini
 # ============================================================
 
 class GeminiService:
@@ -622,14 +643,12 @@ class GeminiService:
                     )
                 ]
 
-            config = types.GenerateContentConfig(
-                **config_args
-            )
-
             response = gemini_client.models.generate_content(
                 model=GEMINI_MODEL,
                 contents=prompt,
-                config=config,
+                config=types.GenerateContentConfig(
+                    **config_args
+                ),
             )
 
             return (
@@ -666,13 +685,13 @@ class GeminiService:
 
         except Exception:
             logger.exception(
-                "Gemini embedding failed"
+                "Embedding failed"
             )
             return None
 
 
 # ============================================================
-# Reference retrieval
+# Reference search
 # ============================================================
 
 class ReferenceSearch:
@@ -693,16 +712,16 @@ class ReferenceSearch:
         if self.db.count_chunks() == 0:
             return []
 
-        vector = self.ai.embed(
+        query_embedding = self.ai.embed(
             query,
             task_type="RETRIEVAL_QUERY",
         )
 
-        if not vector:
+        if not query_embedding:
             return []
 
         query_vector = np.array(
-            vector,
+            query_embedding,
             dtype=np.float32,
         )
 
@@ -747,11 +766,11 @@ class ReferenceSearch:
 
             except Exception:
                 logger.exception(
-                    "Invalid reference embedding"
+                    "Invalid embedding"
                 )
 
         scored.sort(
-            key=lambda value: value[0],
+            key=lambda item: item[0],
             reverse=True,
         )
 
@@ -763,27 +782,27 @@ class ReferenceSearch:
 
 
 # ============================================================
-# User interface
+# UI styling
 # ============================================================
 
 def apply_css(lang: str):
-    meta = LANGUAGES[lang]
+    metadata = LANGUAGES[lang]
 
     st.markdown(
         f"""
         <style>
         [data-testid="stAppViewContainer"] .main,
         [data-testid="stSidebar"] {{
-            direction: {meta["direction"]};
-            text-align: {meta["align"]};
+            direction: {metadata["direction"]};
+            text-align: {metadata["align"]};
         }}
 
         [data-testid="stSidebar"] * {{
-            text-align: {meta["align"]};
+            text-align: {metadata["align"]};
         }}
 
         .header {{
-            direction: {meta["direction"]};
+            direction: {metadata["direction"]};
             text-align: center;
             padding: 2rem 1rem;
             margin-bottom: 1.5rem;
@@ -813,18 +832,18 @@ def apply_css(lang: str):
 
         textarea,
         input {{
-            direction: {meta["direction"]} !important;
-            text-align: {meta["align"]} !important;
+            direction: {metadata["direction"]} !important;
+            text-align: {metadata["align"]} !important;
         }}
 
         div[data-testid="stExpander"] {{
-            direction: {meta["direction"]};
-            text-align: {meta["align"]};
+            direction: {metadata["direction"]};
+            text-align: {metadata["align"]};
         }}
 
         .card {{
-            direction: {meta["direction"]};
-            text-align: {meta["align"]};
+            direction: {metadata["direction"]};
+            text-align: {metadata["align"]};
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 1rem;
@@ -836,6 +855,10 @@ def apply_css(lang: str):
         unsafe_allow_html=True,
     )
 
+
+# ============================================================
+# UI components
+# ============================================================
 
 def language_bar() -> str:
     if "lang" not in st.session_state:
@@ -850,10 +873,10 @@ def language_bar() -> str:
         LANGUAGES,
     ):
         with column:
-            meta = LANGUAGES[code]
+            item = LANGUAGES[code]
 
             if st.button(
-                f"{meta['flag']} {meta['name']}",
+                f"{item['flag']} {item['name']}",
                 key=f"language_{code}",
                 use_container_width=True,
                 type=(
@@ -893,6 +916,7 @@ def render_countries(
     ):
         for item in COUNTRIES:
             flag = item.get("flag", "🌍")
+
             name = text_for(
                 item.get("name", ""),
                 lang,
@@ -935,10 +959,9 @@ def render_scholars(
         expanded=False,
     ):
         for code, item in MADHABS.items():
-            name = text_for(
-                item.get("name", code),
-                lang,
+            name = madhab_name(
                 code,
+                lang,
             )
 
             with st.expander(
@@ -946,12 +969,12 @@ def render_scholars(
                 expanded=False,
             ):
                 fields = [
-                    ("founder", "الإمام المؤسس"),
-                    ("life", "فترة الحياة"),
-                    ("birthplace", "مكان الميلاد"),
-                    ("origin", "مكان النشأة والانتشار"),
-                    ("scholars", "أشهر العلماء"),
-                    ("summary", "نبذة"),
+                    ("founder", "Founder / الإمام المؤسس"),
+                    ("life", "Life / فترة الحياة"),
+                    ("birthplace", "Birthplace / مكان الميلاد"),
+                    ("origin", "Origin / مكان النشأة والانتشار"),
+                    ("scholars", "Major scholars / أشهر العلماء"),
+                    ("summary", "Summary / نبذة"),
                 ]
 
                 for key, label in fields:
@@ -1121,6 +1144,12 @@ def render_question_panel(
                     for code in selected_madhabs
                 )
 
+                answer_style = (
+                    "brief"
+                    if level == "brief"
+                    else "detailed"
+                )
+
                 prompt = f"""
 You are an educational Islamic fiqh research assistant.
 You do not issue a personal fatwa.
@@ -1132,7 +1161,7 @@ Selected schools:
 {selected_names}
 
 Answer style:
-{"brief" if level == "brief" else "detailed"}
+{answer_style}
 
 Uploaded reference context:
 {context}
@@ -1141,9 +1170,8 @@ Instructions:
 - Answer the exact question.
 - Compare only the selected schools.
 - Use the uploaded context when relevant.
-- If current or externally verifiable information is needed,
-  use Google Search grounding.
-- Clearly mention disagreement.
+- Use Google Search grounding if current information is needed.
+- Mention disagreement clearly.
 - Do not invent citations.
 - Write in the selected language.
 """
@@ -1257,58 +1285,58 @@ def main():
     with st.sidebar:
         st.header(text["madhab"])
 
-        codes = [
+        # Correct dynamic options handling.
+        # This prevents defaults that are not present in options.
+        available_codes = [
             code
-            for code in MADHABS
-            if not code.startswith("_")
+            for code, value in MADHABS.items()
+            if isinstance(value, dict)
+            and not code.startswith("_")
         ]
+
+        preferred_codes = [
+            "maliki",
+            "shafii",
+            "hanafi",
+            "hanbali",
+        ]
+
+        default_codes = [
+            code
+            for code in preferred_codes
+            if code in available_codes
+        ]
+
+        if not default_codes and available_codes:
+            default_codes = available_codes[:1]
 
         selected_madhabs = st.multiselect(
             text["madhab"],
-            options=codes,
-            default=[
-                "maliki",
-                "shafii",
-                "hanafi",
-                "hanbali",
-            ],
+            options=available_codes,
+            default=default_codes,
             format_func=lambda code: madhab_name(
                 code,
                 lang,
             ),
+            key="selected_madhabs",
         )
+
+        topic_options = [
+            "all",
+            "ibadat",
+            "muamalat",
+            "family",
+            "other",
+        ]
 
         topic = st.selectbox(
             text["topic"],
-            options=[
-                "all",
-                "ibadat",
-                "muamalat",
-                "family",
-                "other",
-            ],
+            options=topic_options,
             format_func=lambda value: (
                 text["all_topics"]
                 if value == "all"
-                else text_for(
-                    {
-                        "ibadat": {
-                            "ar": "العبادات",
-                            "en": "Worship",
-                        },
-                        "muamalat": {
-                            "ar": "المعاملات",
-                            "en": "Transactions",
-                        },
-                        "family": {
-                            "ar": "الأسرة",
-                            "en": "Family",
-                        },
-                        "other": {
-                            "ar": "مواضيع أخرى",
-                            "en": "Other topics",
-                        },
-                    }[value],
+                else topic_name(
+                    value,
                     lang,
                 )
             ),
