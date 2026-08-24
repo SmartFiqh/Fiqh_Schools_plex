@@ -1,0 +1,398 @@
+[
+  {
+    "flag": "🇮🇶",
+    "name": {
+      "ar": "العراق",
+      "en": "Iraq",
+      "fr": "Irak",
+      "fa": "عراق",
+      "ms": "Iraq",
+      "ur": "عراق"
+    },
+    "madhab_code": "jafari",
+    "madhab": {
+      "ar": "جعفري",
+      "en": "Ja'fari",
+      "fr": "Jaafarite",
+      "fa": "جعفری",
+      "ms": "Jaafari",
+      "ur": "جعفری"
+    },
+    "population": {
+      "ar": "نحو 45 مليون نسمة",
+      "en": "About 45 million",
+      "fr": "Environ 45 millions",
+      "fa": "حدود ۴۵ میلیون نفر",
+      "ms": "Kira-kira 45 juta",
+      "ur": "تقریباً 45 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب الجعفري من أبرز المذاهب الحاضرة في العراق، مع تنوع مذهبي واسع.",
+      "en": "The Ja'fari school is prominent in Iraq, alongside broad religious diversity.",
+      "fr": "L’école jaafarite est importante en Irak, avec une grande diversité religieuse.",
+      "fa": "مذهب جعفری از مذاهب مهم عراق است و تنوع مذهبی گسترده‌ای وجود دارد.",
+      "ms": "Mazhab Jaafari ialah antara mazhab utama di Iraq bersama kepelbagaian mazhab.",
+      "ur": "مسلک جعفری عراق کے نمایاں مسالک میں ہے، جبکہ مذہبی تنوع بھی موجود ہے۔"
+    }
+  },
+  {
+    "flag": "🇱🇧",
+    "name": {
+      "ar": "لبنان",
+      "en": "Lebanon",
+      "fr": "Liban",
+      "fa": "لبنان",
+      "ms": "Lubnan",
+      "ur": "لبنان"
+    },
+    "madhab_code": "jafari",
+    "madhab": {
+      "ar": "جعفري",
+      "en": "Ja'fari",
+      "fr": "Jaafarite",
+      "fa": "جعفری",
+      "ms": "Jaafari",
+      "ur": "جعفری"
+    },
+    "population": {
+      "ar": "نحو 5.8 مليون نسمة",
+      "en": "About 5.8 million",
+      "fr": "Environ 5,8 millions",
+      "fa": "حدود ۵٫۸ میلیون نفر",
+      "ms": "Kira-kira 5.8 juta",
+      "ur": "تقریباً 5.8 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب الجعفري من المذاهب البارزة بين المسلمين الشيعة في لبنان.",
+      "en": "The Ja'fari school is prominent among Lebanese Shia Muslims.",
+      "fr": "L’école jaafarite est importante parmi les musulmans chiites libanais.",
+      "fa": "مذهب جعفری در میان شیعیان لبنان از مذاهب برجسته است.",
+      "ms": "Mazhab Jaafari penting dalam kalangan Syiah Lubnan.",
+      "ur": "مسلک جعفری لبنان کے شیعہ مسلمانوں میں نمایاں ہے۔"
+    }
+  },
+  {
+    "flag": "🇮🇷",
+    "name": {
+      "ar": "إيران",
+      "en": "Iran",
+      "fr": "Iran",
+      "fa": "ایران",
+      "ms": "Iran",
+      "ur": "ایران"
+    },
+    "madhab_code": "jafari",
+    "madhab": {
+      "ar": "جعفري",
+      "en": "Ja'fari",
+      "fr": "Jaafarite",
+      "fa": "جعفری",
+      "ms": "Jaafari",
+      "ur": "جعفری"
+    },
+    "population": {
+      "ar": "نحو 93 مليون نسمة",
+      "en": "About 93 million",
+      "fr": "Environ 93 millions",
+      "fa": "حدود ۹۳ میلیون نفر",
+      "ms": "Kira-kira 93 juta",
+      "ur": "تقریباً 93 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب الجعفري هو المذهب الغالب رسميًا في إيران.",
+      "en": "The Ja'fari school is officially predominant in Iran.",
+      "fr": "L’école jaafarite est officiellement dominante en Iran.",
+      "fa": "مذهب جعفری در ایران مذهب رسمی غالب است.",
+      "ms": "Mazhab Jaafari ialah mazhab rasmi yang dominan di Iran.",
+      "ur": "مسلک جعفری ایران میں سرکاری طور پر غالب ہے۔"
+    }
+  },
+  {
+    "flag": "🇲🇦",
+    "name": {
+      "ar": "المغرب",
+      "en": "Morocco",
+      "fr": "Maroc",
+      "fa": "مراکش",
+      "ms": "Maghribi",
+      "ur": "مراکش"
+    },
+    "madhab_code": "maliki",
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite",
+      "fa": "مالکی",
+      "ms": "Maliki",
+      "ur": "مالکی"
+    },
+    "population": {
+      "ar": "نحو 38 مليون نسمة",
+      "en": "About 38 million",
+      "fr": "Environ 38 millions",
+      "fa": "حدود ۳۸ میلیون نفر",
+      "ms": "Kira-kira 38 juta",
+      "ur": "تقریباً 38 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب المالكي هو المذهب الغالب تاريخيًا.",
+      "en": "The Maliki school has historically been predominant.",
+      "fr": "L’école malikite est historiquement dominante.",
+      "fa": "مذهب مالکی از نظر تاریخی غالب است.",
+      "ms": "Mazhab Maliki dominan secara sejarah.",
+      "ur": "مسلک مالکی تاریخی طور پر غالب ہے۔"
+    }
+  },
+  {
+    "flag": "🇪🇬",
+    "name": {
+      "ar": "مصر",
+      "en": "Egypt",
+      "fr": "Égypte",
+      "fa": "مصر",
+      "ms": "Mesir",
+      "ur": "مصر"
+    },
+    "madhab_code": "shafii",
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite",
+      "fa": "شافعی",
+      "ms": "Syafie",
+      "ur": "شافعی"
+    },
+    "population": {
+      "ar": "نحو 120 مليون نسمة",
+      "en": "About 120 million",
+      "fr": "Environ 120 millions",
+      "fa": "حدود ۱۲۰ میلیون نفر",
+      "ms": "Kira-kira 120 juta",
+      "ur": "تقریباً 120 ملین"
+    },
+    "madhab_summary": {
+      "ar": "يوجد في مصر تنوع فقهي، مع حضور تاريخي للمدرسة الشافعية وغيرها.",
+      "en": "Egypt has broad juristic diversity, including a historical Shafi'i presence.",
+      "fr": "L’Égypte connaît une grande diversité juridique, avec une présence chaféite historique.",
+      "fa": "مصر تنوع فقهی گسترده‌ای دارد و مذهب شافعی نیز حضور تاریخی دارد.",
+      "ms": "Mesir mempunyai kepelbagaian fiqh termasuk pengaruh Syafie secara sejarah.",
+      "ur": "مصر میں وسیع فقہی تنوع ہے اور شافعی مکتب کی تاریخی موجودگی بھی ہے۔"
+    }
+  },
+  {
+    "flag": "🇸🇦",
+    "name": {
+      "ar": "السعودية",
+      "en": "Saudi Arabia",
+      "fr": "Arabie saoudite",
+      "fa": "عربستان سعودی",
+      "ms": "Arab Saudi",
+      "ur": "سعودی عرب"
+    },
+    "madhab_code": "hanbali",
+    "madhab": {
+      "ar": "حنبلي",
+      "en": "Hanbali",
+      "fr": "Hanbalite",
+      "fa": "حنبلی",
+      "ms": "Hanbali",
+      "ur": "حنبلی"
+    },
+    "population": {
+      "ar": "نحو 35 مليون نسمة",
+      "en": "About 35 million",
+      "fr": "Environ 35 millions",
+      "fa": "حدود ۳۵ میلیون نفر",
+      "ms": "Kira-kira 35 juta",
+      "ur": "تقریباً 35 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب الحنبلي هو الغالب في المؤسسات الدينية الرسمية، مع تنوع اجتماعي.",
+      "en": "The Hanbali school is prominent in official religious institutions, alongside social diversity.",
+      "fr": "L’école hanbalite est importante dans les institutions religieuses officielles.",
+      "fa": "مذهب حنبلی در نهادهای دینی رسمی غالب است و تنوع اجتماعی نیز وجود دارد.",
+      "ms": "Mazhab Hanbali menonjol dalam institusi agama rasmi dengan kepelbagaian sosial.",
+      "ur": "مسلک حنبلی سرکاری مذہبی اداروں میں نمایاں ہے، تاہم سماجی تنوع بھی موجود ہے۔"
+    }
+  },
+  {
+    "flag": "🇮🇩",
+    "name": {
+      "ar": "إندونيسيا",
+      "en": "Indonesia",
+      "fr": "Indonésie",
+      "fa": "اندونزی",
+      "ms": "Indonesia",
+      "ur": "انڈونیشیا"
+    },
+    "madhab_code": "shafii",
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite",
+      "fa": "شافعی",
+      "ms": "Syafie",
+      "ur": "شافعی"
+    },
+    "population": {
+      "ar": "نحو 288 مليون نسمة",
+      "en": "About 288 million",
+      "fr": "Environ 288 millions",
+      "fa": "حدود ۲۸۸ میلیون نفر",
+      "ms": "Kira-kira 288 juta",
+      "ur": "تقریباً 288 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب الشافعي هو الغالب في المؤسسات الإسلامية التقليدية.",
+      "en": "The Shafi'i school is predominant in traditional Islamic institutions.",
+      "fr": "L’école chaféite domine dans les institutions islamiques traditionnelles.",
+      "fa": "مذهب شافعی در نهادهای سنتی اسلامی غالب است.",
+      "ms": "Mazhab Syafie dominan dalam institusi Islam tradisional.",
+      "ur": "مسلک شافعی روایتی اسلامی اداروں میں غالب ہے۔"
+    }
+  },
+  {
+    "flag": "🇲🇾",
+    "name": {
+      "ar": "ماليزيا",
+      "en": "Malaysia",
+      "fr": "Malaisie",
+      "fa": "مالزی",
+      "ms": "Malaysia",
+      "ur": "ملائیشیا"
+    },
+    "madhab_code": "shafii",
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite",
+      "fa": "شافعی",
+      "ms": "Syafie",
+      "ur": "شافعی"
+    },
+    "population": {
+      "ar": "نحو 36 مليون نسمة",
+      "en": "About 36 million",
+      "fr": "Environ 36 millions",
+      "fa": "حدود ۳۶ میلیون نفر",
+      "ms": "Kira-kira 36 juta",
+      "ur": "تقریباً 36 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب الشافعي هو الغالب في المؤسسات الدينية الرسمية.",
+      "en": "The Shafi'i school is predominant in official religious institutions.",
+      "fr": "L’école chaféite est dominante dans les institutions religieuses officielles.",
+      "fa": "مذهب شافعی در نهادهای دینی رسمی غالب است.",
+      "ms": "Mazhab Syafie dominan dalam institusi agama rasmi.",
+      "ur": "مسلک شافعی سرکاری مذہبی اداروں میں غالب ہے۔"
+    }
+  },
+  {
+    "flag": "🇵🇰",
+    "name": {
+      "ar": "باكستان",
+      "en": "Pakistan",
+      "fr": "Pakistan",
+      "fa": "پاکستان",
+      "ms": "Pakistan",
+      "ur": "پاکستان"
+    },
+    "madhab_code": "hanafi",
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite",
+      "fa": "حنفی",
+      "ms": "Hanafi",
+      "ur": "حنفی"
+    },
+    "population": {
+      "ar": "نحو 259 مليون نسمة",
+      "en": "About 259 million",
+      "fr": "Environ 259 millions",
+      "fa": "حدود ۲۵۹ میلیون نفر",
+      "ms": "Kira-kira 259 juta",
+      "ur": "تقریباً 259 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب الحنفي هو الأوسع انتشارًا بين المسلمين السنة في باكستان.",
+      "en": "The Hanafi school is the most widespread among Pakistan's Sunni Muslims.",
+      "fr": "L’école hanafite est la plus répandue parmi les sunnites pakistanais.",
+      "fa": "مذهب حنفی در میان اهل سنت پاکستان گسترده‌ترین مذهب است.",
+      "ms": "Mazhab Hanafi paling meluas dalam kalangan Sunni Pakistan.",
+      "ur": "مسلک حنفی پاکستان کے اہل سنت میں سب سے زیادہ رائج ہے۔"
+    }
+  },
+  {
+    "flag": "🇦🇫",
+    "name": {
+      "ar": "أفغانستان",
+      "en": "Afghanistan",
+      "fr": "Afghanistan",
+      "fa": "افغانستان",
+      "ms": "Afghanistan",
+      "ur": "افغانستان"
+    },
+    "madhab_code": "hanafi",
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite",
+      "fa": "حنفی",
+      "ms": "Hanafi",
+      "ur": "حنفی"
+    },
+    "population": {
+      "ar": "نحو 44 مليون نسمة",
+      "en": "About 44 million",
+      "fr": "Environ 44 millions",
+      "fa": "حدود ۴۴ میلیون نفر",
+      "ms": "Kira-kira 44 juta",
+      "ur": "تقریباً 44 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب الحنفي هو الغالب بين المسلمين السنة.",
+      "en": "The Hanafi school is predominant among Sunni Muslims.",
+      "fr": "L’école hanafite est dominante parmi les sunnites.",
+      "fa": "مذهب حنفی میان اهل سنت غالب است.",
+      "ms": "Mazhab Hanafi dominan dalam kalangan Sunni.",
+      "ur": "مسلک حنفی اہل سنت میں غالب ہے۔"
+    }
+  },
+  {
+    "flag": "🇴🇲",
+    "name": {
+      "ar": "عُمان",
+      "en": "Oman",
+      "fr": "Oman",
+      "fa": "عمان",
+      "ms": "Oman",
+      "ur": "عمان"
+    },
+    "madhab_code": "ibadi",
+    "madhab": {
+      "ar": "إباضي",
+      "en": "Ibadi",
+      "fr": "Ibadite",
+      "fa": "اباضی",
+      "ms": "Ibadi",
+      "ur": "اباضی"
+    },
+    "population": {
+      "ar": "نحو 5.5 مليون نسمة",
+      "en": "About 5.5 million",
+      "fr": "Environ 5,5 millions",
+      "fa": "حدود ۵٫۵ میلیون نفر",
+      "ms": "Kira-kira 5.5 juta",
+      "ur": "تقریباً 5.5 ملین"
+    },
+    "madhab_summary": {
+      "ar": "المذهب الإباضي هو الأبرز تاريخيًا في عُمان، مع وجود مدارس أخرى.",
+      "en": "The Ibadi school is historically prominent in Oman, alongside other schools.",
+      "fr": "L’école ibadite est historiquement importante à Oman, avec d’autres écoles.",
+      "fa": "مذهب اباضی از نظر تاریخی در عمان برجسته است و مذاهب دیگر نیز حضور دارند.",
+      "ms": "Mazhab Ibadi menonjol secara sejarah di Oman bersama mazhab lain.",
+      "ur": "مسلک اباضی عمان میں تاریخی طور پر نمایاں ہے، دیگر مسالک بھی موجود ہیں۔"
+    }
+  }
+]
