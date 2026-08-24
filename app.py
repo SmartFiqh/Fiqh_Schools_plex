@@ -16,7 +16,7 @@ import streamlit as st
 
 
 # ============================================================
-# Configuration
+# إعداد الصفحة
 # ============================================================
 
 st.set_page_config(
@@ -25,6 +25,11 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+
+# ============================================================
+# الإعدادات
+# ============================================================
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -43,10 +48,6 @@ EMBED_MODEL = os.getenv(
     "gemini-embedding-001",
 )
 
-
-# ============================================================
-# Gemini setup
-# ============================================================
 
 try:
     from google import genai
@@ -96,7 +97,7 @@ if USE_GEMINI:
 
 
 # ============================================================
-# Languages
+# اللغات
 # ============================================================
 
 LANGUAGES = {
@@ -323,7 +324,7 @@ UI["ur"].update({
 
 
 # ============================================================
-# External data
+# Load external data
 # ============================================================
 
 def load_json(
@@ -470,10 +471,10 @@ def madhab_name(
     code: str,
     lang: str,
 ) -> str:
-    data = MADHABS.get(code, {})
+    item = MADHABS.get(code, {})
 
     return text_for(
-        data.get("name", code),
+        item.get("name", code),
         lang,
         code,
     )
@@ -510,7 +511,7 @@ def topic_name(
 
 
 # ============================================================
-# Database
+# SQLite database
 # ============================================================
 
 class Database:
@@ -614,7 +615,7 @@ class Database:
 
 
 # ============================================================
-# Gemini
+# Gemini service
 # ============================================================
 
 class GeminiService:
@@ -977,9 +978,9 @@ def render_scholars(
                     ("summary", "Summary / نبذة"),
                 ]
 
-                for key, label in fields:
+                for field, label in fields:
                     value = text_for(
-                        item.get(key, ""),
+                        item.get(field, ""),
                         lang,
                     )
 
@@ -1144,12 +1145,6 @@ def render_question_panel(
                     for code in selected_madhabs
                 )
 
-                answer_style = (
-                    "brief"
-                    if level == "brief"
-                    else "detailed"
-                )
-
                 prompt = f"""
 You are an educational Islamic fiqh research assistant.
 You do not issue a personal fatwa.
@@ -1161,7 +1156,7 @@ Selected schools:
 {selected_names}
 
 Answer style:
-{answer_style}
+{"brief" if level == "brief" else "detailed"}
 
 Uploaded reference context:
 {context}
@@ -1169,7 +1164,7 @@ Uploaded reference context:
 Instructions:
 - Answer the exact question.
 - Compare only the selected schools.
-- Use the uploaded context when relevant.
+- Use uploaded context when relevant.
 - Use Google Search grounding if current information is needed.
 - Mention disagreement clearly.
 - Do not invent citations.
@@ -1285,8 +1280,8 @@ def main():
     with st.sidebar:
         st.header(text["madhab"])
 
-        # Correct dynamic options handling.
-        # This prevents defaults that are not present in options.
+        # Safe dynamic options:
+        # every default must exist in options.
         available_codes = [
             code
             for code, value in MADHABS.items()
@@ -1318,7 +1313,7 @@ def main():
                 code,
                 lang,
             ),
-            key="selected_madhabs",
+            key="selected_madhabs_v4",
         )
 
         topic_options = [
