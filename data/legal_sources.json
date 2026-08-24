@@ -1,0 +1,110 @@
+[
+  {
+    "name": {
+      "ar": "القرآن الكريم",
+      "en": "The Qur'an",
+      "fr": "Le Coran",
+      "fa": "قرآن کریم",
+      "ms": "Al-Quran",
+      "ur": "قرآن کریم"
+    },
+    "description": {
+      "ar": "المصدر الأعلى والأصل الأول للتشريع الإسلامي.",
+      "en": "The highest and primary source of Islamic law.",
+      "fr": "La source suprême et première du droit islamique.",
+      "fa": "بالاترین و نخستین منبع تشریع اسلامی.",
+      "ms": "Sumber tertinggi dan pertama hukum Islam.",
+      "ur": "اسلامی شریعت کا اعلیٰ اور پہلا ماخذ۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "السنة النبوية",
+      "en": "Prophetic Sunnah",
+      "fr": "Sunna prophétique",
+      "fa": "سنت نبوی",
+      "ms": "Sunnah Nabi",
+      "ur": "سنت نبوی"
+    },
+    "description": {
+      "ar": "أقوال النبي ﷺ وأفعاله وتقريراته، وهي مبينة للقرآن.",
+      "en": "The Prophet's sayings, actions, and approvals explaining the Qur'an.",
+      "fr": "Les paroles, actes et approbations du Prophète expliquant le Coran.",
+      "fa": "گفتار، کردار و تقریر پیامبر ﷺ که قرآن را تبیین می‌کند.",
+      "ms": "Perkataan, perbuatan dan pengakuan Nabi yang menjelaskan Al-Quran.",
+      "ur": "نبی ﷺ کے اقوال، افعال اور تقریرات جو قرآن کی وضاحت کرتے ہیں۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "الإجماع",
+      "en": "Ijma' — scholarly consensus",
+      "fr": "Ijma‘ — consensus savant",
+      "fa": "اجماع",
+      "ms": "Ijmak",
+      "ur": "اجماع"
+    },
+    "description": {
+      "ar": "اتفاق المجتهدين على حكم شرعي في مسألة.",
+      "en": "Agreement of qualified scholars on a legal ruling.",
+      "fr": "Accord des juristes qualifiés sur une règle juridique.",
+      "fa": "اتفاق مجتهدان بر یک حکم شرعی.",
+      "ms": "Kesepakatan ulama yang berkelayakan tentang hukum syarak.",
+      "ur": "اہل اجتہاد کا کسی شرعی حکم پر اتفاق۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "القياس",
+      "en": "Qiyas — analogical reasoning",
+      "fr": "Qiyas — raisonnement analogique",
+      "fa": "قیاس",
+      "ms": "Qiyas",
+      "ur": "قیاس"
+    },
+    "description": {
+      "ar": "إلحاق مسألة جديدة بمسألة منصوص عليها لعلة مشتركة.",
+      "en": "Applying a known ruling to a new case because of a shared cause.",
+      "fr": "Étendre une règle connue à un nouveau cas par une cause commune.",
+      "fa": "سرایت حکم مسئله شناخته‌شده به مسئله جدید به دلیل علت مشترک.",
+      "ms": "Menyamakan hukum kes baharu dengan kes asal kerana sebab yang sama.",
+      "ur": "مشترک علت کی بنا پر نئی مسئلہ کو منصوص مسئلہ کے حکم میں شامل کرنا۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "الاجتهاد",
+      "en": "Ijtihad — qualified legal reasoning",
+      "fr": "Ijtihad — raisonnement juridique",
+      "fa": "اجتهاد",
+      "ms": "Ijtihad",
+      "ur": "اجتہاد"
+    },
+    "description": {
+      "ar": "استفراغ الفقيه وسعه لاستنباط الحكم الشرعي.",
+      "en": "A qualified jurist's effort to derive a legal ruling.",
+      "fr": "L’effort d’un juriste qualifié pour déduire une règle.",
+      "fa": "کوشش علمی فقیه برای استخراج حکم شرعی.",
+      "ms": "Usaha mujtahid untuk mengeluarkan hukum syarak.",
+      "ur": "فقیہ کی طرف سے شرعی حکم اخذ کرنے کی علمی کوشش۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "العرف",
+      "en": "Custom — 'Urf",
+      "fr": "Coutume — ‘Urf",
+      "fa": "عرف",
+      "ms": "Urf — adat",
+      "ur": "عرف"
+    },
+    "description": {
+      "ar": "ما اعتاده الناس مما لا يخالف نصًا أو أصلًا شرعيًا.",
+      "en": "A prevailing practice that does not conflict with Islamic law.",
+      "fr": "Une pratique établie qui ne contredit pas la loi islamique.",
+      "fa": "رفتار رایج مردم که با شرع مخالفت نداشته باشد.",
+      "ms": "Amalan masyarakat yang tidak bercanggah dengan syarak.",
+      "ur": "لوگوں کا رائج طریقہ جو شریعت کے خلاف نہ ہو۔"
+    }
+  }
+]
