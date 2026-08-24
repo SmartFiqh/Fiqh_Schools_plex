@@ -1,0 +1,156 @@
+[
+  {
+    "name": {
+      "ar": "القرآن الكريم",
+      "en": "The Qur'an"
+    },
+    "definition": {
+      "ar": "الوحي المتلو الذي جعله الله أصلًا أعلى للتشريع.",
+      "en": "The revealed text that serves as the highest source of Islamic law."
+    },
+    "note": {
+      "ar": "متفق على أصل حجيته بين المسلمين.",
+      "en": "Its authority as a primary source is broadly recognized."
+    }
+  },
+  {
+    "name": {
+      "ar": "السنة النبوية",
+      "en": "Prophetic Sunnah"
+    },
+    "definition": {
+      "ar": "ما نقل عن النبي ﷺ من قول أو فعل أو تقرير.",
+      "en": "The Prophet's sayings, actions, and approvals."
+    },
+    "note": {
+      "ar": "تختلف مناهج التوثيق والاستدلال بين المدارس.",
+      "en": "Schools differ in authentication and interpretive methods."
+    }
+  },
+  {
+    "name": {
+      "ar": "الإجماع",
+      "en": "Ijma' — consensus"
+    },
+    "definition": {
+      "ar": "اتفاق المجتهدين على حكم شرعي.",
+      "en": "Agreement of qualified jurists on a legal ruling."
+    },
+    "note": {
+      "ar": "تختلف شروط اعتباره وتعريفه بين المدارس.",
+      "en": "Its definition and conditions vary between schools."
+    }
+  },
+  {
+    "name": {
+      "ar": "القياس",
+      "en": "Qiyas — analogy"
+    },
+    "definition": {
+      "ar": "إلحاق فرع بأصل لعلة مشتركة.",
+      "en": "Applying an established ruling to a new case sharing its effective cause."
+    },
+    "note": {
+      "ar": "يبرز استعماله في عدد من المدارس السنية.",
+      "en": "Its use is prominent in several Sunni schools."
+    }
+  },
+  {
+    "name": {
+      "ar": "الاستحسان",
+      "en": "Istihsan — juristic preference"
+    },
+    "definition": {
+      "ar": "العدول عن قياس ظاهر إلى دليل أو اعتبار أقوى.",
+      "en": "Preferring a stronger legal consideration over an apparent analogy."
+    },
+    "note": {
+      "ar": "يبرز في أصول المذهب الحنفي.",
+      "en": "It is especially prominent in Hanafi legal theory."
+    }
+  },
+  {
+    "name": {
+      "ar": "المصلحة المرسلة",
+      "en": "Maslahah mursalah — public interest"
+    },
+    "definition": {
+      "ar": "اعتبار مصلحة لا تعارض أصلًا شرعيًا ولا نصًا معتبرًا.",
+      "en": "Considering public interest consistent with Islamic legal objectives."
+    },
+    "note": {
+      "ar": "تظهر بصورة بارزة في المدرسة المالكية.",
+      "en": "It is especially prominent in Maliki legal theory."
+    }
+  },
+  {
+    "name": {
+      "ar": "العرف",
+      "en": "Custom — 'Urf"
+    },
+    "definition": {
+      "ar": "ما اعتاده الناس مما لا يخالف نصًا أو أصلًا شرعيًا.",
+      "en": "A prevailing practice that does not conflict with Islamic law."
+    },
+    "note": {
+      "ar": "يكثر استعماله في المعاملات والأحوال الشخصية.",
+      "en": "It is frequently used in transactions and family law."
+    }
+  },
+  {
+    "name": {
+      "ar": "الاستصحاب",
+      "en": "Istishab — presumption of continuity"
+    },
+    "definition": {
+      "ar": "إبقاء الحكم السابق حتى يثبت ما يغيره.",
+      "en": "Maintaining an existing ruling until evidence establishes a change."
+    },
+    "note": {
+      "ar": "يرتبط بقواعد اليقين وبراءة الذمة.",
+      "en": "It relates to certainty and presumption of freedom from liability."
+    }
+  },
+  {
+    "name": {
+      "ar": "سد الذرائع",
+      "en": "Sadd al-dhara'i — blocking the means"
+    },
+    "definition": {
+      "ar": "منع الوسائل المباحة إذا أفضت غالبًا إلى مفسدة.",
+      "en": "Restricting permissible means that commonly lead to harm or prohibition."
+    },
+    "note": {
+      "ar": "من القواعد البارزة في أصول المالكية والحنابلة.",
+      "en": "Prominent in Maliki and Hanbali legal theory."
+    }
+  },
+  {
+    "name": {
+      "ar": "الضرورة",
+      "en": "Necessity"
+    },
+    "definition": {
+      "ar": "حالة من الخطر تبيح قدرًا من التخفيف المنضبط.",
+      "en": "A serious situation allowing a limited, regulated concession."
+    },
+    "note": {
+      "ar": "تطبق بقدرها ولا تتجاوز الحاجة.",
+      "en": "It is limited to the extent of the need."
+    }
+  },
+  {
+    "name": {
+      "ar": "العقل",
+      "en": "Reason"
+    },
+    "definition": {
+      "ar": "استعمال النظر العقلي المنضبط لفهم الحكم واستنباطه.",
+      "en": "Disciplined rational reasoning used to understand and derive rulings."
+    },
+    "note": {
+      "ar": "له حضور خاص في بعض المدارس الكلامية والفقهية.",
+      "en": "It has a distinctive role in some theological and legal schools."
+    }
+  }
+]
