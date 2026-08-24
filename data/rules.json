@@ -1,0 +1,158 @@
+[
+  {
+    "name": {
+      "ar": "الأمور بمقاصدها",
+      "en": "Actions are judged by intentions",
+      "fr": "Les actes sont jugés selon les intentions",
+      "fa": "کارها بر اساس نیت‌ها سنجیده می‌شوند",
+      "ms": "Amalan dinilai berdasarkan niat",
+      "ur": "اعمال کا دارومدار نیتوں پر ہے"
+    },
+    "description": {
+      "ar": "تعتبر المقاصد والنيات في فهم الأفعال وترتيب آثارها.",
+      "en": "Intentions are considered when determining legal effects.",
+      "fr": "Les intentions sont prises en compte pour déterminer les effets juridiques.",
+      "fa": "نیت و هدف در تعیین آثار شرعی اعمال معتبر است.",
+      "ms": "Niat dan tujuan diambil kira dalam menentukan hukum.",
+      "ur": "اعمال کے شرعی اثرات میں نیتوں کا اعتبار کیا جاتا ہے۔"
+    },
+    "example": {
+      "ar": "يختلف دفع المال باختلاف كونه صدقة أو قرضًا.",
+      "en": "Giving money differs depending on whether it is charity or a loan.",
+      "fr": "Le don d’argent diffère selon qu’il s’agit d’une aumône ou d’un prêt.",
+      "fa": "دادن پول با توجه به صدقه یا قرض بودن متفاوت است.",
+      "ms": "Pemberian wang berbeza sama ada sedekah atau pinjaman.",
+      "ur": "مال دینے کا حکم صدقہ یا قرض ہونے کے لحاظ سے مختلف ہوتا ہے۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "اليقين لا يزول بالشك",
+      "en": "Certainty is not removed by doubt",
+      "fr": "La certitude n’est pas levée par le doute",
+      "fa": "یقین با شک زائل نمی‌شود",
+      "ms": "Keyakinan tidak dihilangkan oleh keraguan",
+      "ur": "یقین شک سے زائل نہیں ہوتا"
+    },
+    "description": {
+      "ar": "الحكم الثابت بيقين لا يرفع بمجرد شك طارئ.",
+      "en": "An established certainty is not overturned by mere doubt.",
+      "fr": "Une certitude établie n’est pas annulée par un simple doute.",
+      "fa": "حکم ثابت با یقین با شک عارضی از بین نمی‌رود.",
+      "ms": "Sesuatu yang pasti tidak gugur hanya kerana keraguan.",
+      "ur": "یقینی حالت محض شک سے ختم نہیں ہوتی۔"
+    },
+    "example": {
+      "ar": "من تيقن الطهارة وشك في الحدث يبقى على طهارته.",
+      "en": "One certain of purity remains pure when merely doubting impurity.",
+      "fr": "Celui qui est certain d’être pur le reste malgré un simple doute.",
+      "fa": "کسی که به طهارت یقین دارد و شک می‌کند، پاک باقی می‌ماند.",
+      "ms": "Orang yang yakin berwuduk kekal suci apabila ragu-ragu.",
+      "ur": "جسے طہارت کا یقین ہو وہ محض شک سے بے وضو نہیں ہوگا۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "المشقة تجلب التيسير",
+      "en": "Hardship brings facilitation",
+      "fr": "La difficulté entraîne la facilitation",
+      "fa": "مشقت موجب آسانی است",
+      "ms": "Kesukaran membawa kemudahan",
+      "ur": "مشقت آسانی کا سبب بنتی ہے"
+    },
+    "description": {
+      "ar": "المشقة غير المعتادة سبب معتبر للتخفيف الشرعي.",
+      "en": "Unusual hardship may justify a legal concession.",
+      "fr": "Une difficulté inhabituelle peut justifier une facilité juridique.",
+      "fa": "مشقت غیر عادی می‌تواند موجب تخفیف شرعی شود.",
+      "ms": "Kesukaran luar biasa boleh membawa rukhsah syarak.",
+      "ur": "غیر معمولی مشقت شرعی رخصت کا سبب بن سکتی ہے۔"
+    },
+    "example": {
+      "ar": "الفطر للمريض الذي يضره الصوم.",
+      "en": "Breaking the fast for a sick person harmed by fasting.",
+      "fr": "Rompre le jeûne pour un malade.",
+      "fa": "افطار برای بیماری که روزه به او ضرر می‌زند.",
+      "ms": "Berbuka bagi orang sakit yang terjejas oleh puasa.",
+      "ur": "اس مریض کے لیے روزہ چھوڑنا جسے روزہ نقصان دے۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "الضرر يزال",
+      "en": "Harm must be removed",
+      "fr": "Le préjudice doit être supprimé",
+      "fa": "ضرر باید برطرف شود",
+      "ms": "Kemudaratan hendaklah dihilangkan",
+      "ur": "ضرر کو دور کیا جائے گا"
+    },
+    "description": {
+      "ar": "يجب رفع الضرر أو تقليله بقدر الإمكان.",
+      "en": "Harm should be removed or reduced as far as possible.",
+      "fr": "Le préjudice doit être supprimé ou réduit autant que possible.",
+      "fa": "ضرر باید تا حد امکان برطرف یا کاهش داده شود.",
+      "ms": "Kemudaratan hendaklah dihapuskan atau dikurangkan.",
+      "ur": "ضرر کو حتی الامکان دور یا کم کیا جائے۔"
+    },
+    "example": {
+      "ar": "منع استعمال طريق يضر بالمارة.",
+      "en": "Preventing use of a road that harms pedestrians.",
+      "fr": "Interdire un passage dangereux pour les piétons.",
+      "fa": "جلوگیری از راهی که به عابران آسیب می‌زند.",
+      "ms": "Melarang jalan yang membahayakan pejalan kaki.",
+      "ur": "ایسے راستے کے استعمال سے روکنا جو راہ گیروں کو نقصان دے۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "العادة محكمة",
+      "en": "Custom is authoritative",
+      "fr": "La coutume fait autorité",
+      "fa": "عرف معتبر است",
+      "ms": "Adat menjadi pertimbangan",
+      "ur": "عرف معتبر ہے"
+    },
+    "description": {
+      "ar": "تعتبر العادة الصحيحة فيما لم يرد فيه تحديد شرعي خاص.",
+      "en": "Sound custom is considered where no specific legal determination exists.",
+      "fr": "La coutume saine est prise en compte en l’absence de règle précise.",
+      "fa": "در موارد بدون حکم خاص، عرف صحیح معتبر است.",
+      "ms": "Adat yang sahih diambil kira apabila tiada penetapan khusus.",
+      "ur": "جہاں شرعی تحدید نہ ہو وہاں صحیح عرف کا اعتبار کیا جاتا ہے۔"
+    },
+    "example": {
+      "ar": "تحديد بعض صور النفقة بحسب عرف البلد.",
+      "en": "Determining aspects of maintenance according to local custom.",
+      "fr": "Déterminer la pension selon la coutume locale.",
+      "fa": "تعیین برخی صور نفقه بر اساس عرف محل.",
+      "ms": "Menentukan sebahagian nafkah berdasarkan adat setempat.",
+      "ur": "نفقہ کی بعض صورتوں کا تعین مقامی عرف کے مطابق کرنا۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "الأصل في المعاملات الإباحة",
+      "en": "Transactions are presumed permissible",
+      "fr": "Les transactions sont présumées permises",
+      "fa": "اصل در معاملات اباحه است",
+      "ms": "Asal muamalat ialah harus",
+      "ur": "معاملات میں اصل اباحت ہے"
+    },
+    "description": {
+      "ar": "الأصل في المعاملات الجديدة الجواز ما لم تتضمن محظورًا.",
+      "en": "New transactions are presumed permissible unless prohibited.",
+      "fr": "Les nouvelles transactions sont permises sauf interdit.",
+      "fa": "معاملات جدید اصلًا جایز هستند مگر اینکه محظور باشند.",
+      "ms": "Urus niaga baharu asalnya harus kecuali dilarang.",
+      "ur": "نئے معاملات اصلًا جائز ہیں جب تک ممانعت نہ ہو۔"
+    },
+    "example": {
+      "ar": "جواز وسيلة بيع جديدة إذا خلت من الربا والغرر.",
+      "en": "A new sales method is permissible if free from riba and excessive uncertainty.",
+      "fr": "Une méthode de vente est permise sans usure ni aléa excessif.",
+      "fa": "روش فروش جدید اگر از ربا و غرر خالی باشد جایز است.",
+      "ms": "Kaedah jual beli baharu harus jika bebas daripada riba dan gharar.",
+      "ur": "نیا طریقۂ فروخت اگر سود اور غرر سے پاک ہو تو جائز ہے۔"
+    }
+  }
+]
