@@ -1,0 +1,288 @@
+[
+  {
+    "name": {
+      "ar": "الحلال",
+      "en": "Halal",
+      "fr": "Halal",
+      "fa": "حلال",
+      "ms": "Halal",
+      "ur": "حلال"
+    },
+    "definition": {
+      "ar": "ما أذن الشرع في فعله.",
+      "en": "What Islamic law permits.",
+      "fr": "Ce que la loi islamique permet.",
+      "fa": "آنچه شرع انجام آن را اجازه داده است.",
+      "ms": "Perkara yang dibenarkan syarak.",
+      "ur": "جسے شریعت نے جائز قرار دیا ہو۔"
+    },
+    "example": {
+      "ar": "الأكل من الطعام الطيب المباح.",
+      "en": "Eating permissible wholesome food.",
+      "fr": "Manger une nourriture permise.",
+      "fa": "خوردن غذای پاک و مباح.",
+      "ms": "Makan makanan yang halal.",
+      "ur": "پاکیزہ اور حلال کھانا۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "المباح",
+      "en": "Permissible",
+      "fr": "Permis",
+      "fa": "مباح",
+      "ms": "Harus",
+      "ur": "مباح"
+    },
+    "definition": {
+      "ar": "ما خيّر الشارع بين فعله وتركه.",
+      "en": "What is left to the person's choice.",
+      "fr": "Un acte laissé au libre choix.",
+      "fa": "کاری که انجام یا ترک آن اختیاری است.",
+      "ms": "Perkara yang boleh dilakukan atau ditinggalkan.",
+      "ur": "جس کے کرنے یا نہ کرنے میں اختیار ہو۔"
+    },
+    "example": {
+      "ar": "اختيار لون الثوب.",
+      "en": "Choosing a clothing color.",
+      "fr": "Choisir une couleur de vêtement.",
+      "fa": "انتخاب رنگ لباس.",
+      "ms": "Memilih warna pakaian.",
+      "ur": "لباس کا رنگ منتخب کرنا۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "الحرام",
+      "en": "Haram",
+      "fr": "Interdit",
+      "fa": "حرام",
+      "ms": "Haram",
+      "ur": "حرام"
+    },
+    "definition": {
+      "ar": "ما طلب الشرع تركه طلبًا جازمًا.",
+      "en": "What Islamic law definitively prohibits.",
+      "fr": "Ce que la loi islamique interdit catégoriquement.",
+      "fa": "آنچه شرع به طور قطعی از آن نهی کرده است.",
+      "ms": "Perkara yang dilarang secara tegas.",
+      "ur": "جسے شریعت نے قطعی طور پر منع کیا ہو۔"
+    },
+    "example": {
+      "ar": "السرقة.",
+      "en": "Theft.",
+      "fr": "Le vol.",
+      "fa": "دزدی.",
+      "ms": "Mencuri.",
+      "ur": "چوری۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "المكروه",
+      "en": "Disliked",
+      "fr": "Déconseillé",
+      "fa": "مکروه",
+      "ms": "Makruh",
+      "ur": "مکروہ"
+    },
+    "definition": {
+      "ar": "ما طلب الشرع تركه دون إلزام.",
+      "en": "What is discouraged without strict prohibition.",
+      "fr": "Ce que la loi déconseille sans l’interdire catégoriquement.",
+      "fa": "آنچه ترک آن توصیه شده ولی الزام نشده است.",
+      "ms": "Perkara yang tidak digalakkan tanpa larangan tegas.",
+      "ur": "جسے شریعت نے ناپسند کیا مگر قطعی حرام نہ کیا ہو۔"
+    },
+    "example": {
+      "ar": "فعل مكروه لا يبطل العبادة.",
+      "en": "A disliked act that does not invalidate worship.",
+      "fr": "Un acte déconseillé qui n’annule pas l’adoration.",
+      "fa": "کاری مکروه که عبادت را باطل نمی‌کند.",
+      "ms": "Perbuatan makruh yang tidak membatalkan ibadah.",
+      "ur": "ایسا مکروہ عمل جو عبادت کو باطل نہ کرے۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "الواجب",
+      "en": "Wajib",
+      "fr": "Obligatoire",
+      "fa": "واجب",
+      "ms": "Wajib",
+      "ur": "واجب"
+    },
+    "definition": {
+      "ar": "ما طلب الشرع فعله طلبًا جازمًا.",
+      "en": "What Islamic law demands decisively.",
+      "fr": "Ce que la loi exige catégoriquement.",
+      "fa": "آنچه شرع انجام آن را قطعی طلب کرده است.",
+      "ms": "Perkara yang diwajibkan secara tegas.",
+      "ur": "جسے شریعت نے لازم قرار دیا ہو۔"
+    },
+    "example": {
+      "ar": "الصلاة المفروضة.",
+      "en": "The obligatory prayer.",
+      "fr": "La prière obligatoire.",
+      "fa": "نماز واجب.",
+      "ms": "Solat fardu.",
+      "ur": "فرض نماز۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "الفرض",
+      "en": "Fard",
+      "fr": "Fard",
+      "fa": "فرض",
+      "ms": "Fardu",
+      "ur": "فرض"
+    },
+    "definition": {
+      "ar": "ما ثبت طلبه بدليل قطعي عند من يفرق بينه وبين الواجب.",
+      "en": "An obligation established by definitive evidence.",
+      "fr": "Une obligation établie par une preuve définitive.",
+      "fa": "واجبی که با دلیل قطعی ثابت شده باشد.",
+      "ms": "Kewajipan yang ditetapkan dengan dalil qat‘i.",
+      "ur": "وہ واجب جو قطعی دلیل سے ثابت ہو۔"
+    },
+    "example": {
+      "ar": "الصلوات الخمس.",
+      "en": "The five daily prayers.",
+      "fr": "Les cinq prières quotidiennes.",
+      "fa": "نمازهای پنج‌گانه.",
+      "ms": "Solat lima waktu.",
+      "ur": "پانچ وقت کی نمازیں۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "فرض الكفاية",
+      "en": "Communal obligation",
+      "fr": "Obligation communautaire",
+      "fa": "فرض کفایه",
+      "ms": "Fardu kifayah",
+      "ur": "فرض کفایہ"
+    },
+    "definition": {
+      "ar": "واجب إذا قام به عدد كافٍ سقط الإثم عن الباقين.",
+      "en": "An obligation fulfilled when enough people perform it.",
+      "fr": "Une obligation accomplie par un nombre suffisant de personnes.",
+      "fa": "واجبی که با انجام گروهی کافی از دیگران ساقط می‌شود.",
+      "ms": "Kewajipan kolektif yang gugur apabila dilakukan oleh sebahagian yang mencukupi.",
+      "ur": "ایسا اجتماعی فرض جسے کافی لوگ ادا کر دیں تو دوسروں سے ساقط ہو جائے۔"
+    },
+    "example": {
+      "ar": "تجهيز الميت والصلاة عليه.",
+      "en": "Preparing and praying over the deceased.",
+      "fr": "La préparation et la prière funéraire.",
+      "fa": "تجهیز و نماز میت.",
+      "ms": "Menguruskan jenazah dan solat jenazah.",
+      "ur": "میت کو غسل دینا اور نماز جنازہ پڑھنا۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "المستحب",
+      "en": "Recommended",
+      "fr": "Recommandé",
+      "fa": "مستحب",
+      "ms": "Sunat",
+      "ur": "مستحب"
+    },
+    "definition": {
+      "ar": "ما يثاب فاعله ولا يعاقب تاركه.",
+      "en": "An act whose doer is rewarded and non-doer is not punished.",
+      "fr": "Un acte dont l’accomplissement est récompensé.",
+      "fa": "کاری که انجام آن پاداش دارد و ترک آن مجازات ندارد.",
+      "ms": "Perkara yang diberi pahala apabila dilakukan.",
+      "ur": "جس کے کرنے پر ثواب ہو اور چھوڑنے پر گناہ نہ ہو۔"
+    },
+    "example": {
+      "ar": "صدقة التطوع.",
+      "en": "Voluntary charity.",
+      "fr": "L’aumône volontaire.",
+      "fa": "صدقه مستحبی.",
+      "ms": "Sedekah sunat.",
+      "ur": "نفلی صدقہ۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "المندوب",
+      "en": "Mandub",
+      "fr": "Mandub",
+      "fa": "مندوب",
+      "ms": "Mandub",
+      "ur": "مندوب"
+    },
+    "definition": {
+      "ar": "ما رغب الشرع في فعله دون إلزام.",
+      "en": "An act encouraged without obligation.",
+      "fr": "Un acte encouragé sans être obligatoire.",
+      "fa": "کاری که شرع به آن ترغیب کرده ولی الزام نکرده است.",
+      "ms": "Perkara yang digalakkan tanpa kewajipan.",
+      "ur": "جس کے کرنے کی شریعت نے ترغیب دی ہو مگر لازم نہ کیا ہو۔"
+    },
+    "example": {
+      "ar": "صيام أيام نافلة.",
+      "en": "Voluntary fasting.",
+      "fr": "Le jeûne surérogatoire.",
+      "fa": "روزه مستحبی.",
+      "ms": "Puasa sunat.",
+      "ur": "نفلی روزے۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "السنة",
+      "en": "Sunnah",
+      "fr": "Sunna",
+      "fa": "سنت",
+      "ms": "Sunnah",
+      "ur": "سنت"
+    },
+    "definition": {
+      "ar": "ما نقل عن النبي ﷺ من قول أو فعل أو تقرير.",
+      "en": "A statement, action, or approval transmitted from the Prophet.",
+      "fr": "Une parole, un acte ou une approbation du Prophète.",
+      "fa": "گفتار، کردار یا تقریر پیامبر ﷺ.",
+      "ms": "Perkataan, perbuatan atau pengakuan Nabi ﷺ.",
+      "ur": "نبی ﷺ کا قول، فعل یا تقریر۔"
+    },
+    "example": {
+      "ar": "بعض هيئات الصلاة وأذكارها.",
+      "en": "Some prayer postures and remembrances.",
+      "fr": "Certaines postures et invocations de la prière.",
+      "fa": "برخی هیئت‌ها و اذکار نماز.",
+      "ms": "Sebahagian perbuatan dan zikir solat.",
+      "ur": "نماز کی بعض سنتیں اور اذکار۔"
+    }
+  },
+  {
+    "name": {
+      "ar": "السنة المؤكدة",
+      "en": "Emphasized Sunnah",
+      "fr": "Sunna confirmée",
+      "fa": "سنت مؤکده",
+      "ms": "Sunnah muakkadah",
+      "ur": "سنت مؤکدہ"
+    },
+    "definition": {
+      "ar": "سنة واظب عليها النبي ﷺ أو حث عليها حثًا ظاهرًا.",
+      "en": "A sunnah consistently practiced or strongly encouraged by the Prophet.",
+      "fr": "Une pratique régulièrement accomplie ou fortement encouragée.",
+      "fa": "سنتی که پیامبر ﷺ بر آن مداومت یا تأکید کرده است.",
+      "ms": "Sunnah yang sentiasa dilakukan atau sangat ditekankan.",
+      "ur": "وہ سنت جس پر نبی ﷺ نے ہمیشہ عمل کیا یا تاکید فرمائی۔"
+    },
+    "example": {
+      "ar": "صلاة الوتر عند من يعدها سنة مؤكدة.",
+      "en": "Witr according to those who classify it as emphasized Sunnah.",
+      "fr": "La prière du witr selon ceux qui la classent comme sunna confirmée.",
+      "fa": "نماز وتر نزد کسانی که آن را سنت مؤکده می‌دانند.",
+      "ms": "Solat witir menurut ulama yang menganggapnya sunnah muakkadah.",
+      "ur": "وتر کی نماز، ان علماء کے نزدیک جو اسے سنت مؤکدہ کہتے ہیں۔"
+    }
+  }
+]
