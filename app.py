@@ -15,7 +15,7 @@ import streamlit as st
 
 
 # ============================================================
-# إعداد الصفحة
+# Page setup
 # ============================================================
 
 st.set_page_config(
@@ -27,7 +27,7 @@ st.set_page_config(
 
 
 # ============================================================
-# الإعدادات والمسارات
+# Paths and configuration
 # ============================================================
 
 ROOT = Path(__file__).resolve().parent
@@ -49,7 +49,7 @@ logger = logging.getLogger(__name__)
 
 
 # ============================================================
-# Gemini initialization
+# Gemini setup
 # ============================================================
 
 try:
@@ -87,8 +87,7 @@ ADMIN_PASSWORD = get_secret(
 )
 
 USE_GEMINI = bool(
-    GEMINI_API_KEY
-    and GENAI_AVAILABLE
+    GEMINI_API_KEY and GENAI_AVAILABLE
 )
 
 gemini_client = None
@@ -106,7 +105,7 @@ if USE_GEMINI:
 
 
 # ============================================================
-# اللغات
+# Languages
 # ============================================================
 
 LANGUAGES = {
@@ -262,8 +261,223 @@ for code in ("fr", "fa", "ms", "ur"):
     UI[code] = UI["en"].copy()
 
 
+UI["fr"].update({
+    "title": "Recueil concis des avis des écoles juridiques",
+    "subtitle": "Plateforme éducative de comparaison du fiqh.",
+    "madhab_filter": "Filtre des écoles",
+    "sunni": "Écoles sunnites",
+    "shia": "Écoles chiites",
+    "ibadi": "École ibadite",
+    "select_sunni": "Choisir les écoles sunnites",
+    "select_shia": "Choisir les écoles chiites",
+    "select_ibadi": "Choisir l’école ibadite",
+    "topic": "Choisir le sujet",
+    "all_topics": "Tous les sujets",
+    "answer_type": "Type de réponse",
+    "brief": "Bref",
+    "detailed": "Détaillé",
+    "questions": "❓ Questions et réponses",
+    "placeholder": "Exemple : Quel est le statut de la Omra ?",
+    "search": "🔍 Rechercher",
+    "loading": "Recherche et analyse en cours...",
+    "no_question": "Veuillez écrire une question.",
+    "no_madhab": "Veuillez choisir une école.",
+    "no_result": "Aucune réponse utilisable.",
+    "ai_on": "Gemini AI : activé",
+    "ai_off": "Gemini AI : désactivé",
+    "ai_note": "Ceci est une réponse de recherche, pas une fatwa.",
+    "countries": "🗺️ États membres de l’OCI",
+    "scholars": "📜 Imams et savants",
+    "glossary": "📚 Terminologie du fiqh",
+    "sources": "📜 Sources de la jurisprudence islamique",
+    "rules": "⚖️ Principes et maximes du fiqh",
+    "usul": "📚 Principes du raisonnement juridique",
+    "references": "📁 Gestion des références",
+    "definition": "Définition",
+    "example": "Exemple",
+    "note": "Note",
+    "population_note": "Les populations musulmanes sont approximatives.",
+    "admin_password": "Mot de passe admin",
+    "access_denied": "Accès refusé.",
+    "source_title": "Titre de la source",
+    "source_text": "Texte de référence",
+    "add_reference": "Ajouter la référence",
+    "reference_added": "{} segments ajoutés.",
+})
+
+
+UI["fa"].update({
+    "title": "مجموعه مختصر دیدگاه‌های مذاهب فقهی",
+    "subtitle": "سامانه‌ای آموزشی برای مقایسه دیدگاه‌های فقهی.",
+    "madhab_filter": "فیلتر مذاهب",
+    "sunni": "مذاهب اهل سنت",
+    "shia": "مذاهب شیعه",
+    "ibadi": "مذهب اباضی",
+    "select_sunni": "مذاهب اهل سنت را انتخاب کنید",
+    "select_shia": "مذاهب شیعه را انتخاب کنید",
+    "select_ibadi": "مذهب اباضی را انتخاب کنید",
+    "topic": "موضوع را انتخاب کنید",
+    "all_topics": "همه موضوعات",
+    "answer_type": "نوع پاسخ",
+    "brief": "کوتاه",
+    "detailed": "کامل",
+    "questions": "❓ پرسش‌ها و پاسخ‌ها",
+    "placeholder": "مثال: حکم عمره چیست؟",
+    "search": "🔍 جست‌وجو",
+    "loading": "در حال جست‌وجو و تحلیل...",
+    "no_question": "لطفاً پرسش را وارد کنید.",
+    "no_madhab": "لطفاً یک مذهب را انتخاب کنید.",
+    "no_result": "پاسخ قابل استفاده‌ای پیدا نشد.",
+    "ai_on": "Gemini AI: فعال",
+    "ai_off": "Gemini AI: غیرفعال",
+    "ai_note": "این پاسخ پژوهشی است، نه فتوا.",
+    "countries": "🗺️ کشورهای عضو سازمان همکاری اسلامی",
+    "scholars": "📜 امامان و دانشمندان",
+    "glossary": "📚 اصطلاحات فقهی",
+    "sources": "📜 منابع فقه اسلامی",
+    "rules": "⚖️ اصول و قواعد فقهی",
+    "usul": "📚 اصول استنباط فقهی",
+    "references": "📁 مدیریت منابع",
+    "definition": "تعریف",
+    "example": "مثال",
+    "note": "یادداشت",
+})
+
+
+UI["ms"].update({
+    "title": "Himpunan Ringkas Pandangan Mazhab",
+    "subtitle": "Platform pendidikan untuk perbandingan pandangan fiqh.",
+    "madhab_filter": "Tapis mazhab",
+    "sunni": "Mazhab Sunni",
+    "shia": "Mazhab Syiah",
+    "ibadi": "Mazhab Ibadi",
+    "select_sunni": "Pilih mazhab Sunni",
+    "select_shia": "Pilih mazhab Syiah",
+    "select_ibadi": "Pilih mazhab Ibadi",
+    "topic": "Pilih topik",
+    "all_topics": "Semua topik",
+    "answer_type": "Jenis jawapan",
+    "brief": "Ringkas",
+    "detailed": "Terperinci",
+    "questions": "❓ Soalan dan jawapan",
+    "placeholder": "Contoh: Apakah hukum Umrah?",
+    "search": "🔍 Cari",
+    "loading": "Mencari dan menganalisis...",
+    "no_question": "Sila masukkan soalan.",
+    "no_madhab": "Sila pilih sekurang-kurangnya satu mazhab.",
+    "no_result": "Tiada jawapan yang sesuai.",
+    "ai_on": "Gemini AI: diaktifkan",
+    "ai_off": "Gemini AI: dinyahaktifkan",
+    "ai_note": "Ini jawapan penyelidikan, bukan fatwa.",
+    "countries": "🗺️ Negara anggota OIC",
+    "scholars": "📜 Imam dan ulama",
+    "glossary": "📚 Istilah fiqh",
+    "sources": "📜 Sumber fiqh Islam",
+    "rules": "⚖️ Prinsip dan kaedah fiqh",
+    "usul": "📚 Prinsip istinbat fiqh",
+    "references": "📁 Pengurusan rujukan",
+    "definition": "Takrif",
+    "example": "Contoh",
+    "note": "Nota",
+})
+
+
+UI["ur"].update({
+    "title": "مذاہب فقہ کے مختصر آراء کا مجموعہ",
+    "subtitle": "فقہی آراء کے تقابلی مطالعے کا تعلیمی پلیٹ فارم۔",
+    "madhab_filter": "مسلک کا انتخاب",
+    "sunni": "اہل سنت کے مسالک",
+    "shia": "شیعہ مسالک",
+    "ibadi": "اباضی مسلک",
+    "select_sunni": "اہل سنت کے مسالک منتخب کریں",
+    "select_shia": "شیعہ مسالک منتخب کریں",
+    "select_ibadi": "اباضی مسلک منتخب کریں",
+    "topic": "موضوع منتخب کریں",
+    "all_topics": "تمام موضوعات",
+    "answer_type": "جواب کی نوعیت",
+    "brief": "مختصر",
+    "detailed": "تفصیلی",
+    "questions": "❓ سوالات و جوابات",
+    "placeholder": "مثال: عمرہ کا کیا حکم ہے؟",
+    "search": "🔍 تلاش",
+    "loading": "تلاش اور تجزیہ جاری ہے...",
+    "no_question": "براہ کرم سوال درج کریں۔",
+    "no_madhab": "براہ کرم کم از کم ایک مسلک منتخب کریں۔",
+    "no_result": "قابل استعمال جواب نہیں ملا۔",
+    "ai_on": "Gemini AI: فعال",
+    "ai_off": "Gemini AI: غیر فعال",
+    "ai_note": "یہ تحقیقی جواب ہے، فتویٰ نہیں۔",
+    "countries": "🗺️ اسلامی تعاون تنظیم کے رکن ممالک",
+    "scholars": "📜 ائمہ اور علماء",
+    "glossary": "📚 فقہی اصطلاحات",
+    "sources": "📜 فقہی مصادر",
+    "rules": "⚖️ فقہی اصول و قواعد",
+    "usul": "📚 اصولِ استدلال فقہی",
+    "references": "📁 مراجع کا انتظام",
+    "definition": "تعریف",
+    "example": "مثال",
+    "note": "نوٹ",
+})
+
+
 # ============================================================
-# أسماء المذاهب الرئيسية
+# Data loading
+# ============================================================
+
+def load_json(
+    filename: str,
+    default: Any,
+) -> Any:
+    path = DATA_DIR / filename
+
+    try:
+        with path.open(
+            "r",
+            encoding="utf-8",
+        ) as file:
+            return json.load(file)
+    except Exception as error:
+        logger.warning(
+            "Could not load %s: %s",
+            path,
+            error,
+        )
+        return default
+
+
+MadhhabFile = load_json(
+    "madhabs.json",
+    {},
+)
+
+COUNTRIES = load_json(
+    "countries.json",
+    [],
+)
+
+GLOSSARY = load_json(
+    "glossary.json",
+    [],
+)
+
+RULES = load_json(
+    "rules.json",
+    [],
+)
+
+LEGAL_SOURCES = load_json(
+    "legal_sources.json",
+    [],
+)
+
+USUL = load_json(
+    "usul.json",
+    [],
+)
+
+
+# ============================================================
+# Canonical madhhab groups
 # ============================================================
 
 CANONICAL_MADHABS = {
@@ -377,63 +591,7 @@ GROUP_CODES = {
 
 
 # ============================================================
-# تحميل الملفات
-# ============================================================
-
-def load_json(
-    filename: str,
-    default: Any,
-) -> Any:
-    path = DATA_DIR / filename
-
-    try:
-        with path.open(
-            "r",
-            encoding="utf-8",
-        ) as file:
-            return json.load(file)
-    except Exception as error:
-        logger.warning(
-            "Could not load %s: %s",
-            path,
-            error,
-        )
-        return default
-
-
-MadhhabFile = load_json(
-    "madhabs.json",
-    {},
-)
-
-COUNTRIES = load_json(
-    "countries.json",
-    [],
-)
-
-GLOSSARY = load_json(
-    "glossary.json",
-    [],
-)
-
-RULES = load_json(
-    "rules.json",
-    [],
-)
-
-LEGAL_SOURCES = load_json(
-    "legal_sources.json",
-    [],
-)
-
-USUL = load_json(
-    "usul.json",
-    [],
-)
-
-
-# ============================================================
-# مسائل البحث المحلية
+# Default searchable issues
 # ============================================================
 
 DEFAULT_ISSUES = [
@@ -497,7 +655,7 @@ DEFAULT_ISSUES = [
             "ur": "عمرہ",
         },
         "keywords": (
-            "عمرة العمره عمره umrah umra omrah "
+            "عمرة العمرة عمره umrah umra omrah "
             "ihram tawaf sai pilgrimage"
         ),
         "rulings": {},
@@ -529,8 +687,7 @@ DEFAULT_ISSUES = [
             "ur": "رمضان کے روزے",
         },
         "keywords": (
-            "صيام صوم رمضان فطر "
-            "fasting ramadan"
+            "صيام صوم رمضان فطر fasting ramadan"
         ),
         "rulings": {},
     },
@@ -570,7 +727,7 @@ DEFAULT_ISSUES = [
 
 
 # ============================================================
-# Helpers
+# Utility functions
 # ============================================================
 
 def text_for(
@@ -640,10 +797,15 @@ def get_madhab_name(
     code: str,
     lang: str,
 ) -> str:
-    if code in CANONICAL_MADHABS:
-        return CANONICAL_MADHABS[code]["names"].get(
+    canonical = CANONICAL_MADHABS.get(
+        code,
+        {},
+    )
+
+    if canonical:
+        return canonical["names"].get(
             lang,
-            CANONICAL_MADHABS[code]["names"]["ar"],
+            canonical["names"]["ar"],
         )
 
     return text_for(
@@ -907,14 +1069,12 @@ class GeminiService:
             return None
 
         try:
-            config = types.GenerateContentConfig(
-                temperature=0.2,
-            )
-
             response = gemini_client.models.generate_content(
                 model=GEMINI_MODEL,
                 contents=prompt,
-                config=config,
+                config=types.GenerateContentConfig(
+                    temperature=0.2,
+                ),
             )
 
             if not response.text:
@@ -937,15 +1097,13 @@ class GeminiService:
             return None
 
         try:
-            config = types.EmbedContentConfig(
-                task_type=task_type,
-                output_dimensionality=768,
-            )
-
             response = gemini_client.models.embed_content(
                 model=EMBED_MODEL,
                 contents=text,
-                config=config,
+                config=types.EmbedContentConfig(
+                    task_type=task_type,
+                    output_dimensionality=768,
+                ),
             )
 
             return response.embeddings[0].values
@@ -962,7 +1120,7 @@ class GeminiService:
         madhabs: List[str],
         level: str,
         lang: str,
-        context: str = "",
+        context: str,
     ) -> Optional[str]:
         selected_names = ", ".join(
             get_madhab_name(
@@ -972,32 +1130,10 @@ class GeminiService:
             for code in madhabs
         )
 
-        style = {
-            "brief": {
-                "ar": "إجابة مختصرة",
-                "en": "Brief answer",
-                "fr": "Réponse brève",
-                "fa": "پاسخ کوتاه",
-                "ms": "Jawapan ringkas",
-                "ur": "مختصر جواب",
-            },
-            "detailed": {
-                "ar": "إجابة مفصلة",
-                "en": "Detailed answer",
-                "fr": "Réponse détaillée",
-                "fa": "پاسخ مفصل",
-                "ms": "Jawapan terperinci",
-                "ur": "تفصیلی جواب",
-            },
-        }
-
-        answer_style = text_for(
-            style.get(
-                level,
-                {},
-            ),
-            lang,
-            "Brief answer",
+        answer_style = (
+            "brief"
+            if level == "brief"
+            else "detailed"
         )
 
         prompt = f"""
@@ -1294,7 +1430,7 @@ def apply_css(
 
 
 # ============================================================
-# شريط اللغة والترويسة
+# اللغة والترويسة
 # ============================================================
 
 def render_language_bar() -> str:
@@ -1350,7 +1486,7 @@ def render_header(
 
 
 # ============================================================
-# تصفية المذاهب بثلاثة فروع
+# تصفية المذاهب
 # ============================================================
 
 def render_madhab_filter(
@@ -1375,87 +1511,93 @@ def render_madhab_filter(
             text["sunni"],
             expanded=False,
         ):
-            sunni_options = [
+            options = [
                 code
                 for code in GROUP_CODES["sunni"]
                 if code in CANONICAL_MADHABS
             ]
 
-            sunni_defaults = [
+            defaults = [
                 code
                 for code in previous
-                if code in sunni_options
+                if code in options
             ]
 
-            sunni_selected = st.multiselect(
+            sunni = st.multiselect(
                 text["select_sunni"],
-                options=sunni_options,
-                default=sunni_defaults,
-                format_func=lambda code: get_madhab_name(
-                    code,
-                    lang,
+                options=options,
+                default=defaults,
+                format_func=lambda code: (
+                    get_madhab_name(
+                        code,
+                        lang,
+                    )
                 ),
-                key="sunni_madhabs",
+                key="sunni_selector",
             )
 
         with st.expander(
             text["shia"],
             expanded=False,
         ):
-            shia_options = [
+            options = [
                 code
                 for code in GROUP_CODES["shia"]
                 if code in CANONICAL_MADHABS
             ]
 
-            shia_defaults = [
+            defaults = [
                 code
                 for code in previous
-                if code in shia_options
+                if code in options
             ]
 
-            shia_selected = st.multiselect(
+            shia = st.multiselect(
                 text["select_shia"],
-                options=shia_options,
-                default=shia_defaults,
-                format_func=lambda code: get_madhab_name(
-                    code,
-                    lang,
+                options=options,
+                default=defaults,
+                format_func=lambda code: (
+                    get_madhab_name(
+                        code,
+                        lang,
+                    )
                 ),
-                key="shia_madhabs",
+                key="shia_selector",
             )
 
         with st.expander(
             text["ibadi"],
             expanded=False,
         ):
-            ibadi_options = [
+            options = [
                 code
                 for code in GROUP_CODES["ibadi"]
                 if code in CANONICAL_MADHABS
             ]
 
-            ibadi_defaults = [
+            defaults = [
                 code
                 for code in previous
-                if code in ibadi_options
+                if code in options
             ]
 
-            ibadi_selected = st.multiselect(
+            ibadi = st.multiselect(
                 text["select_ibadi"],
-                options=ibadi_options,
-                default=ibadi_defaults,
-                format_func=lambda code: get_madhab_name(
-                    code,
-                    lang,
+                options=options,
+                default=defaults,
+                format_func=lambda code: (
+                    get_madhab_name(
+                        code,
+                        lang,
+                    )
                 ),
-                key="ibadi_madhabs",
+                key="ibadi_selector",
             )
 
     selected = list(dict.fromkeys(
-        sunni_selected
-        + shia_selected
-        + ibadi_selected
+        sunni
+        + shia
+        + ibadi
     ))
 
     st.session_state.selected_madhabs = selected
@@ -1627,6 +1769,26 @@ def render_countries(
                 lang,
             )
 
+            if item.get(
+                "diverse",
+                False,
+            ):
+                suffix = {
+                    "ar": "(مع تنوع مذهبي)",
+                    "en": "(with religious diversity)",
+                    "fr": "(avec diversité religieuse)",
+                    "fa": "(با تنوع مذهبی)",
+                    "ms": "(dengan kepelbagaian mazhab)",
+                    "ur": "(مذہبی تنوع کے ساتھ)",
+                }.get(
+                    lang,
+                    "(with religious diversity)",
+                )
+
+                madhab = (
+                    f"{madhab} {suffix}"
+                )
+
             st.markdown(
                 f"{flag} **{name}** — "
                 f"{muslims} — {madhab}"
@@ -1634,7 +1796,7 @@ def render_countries(
 
 
 # ============================================================
-# العلماء
+# الأئمة والعلماء
 # ============================================================
 
 def render_scholars(
@@ -1724,7 +1886,7 @@ def render_glossary(
 
 
 # ============================================================
-# مصادر التشريع
+# المصادر
 # ============================================================
 
 def render_sources(
@@ -1799,7 +1961,7 @@ def render_rules(
 
 
 # ============================================================
-# أصول الفقه
+# أصول الاستدلال
 # ============================================================
 
 def render_usul(
