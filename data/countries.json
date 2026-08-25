@@ -1,47 +1,34 @@
-def render_countries(
-    lang: str,
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["countries"],
-        expanded=False,
-    ):
-        for item in COUNTRIES:
-            flag = item.get(
-                "flag",
-                "🌍",
-            )
-
-            name = text_for(
-                item.get("name", ""),
-                lang,
-            )
-
-            muslims = text_for(
-                item.get("muslims", ""),
-                lang,
-            )
-
-            madhab = text_for(
-                item.get("madhab", ""),
-                lang,
-            )
-
-            diversity = item.get(
-                "diverse",
-                False,
-            )
-
-            if diversity:
-                suffix = (
-                    "(مع تنوع مذهبي)"
-                    if lang == "ar"
-                    else "(with religious diversity)"
-                )
-
-                madhab = f"{madhab} {suffix}"
-
-            st.markdown(
-                f"{flag} **{name}** — "
-                f"{muslims} — {madhab}"
-            )
+[
+  {
+    "flag": "🇮🇶",
+    "name": {
+      "ar": "العراق",
+      "en": "Iraq"
+    },
+    "muslims": {
+      "ar": "نحو 43 مليون مسلم",
+      "en": "About 43 million Muslims"
+    },
+    "madhab_code": "jafari",
+    "madhab": {
+      "ar": "جعفري",
+      "en": "Ja'fari"
+    }
+  },
+  {
+    "flag": "🇲🇦",
+    "name": {
+      "ar": "المغرب",
+      "en": "Morocco"
+    },
+    "muslims": {
+      "ar": "نحو 37 مليون مسلم",
+      "en": "About 37 million Muslims"
+    },
+    "madhab_code": "maliki",
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki"
+    }
+  }
+]
