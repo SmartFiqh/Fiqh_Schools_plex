@@ -10,7 +10,13 @@ import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import numpy as np
+try:
+    import numpy as np
+    NUMPY_AVAILABLE = True
+except ImportError:
+    np = None
+    NUMPY_AVAILABLE = False
+
 import streamlit as st
 
 
@@ -1378,6 +1384,9 @@ class ReferenceSearch:
         madhabs: List[str],
         limit: int = 5,
     ) -> List[Dict[str, Any]]:
+        if not NUMPY_AVAILABLE:
+            return []
+
         if self.db.count_chunks() == 0:
             return []
 
@@ -1514,16 +1523,15 @@ class LocalSearch:
                 )
 
                 if not answer:
-                    if lang == "ar":
-                        answer = (
-                            "تحتاج هذه المسألة إلى بحث "
-                            "تفصيلي في مصادر المذهب."
-                        )
-                    else:
-                        answer = (
-                            "This issue requires detailed "
-                            "research in the school's sources."
-                        )
+                    fallback_texts = {
+                        "ar": "تحتاج هذه المسألة إلى بحث تفصيلي في مصادر المذهب.",
+                        "en": "This issue requires detailed research in the school's sources.",
+                        "fr": "Cette question nécessite une recherche détaillée dans les sources de l'école.",
+                        "fa": "این مسئله نیاز به بررسی تفصیلی در منابع مذهب دارد.",
+                        "ms": "Isu ini memerlukan penyelidikan terperinci dalam sumber mazhab.",
+                        "ur": "اس مسئلے کے لیے مذہب کے مصادر میں تفصیلی تحقیق درکار ہے۔",
+                    }
+                    answer = fallback_texts.get(lang, fallback_texts["en"])
 
                 cards.append({
                     "madhab": madhab,
@@ -1701,80 +1709,73 @@ def render_madhab_filter(
         text["madhab_filter"],
         expanded=False,
     ):
-        with st.expander(
-            text["sunni"],
-            expanded=False,
-        ):
-            options = GROUP_CODES["sunni"]
+        st.markdown(f"**{text['sunni']}**")
+        options = GROUP_CODES["sunni"]
 
-            defaults = [
-                code
-                for code in old_selection
-                if code in options
-            ]
+        defaults = [
+            code
+            for code in old_selection
+            if code in options
+        ]
 
-            sunni = st.multiselect(
-                text["select_sunni"],
-                options=options,
-                default=defaults,
-                format_func=lambda code: (
-                    get_madhab_name(
-                        code,
-                        lang,
-                    )
-                ),
-                key="sunni_selector",
-            )
+        sunni = st.multiselect(
+            text["select_sunni"],
+            options=options,
+            default=defaults,
+            format_func=lambda code: (
+                get_madhab_name(
+                    code,
+                    lang,
+                )
+            ),
+            key="sunni_selector",
+        )
 
-        with st.expander(
-            text["shia"],
-            expanded=False,
-        ):
-            options = GROUP_CODES["shia"]
+        st.divider()
+        st.markdown(f"**{text['shia']}**")
+        options = GROUP_CODES["shia"]
 
-            defaults = [
-                code
-                for code in old_selection
-                if code in options
-            ]
+        defaults = [
+            code
+            for code in old_selection
+            if code in options
+        ]
 
-            shia = st.multiselect(
-                text["select_shia"],
-                options=options,
-                default=defaults,
-                format_func=lambda code: (
-                    get_madhab_name(
-                        code,
-                        lang,
-                    )
-                ),
-                key="shia_selector",
-            )
+        shia = st.multiselect(
+            text["select_shia"],
+            options=options,
+            default=defaults,
+            format_func=lambda code: (
+                get_madhab_name(
+                    code,
+                    lang,
+                )
+            ),
+            key="shia_selector",
+        )
 
-        with st.expander(
-            text["ibadi"],
-            expanded=False,
-        ):
-            options = GROUP_CODES["ibadi"]
+        st.divider()
+        st.markdown(f"**{text['ibadi']}**")
+        options = GROUP_CODES["ibadi"]
 
-            defaults = [
-                code
-                for code in old_selection
-                if code in options
-            ]
+        defaults = [
+            code
+            for code in old_selection
+            if code in options
+        ]
 
-            ibadi = st.multiselect(
-                text["select_ibadi"],
-                options=options,
-                default=defaults,
-                format_func=lambda code: (
-                    get_madhab_name(
-                        code,
-                        lang,
-                    )
-                ),
-                key="ibadi_selector",
-            )
+        ibadi = st.multiselect(
+            text["select_ibadi"],
+            options=options,
+            default=defaults,
+            format_func=lambda code: (
+                get_madhab_name(
+                    code,
+                    lang,
+                )
+            ),
+            key="ibadi_selector",
+        )
 
     selected = list(
         dict.fromkeys(
@@ -2016,11 +2017,40 @@ def render_scholars(
     lang: str,
     text: Dict[str, str],
 ):
+    field_labels = {
+        "founder": {
+            "ar": "الإمام المؤسس", "en": "Founding imam", "fr": "Imam fondateur",
+            "fa": "امام مؤسس", "ms": "Imam pengasas", "ur": "بانی امام",
+        },
+        "life": {
+            "ar": "فترة الحياة", "en": "Lifespan", "fr": "Période de vie",
+            "fa": "دوره زندگی", "ms": "Tempoh hidup", "ur": "دورِ حیات",
+        },
+        "birthplace": {
+            "ar": "مكان الميلاد", "en": "Birthplace", "fr": "Lieu de naissance",
+            "fa": "محل تولد", "ms": "Tempat lahir", "ur": "جائے پیدائش",
+        },
+        "origin": {
+            "ar": "مكان النشأة والانتشار", "en": "Origin & spread", "fr": "Origine et diffusion",
+            "fa": "خاستگاه و گسترش", "ms": "Asal usul & penyebaran", "ur": "ماخذ و پھیلاؤ",
+        },
+        "scholars": {
+            "ar": "أشهر العلماء", "en": "Prominent scholars", "fr": "Savants marquants",
+            "fa": "دانشمندان برجسته", "ms": "Ulama terkemuka", "ur": "نمایاں علماء",
+        },
+        "summary": {
+            "ar": "نبذة", "en": "Summary", "fr": "Résumé",
+            "fa": "خلاصه", "ms": "Ringkasan", "ur": "خلاصہ",
+        },
+    }
+
     with st.expander(
         text["scholars"],
         expanded=False,
     ):
-        for code in CANONICAL_MADHABS:
+        codes = list(CANONICAL_MADHABS)
+
+        for index, code in enumerate(codes):
             name = get_madhab_name(
                 code,
                 lang,
@@ -2030,66 +2060,41 @@ def render_scholars(
                 code
             )
 
-            with st.expander(
-                name,
-                expanded=False,
-            ):
-                fields = [
-                    (
-                        "founder",
-                        "الإمام المؤسس",
-                    ),
-                    (
-                        "life",
-                        "فترة الحياة",
-                    ),
-                    (
-                        "birthplace",
-                        "مكان الميلاد",
-                    ),
-                    (
-                        "origin",
-                        "مكان النشأة والانتشار",
-                    ),
-                    (
-                        "scholars",
-                        "أشهر العلماء",
-                    ),
-                    (
-                        "summary",
-                        "نبذة",
-                    ),
-                ]
+            if index > 0:
+                st.divider()
 
-                displayed = False
+            st.markdown(f"#### {name}")
 
-                for field, label in fields:
-                    value = text_for(
-                        data.get(
-                            field,
-                            "",
-                        ),
-                        lang,
+            displayed = False
+
+            for field, labels in field_labels.items():
+                value = text_for(
+                    data.get(
+                        field,
+                        "",
+                    ),
+                    lang,
+                )
+
+                if value:
+                    displayed = True
+                    label = labels.get(lang, labels["en"])
+
+                    st.markdown(
+                        f"**{label}:** {value}"
                     )
 
-                    if value:
-                        displayed = True
-
-                        st.markdown(
-                            f"**{label}:** {value}"
-                        )
-
-                if not displayed:
-                    st.info(
-                        (
-                            "لا توجد بيانات تفصيلية لهذا "
-                            "المذهب في madhabs.json."
-                            if lang == "ar"
-                            else
-                            "No detailed data was found "
-                            "for this school in madhabs.json."
-                        )
+            if not displayed:
+                st.info(
+                    (
+                        "لا توجد بيانات تفصيلية لهذا "
+                        "المذهب في madhabs.json."
+                        if lang == "ar"
+                        else
+                        "No detailed data was found "
+                        "for this school in madhabs.json."
                     )
+                )
 
 
 # ============================================================
@@ -2104,95 +2109,89 @@ def render_sources_and_usul(
         text["combined_sources"],
         expanded=False,
     ):
-        with st.expander(
-            text["legal_sources"],
-            expanded=False,
-        ):
-            if not LEGAL_SOURCES:
-                st.info(
-                    "لا توجد مصادر تشريع."
-                    if lang == "ar"
-                    else
-                    "No legal sources were found."
+        st.markdown(f"### {text['legal_sources']}")
+
+        if not LEGAL_SOURCES:
+            st.info(
+                "لا توجد مصادر تشريع."
+                if lang == "ar"
+                else
+                "No legal sources were found."
+            )
+        else:
+            for item in LEGAL_SOURCES:
+                name = text_for(
+                    item.get(
+                        "name",
+                        "",
+                    ),
+                    lang,
                 )
-            else:
-                for item in LEGAL_SOURCES:
-                    name = text_for(
-                        item.get(
-                            "name",
-                            "",
-                        ),
-                        lang,
-                    )
 
-                    description = text_for(
-                        item.get(
-                            "description",
-                            "",
-                        ),
-                        lang,
-                    )
-
-                    with st.expander(
-                        name,
-                        expanded=False,
-                    ):
-                        st.markdown(
-                            f"**{text['definition']}:** "
-                            f"{description}"
-                        )
-
-        with st.expander(
-            text["usul"],
-            expanded=False,
-        ):
-            if not USUL:
-                st.info(
-                    "لا توجد أصول استدلال."
-                    if lang == "ar"
-                    else
-                    "No principles of reasoning were found."
+                description = text_for(
+                    item.get(
+                        "description",
+                        "",
+                    ),
+                    lang,
                 )
-            else:
-                for item in USUL:
-                    name = text_for(
-                        item.get(
-                            "name",
-                            "",
-                        ),
-                        lang,
+
+                st.markdown(f"**{name}**")
+                st.markdown(
+                    f"{text['definition']}: "
+                    f"{description}"
+                )
+
+        st.divider()
+        st.markdown(f"### {text['usul']}")
+
+        if not USUL:
+            st.info(
+                "لا توجد أصول استدلال."
+                if lang == "ar"
+                else
+                "No principles of reasoning were found."
+            )
+        else:
+            for index, item in enumerate(USUL):
+                name = text_for(
+                    item.get(
+                        "name",
+                        "",
+                    ),
+                    lang,
+                )
+
+                definition = text_for(
+                    item.get(
+                        "definition",
+                        "",
+                    ),
+                    lang,
+                )
+
+                note = text_for(
+                    item.get(
+                        "note",
+                        "",
+                    ),
+                    lang,
+                )
+
+                if index > 0:
+                    st.markdown("---")
+
+                st.markdown(f"**{name}**")
+                st.markdown(
+                    f"{text['definition']}: "
+                    f"{definition}"
+                )
+
+                if note:
+                    st.markdown(
+                        f"{text['note']}: "
+                        f"{note}"
                     )
-
-                    definition = text_for(
-                        item.get(
-                            "definition",
-                            "",
-                        ),
-                        lang,
-                    )
-
-                    note = text_for(
-                        item.get(
-                            "note",
-                            "",
-                        ),
-                        lang,
-                    )
-
-                    with st.expander(
-                        name,
-                        expanded=False,
-                    ):
-                        st.markdown(
-                            f"**{text['definition']}:** "
-                            f"{definition}"
-                        )
-
-                        if note:
-                            st.markdown(
-                                f"**{text['note']}:** "
-                                f"{note}"
-                            )
 
 
 # ============================================================
@@ -2216,7 +2215,9 @@ def render_glossary(
             )
             return
 
-        for item in GLOSSARY:
+        glossary_cols = st.columns(2)
+
+        for index, item in enumerate(GLOSSARY):
             name = text_for(
                 item.get(
                     "name",
@@ -2241,20 +2242,20 @@ def render_glossary(
                 lang,
             )
 
-            with st.expander(
-                name,
-                expanded=False,
-            ):
+            with glossary_cols[index % 2]:
+                st.markdown(f"**{name}**")
                 st.markdown(
-                    f"**{text['definition']}:** "
+                    f"{text['definition']}: "
                     f"{definition}"
                 )
 
                 if example:
                     st.markdown(
-                        f"**{text['example']}:** "
+                        f"{text['example']}: "
                         f"{example}"
                     )
+
+                st.markdown("")
 
 
 # ============================================================
@@ -2278,7 +2279,7 @@ def render_rules(
             )
             return
 
-        for item in RULES:
+        for index, item in enumerate(RULES):
             name = text_for(
                 item.get(
                     "name",
@@ -2303,20 +2304,20 @@ def render_rules(
                 lang,
             )
 
-            with st.expander(
-                name,
-                expanded=False,
-            ):
-                st.markdown(
-                    f"**{text['definition']}:** "
-                    f"{definition}"
-                )
+            if index > 0:
+                st.markdown("---")
 
-                if example:
-                    st.markdown(
-                        f"**{text['example']}:** "
-                        f"{example}"
-                    )
+            st.markdown(f"**📌 {name}**")
+            st.markdown(
+                f"{text['definition']}: "
+                f"{definition}"
+            )
+
+            if example:
+                st.markdown(
+                    f"{text['example']}: "
+                    f"{example}"
+                )
 
 
 # ============================================================
