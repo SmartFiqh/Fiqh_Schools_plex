@@ -1,34 +1,1047 @@
 [
   {
+    "flag": "🇦🇫",
+    "name": {
+      "ar": "أفغانستان",
+      "en": "Afghanistan",
+      "fr": "Afghanistan"
+    },
+    "muslims": {
+      "ar": "نحو 36 مليون مسلم",
+      "en": "About 36 million Muslims",
+      "fr": "Environ 36 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇦🇱",
+    "name": {
+      "ar": "ألبانيا",
+      "en": "Albania",
+      "fr": "Albanie"
+    },
+    "muslims": {
+      "ar": "نحو 1.7 مليون مسلم",
+      "en": "About 1.7 million Muslims",
+      "fr": "Environ 1,7 million de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇩🇿",
+    "name": {
+      "ar": "الجزائر",
+      "en": "Algeria",
+      "fr": "Algérie"
+    },
+    "muslims": {
+      "ar": "نحو 46 مليون مسلم",
+      "en": "About 46 million Muslims",
+      "fr": "Environ 46 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": false
+  },
+  {
+    "flag": "🇦🇿",
+    "name": {
+      "ar": "أذربيجان",
+      "en": "Azerbaijan",
+      "fr": "Azerbaïdjan"
+    },
+    "muslims": {
+      "ar": "نحو 6.5 مليون مسلم",
+      "en": "About 6.5 million Muslims",
+      "fr": "Environ 6,5 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "جعفري",
+      "en": "Ja'fari",
+      "fr": "Jaafarite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇧🇭",
+    "name": {
+      "ar": "البحرين",
+      "en": "Bahrain",
+      "fr": "Bahreïn"
+    },
+    "muslims": {
+      "ar": "نحو 1.1 مليون مسلم",
+      "en": "About 1.1 million Muslims",
+      "fr": "Environ 1,1 million de musulmans"
+    },
+    "madhab": {
+      "ar": "جعفري",
+      "en": "Ja'fari",
+      "fr": "Jaafarite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇧🇩",
+    "name": {
+      "ar": "بنغلاديش",
+      "en": "Bangladesh",
+      "fr": "Bangladesh"
+    },
+    "muslims": {
+      "ar": "نحو 150 مليون مسلم",
+      "en": "About 150 million Muslims",
+      "fr": "Environ 150 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇧🇯",
+    "name": {
+      "ar": "بنين",
+      "en": "Benin",
+      "fr": "Bénin"
+    },
+    "muslims": {
+      "ar": "نحو 3.5 مليون مسلم",
+      "en": "About 3.5 million Muslims",
+      "fr": "Environ 3,5 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇧🇳",
+    "name": {
+      "ar": "بروناي",
+      "en": "Brunei",
+      "fr": "Brunei"
+    },
+    "muslims": {
+      "ar": "نحو 260 ألف مسلم",
+      "en": "About 260,000 Muslims",
+      "fr": "Environ 260 000 musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": false
+  },
+  {
+    "flag": "🇧🇫",
+    "name": {
+      "ar": "بوركينا فاسو",
+      "en": "Burkina Faso",
+      "fr": "Burkina Faso"
+    },
+    "muslims": {
+      "ar": "نحو 11 مليون مسلم",
+      "en": "About 11 million Muslims",
+      "fr": "Environ 11 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇨🇲",
+    "name": {
+      "ar": "الكاميرون",
+      "en": "Cameroon",
+      "fr": "Cameroun"
+    },
+    "muslims": {
+      "ar": "نحو 6 ملايين مسلم",
+      "en": "About 6 million Muslims",
+      "fr": "Environ 6 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇹🇩",
+    "name": {
+      "ar": "تشاد",
+      "en": "Chad",
+      "fr": "Tchad"
+    },
+    "muslims": {
+      "ar": "نحو 10 ملايين مسلم",
+      "en": "About 10 million Muslims",
+      "fr": "Environ 10 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇰🇲",
+    "name": {
+      "ar": "جزر القمر",
+      "en": "Comoros",
+      "fr": "Comores"
+    },
+    "muslims": {
+      "ar": "نحو 900 ألف مسلم",
+      "en": "About 900,000 Muslims",
+      "fr": "Environ 900 000 musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": false
+  },
+  {
+    "flag": "🇨🇮",
+    "name": {
+      "ar": "ساحل العاج",
+      "en": "Côte d'Ivoire",
+      "fr": "Côte d’Ivoire"
+    },
+    "muslims": {
+      "ar": "نحو 8 ملايين مسلم",
+      "en": "About 8 million Muslims",
+      "fr": "Environ 8 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇩🇯",
+    "name": {
+      "ar": "جيبوتي",
+      "en": "Djibouti",
+      "fr": "Djibouti"
+    },
+    "muslims": {
+      "ar": "نحو 700 ألف مسلم",
+      "en": "About 700,000 Muslims",
+      "fr": "Environ 700 000 musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": false
+  },
+  {
+    "flag": "🇪🇬",
+    "name": {
+      "ar": "مصر",
+      "en": "Egypt",
+      "fr": "Égypte"
+    },
+    "muslims": {
+      "ar": "نحو 110 ملايين مسلم",
+      "en": "About 110 million Muslims",
+      "fr": "Environ 110 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇬🇦",
+    "name": {
+      "ar": "الغابون",
+      "en": "Gabon",
+      "fr": "Gabon"
+    },
+    "muslims": {
+      "ar": "نحو 300 ألف مسلم",
+      "en": "About 300,000 Muslims",
+      "fr": "Environ 300 000 musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇬🇲",
+    "name": {
+      "ar": "غامبيا",
+      "en": "The Gambia",
+      "fr": "Gambie"
+    },
+    "muslims": {
+      "ar": "نحو 1.5 مليون مسلم",
+      "en": "About 1.5 million Muslims",
+      "fr": "Environ 1,5 million de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇬🇳",
+    "name": {
+      "ar": "غينيا",
+      "en": "Guinea",
+      "fr": "Guinée"
+    },
+    "muslims": {
+      "ar": "نحو 8 ملايين مسلم",
+      "en": "About 8 million Muslims",
+      "fr": "Environ 8 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇬🇼",
+    "name": {
+      "ar": "غينيا بيساو",
+      "en": "Guinea-Bissau",
+      "fr": "Guinée-Bissau"
+    },
+    "muslims": {
+      "ar": "نحو مليون مسلم",
+      "en": "About 1 million Muslims",
+      "fr": "Environ 1 million de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇬🇾",
+    "name": {
+      "ar": "غيانا",
+      "en": "Guyana",
+      "fr": "Guyana"
+    },
+    "muslims": {
+      "ar": "نحو 60 ألف مسلم",
+      "en": "About 60,000 Muslims",
+      "fr": "Environ 60 000 musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇮🇩",
+    "name": {
+      "ar": "إندونيسيا",
+      "en": "Indonesia",
+      "fr": "Indonésie"
+    },
+    "muslims": {
+      "ar": "نحو 240 مليون مسلم",
+      "en": "About 240 million Muslims",
+      "fr": "Environ 240 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇮🇷",
+    "name": {
+      "ar": "إيران",
+      "en": "Iran",
+      "fr": "Iran"
+    },
+    "muslims": {
+      "ar": "نحو 90 مليون مسلم",
+      "en": "About 90 million Muslims",
+      "fr": "Environ 90 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "جعفري",
+      "en": "Ja'fari",
+      "fr": "Jaafarite"
+    },
+    "diverse": true
+  },
+  {
     "flag": "🇮🇶",
     "name": {
       "ar": "العراق",
-      "en": "Iraq"
+      "en": "Iraq",
+      "fr": "Irak"
     },
     "muslims": {
       "ar": "نحو 43 مليون مسلم",
-      "en": "About 43 million Muslims"
+      "en": "About 43 million Muslims",
+      "fr": "Environ 43 millions de musulmans"
     },
-    "madhab_code": "jafari",
     "madhab": {
       "ar": "جعفري",
-      "en": "Ja'fari"
-    }
+      "en": "Ja'fari",
+      "fr": "Jaafarite"
+    },
+    "diverse": true
   },
   {
-    "flag": "🇲🇦",
+    "flag": "🇯🇴",
     "name": {
-      "ar": "المغرب",
-      "en": "Morocco"
+      "ar": "الأردن",
+      "en": "Jordan",
+      "fr": "Jordanie"
     },
     "muslims": {
-      "ar": "نحو 37 مليون مسلم",
-      "en": "About 37 million Muslims"
+      "ar": "نحو 10 ملايين مسلم",
+      "en": "About 10 million Muslims",
+      "fr": "Environ 10 millions de musulmans"
     },
-    "madhab_code": "maliki",
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇰🇿",
+    "name": {
+      "ar": "كازاخستان",
+      "en": "Kazakhstan",
+      "fr": "Kazakhstan"
+    },
+    "muslims": {
+      "ar": "نحو 13 مليون مسلم",
+      "en": "About 13 million Muslims",
+      "fr": "Environ 13 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇰🇬",
+    "name": {
+      "ar": "قيرغيزستان",
+      "en": "Kyrgyzstan",
+      "fr": "Kirghizistan"
+    },
+    "muslims": {
+      "ar": "نحو 4 ملايين مسلم",
+      "en": "About 4 million Muslims",
+      "fr": "Environ 4 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇰🇼",
+    "name": {
+      "ar": "الكويت",
+      "en": "Kuwait",
+      "fr": "Koweït"
+    },
+    "muslims": {
+      "ar": "نحو 3 ملايين مسلم",
+      "en": "About 3 million Muslims",
+      "fr": "Environ 3 millions de musulmans"
+    },
     "madhab": {
       "ar": "مالكي",
-      "en": "Maliki"
-    }
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇱🇧",
+    "name": {
+      "ar": "لبنان",
+      "en": "Lebanon",
+      "fr": "Liban"
+    },
+    "muslims": {
+      "ar": "نحو 3 ملايين مسلم",
+      "en": "About 3 million Muslims",
+      "fr": "Environ 3 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "جعفري",
+      "en": "Ja'fari",
+      "fr": "Jaafarite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇱🇾",
+    "name": {
+      "ar": "ليبيا",
+      "en": "Libya",
+      "fr": "Libye"
+    },
+    "muslims": {
+      "ar": "نحو 7 ملايين مسلم",
+      "en": "About 7 million Muslims",
+      "fr": "Environ 7 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇲🇾",
+    "name": {
+      "ar": "ماليزيا",
+      "en": "Malaysia",
+      "fr": "Malaisie"
+    },
+    "muslims": {
+      "ar": "نحو 21 مليون مسلم",
+      "en": "About 21 million Muslims",
+      "fr": "Environ 21 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇲🇻",
+    "name": {
+      "ar": "المالديف",
+      "en": "Maldives",
+      "fr": "Maldives"
+    },
+    "muslims": {
+      "ar": "نحو 400 ألف مسلم",
+      "en": "About 400,000 Muslims",
+      "fr": "Environ 400 000 musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": false
+  },
+  {
+    "flag": "🇲🇱",
+    "name": {
+      "ar": "مالي",
+      "en": "Mali",
+      "fr": "Mali"
+    },
+    "muslims": {
+      "ar": "نحو 12 مليون مسلم",
+      "en": "About 12 million Muslims",
+      "fr": "Environ 12 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇲🇷",
+    "name": {
+      "ar": "موريتانيا",
+      "en": "Mauritania",
+      "fr": "Mauritanie"
+    },
+    "muslims": {
+      "ar": "نحو 5 ملايين مسلم",
+      "en": "About 5 million Muslims",
+      "fr": "Environ 5 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇲🇿",
+    "name": {
+      "ar": "موزمبيق",
+      "en": "Mozambique",
+      "fr": "Mozambique"
+    },
+    "muslims": {
+      "ar": "نحو 5 ملايين مسلم",
+      "en": "About 5 million Muslims",
+      "fr": "Environ 5 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇳🇪",
+    "name": {
+      "ar": "النيجر",
+      "en": "Niger",
+      "fr": "Niger"
+    },
+    "muslims": {
+      "ar": "نحو 14 مليون مسلم",
+      "en": "About 14 million Muslims",
+      "fr": "Environ 14 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇳🇬",
+    "name": {
+      "ar": "نيجيريا",
+      "en": "Nigeria",
+      "fr": "Nigéria"
+    },
+    "muslims": {
+      "ar": "نحو 115 مليون مسلم",
+      "en": "About 115 million Muslims",
+      "fr": "Environ 115 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇴🇲",
+    "name": {
+      "ar": "عُمان",
+      "en": "Oman",
+      "fr": "Oman"
+    },
+    "muslims": {
+      "ar": "نحو 3 ملايين مسلم",
+      "en": "About 3 million Muslims",
+      "fr": "Environ 3 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "إباضي",
+      "en": "Ibadi",
+      "fr": "Ibadite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇵🇰",
+    "name": {
+      "ar": "باكستان",
+      "en": "Pakistan",
+      "fr": "Pakistan"
+    },
+    "muslims": {
+      "ar": "نحو 245 مليون مسلم",
+      "en": "About 245 million Muslims",
+      "fr": "Environ 245 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇵🇸",
+    "name": {
+      "ar": "فلسطين",
+      "en": "Palestine",
+      "fr": "Palestine"
+    },
+    "muslims": {
+      "ar": "نحو 5 ملايين مسلم",
+      "en": "About 5 million Muslims",
+      "fr": "Environ 5 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇶🇦",
+    "name": {
+      "ar": "قطر",
+      "en": "Qatar",
+      "fr": "Qatar"
+    },
+    "muslims": {
+      "ar": "نحو 1.8 مليون مسلم",
+      "en": "About 1.8 million Muslims",
+      "fr": "Environ 1,8 million de musulmans"
+    },
+    "madhab": {
+      "ar": "حنبلي",
+      "en": "Hanbali",
+      "fr": "Hanbalite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇸🇦",
+    "name": {
+      "ar": "السعودية",
+      "en": "Saudi Arabia",
+      "fr": "Arabie saoudite"
+    },
+    "muslims": {
+      "ar": "نحو 32 مليون مسلم",
+      "en": "About 32 million Muslims",
+      "fr": "Environ 32 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنبلي",
+      "en": "Hanbali",
+      "fr": "Hanbalite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇸🇳",
+    "name": {
+      "ar": "السنغال",
+      "en": "Senegal",
+      "fr": "Sénégal"
+    },
+    "muslims": {
+      "ar": "نحو 11 مليون مسلم",
+      "en": "About 11 million Muslims",
+      "fr": "Environ 11 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇸🇱",
+    "name": {
+      "ar": "سيراليون",
+      "en": "Sierra Leone",
+      "fr": "Sierra Leone"
+    },
+    "muslims": {
+      "ar": "نحو 4 ملايين مسلم",
+      "en": "About 4 million Muslims",
+      "fr": "Environ 4 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇸🇴",
+    "name": {
+      "ar": "الصومال",
+      "en": "Somalia",
+      "fr": "Somalie"
+    },
+    "muslims": {
+      "ar": "نحو 18 مليون مسلم",
+      "en": "About 18 million Muslims",
+      "fr": "Environ 18 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": false
+  },
+  {
+    "flag": "🇸🇩",
+    "name": {
+      "ar": "السودان",
+      "en": "Sudan",
+      "fr": "Soudan"
+    },
+    "muslims": {
+      "ar": "نحو 25 مليون مسلم",
+      "en": "About 25 million Muslims",
+      "fr": "Environ 25 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇸🇷",
+    "name": {
+      "ar": "سورينام",
+      "en": "Suriname",
+      "fr": "Suriname"
+    },
+    "muslims": {
+      "ar": "نحو 100 ألف مسلم",
+      "en": "About 100,000 Muslims",
+      "fr": "Environ 100 000 musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇸🇾",
+    "name": {
+      "ar": "سوريا",
+      "en": "Syria",
+      "fr": "Syrie"
+    },
+    "muslims": {
+      "ar": "نحو 18 مليون مسلم",
+      "en": "About 18 million Muslims",
+      "fr": "Environ 18 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇹🇯",
+    "name": {
+      "ar": "طاجكستان",
+      "en": "Tajikistan",
+      "fr": "Tadjikistan"
+    },
+    "muslims": {
+      "ar": "نحو 6 ملايين مسلم",
+      "en": "About 6 million Muslims",
+      "fr": "Environ 6 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇹🇬",
+    "name": {
+      "ar": "توغو",
+      "en": "Togo",
+      "fr": "Togo"
+    },
+    "muslims": {
+      "ar": "نحو 2 مليون مسلم",
+      "en": "About 2 million Muslims",
+      "fr": "Environ 2 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇹🇳",
+    "name": {
+      "ar": "تونس",
+      "en": "Tunisia",
+      "fr": "Tunisie"
+    },
+    "muslims": {
+      "ar": "نحو 11 مليون مسلم",
+      "en": "About 11 million Muslims",
+      "fr": "Environ 11 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇹🇷",
+    "name": {
+      "ar": "تركيا",
+      "en": "Türkiye",
+      "fr": "Türkiye"
+    },
+    "muslims": {
+      "ar": "نحو 65 مليون مسلم",
+      "en": "About 65 million Muslims",
+      "fr": "Environ 65 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇹🇲",
+    "name": {
+      "ar": "تركمانستان",
+      "en": "Turkmenistan",
+      "fr": "Turkménistan"
+    },
+    "muslims": {
+      "ar": "نحو 4 ملايين مسلم",
+      "en": "About 4 million Muslims",
+      "fr": "Environ 4 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇦🇪",
+    "name": {
+      "ar": "الإمارات العربية المتحدة",
+      "en": "United Arab Emirates",
+      "fr": "Émirats arabes unis"
+    },
+    "muslims": {
+      "ar": "نحو 7 ملايين مسلم",
+      "en": "About 7 million Muslims",
+      "fr": "Environ 7 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "مالكي",
+      "en": "Maliki",
+      "fr": "Malikite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇺🇬",
+    "name": {
+      "ar": "أوغندا",
+      "en": "Uganda",
+      "fr": "Ouganda"
+    },
+    "muslims": {
+      "ar": "نحو 2 مليون مسلم",
+      "en": "About 2 million Muslims",
+      "fr": "Environ 2 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "شافعي",
+      "en": "Shafi'i",
+      "fr": "Chaféite"
+    },
+    "diverse": true
+  },
+  {
+    "flag": "🇺🇿",
+    "name": {
+      "ar": "أوزبكستان",
+      "en": "Uzbekistan",
+      "fr": "Ouzbékistan"
+    },
+    "muslims": {
+      "ar": "نحو 22 مليون مسلم",
+      "en": "About 22 million Muslims",
+      "fr": "Environ 22 millions de musulmans"
+    },
+    "madhab": {
+      "ar": "حنفي",
+      "en": "Hanafi",
+      "fr": "Hanafite"
+    },
+    "diverse": true
   }
 ]
