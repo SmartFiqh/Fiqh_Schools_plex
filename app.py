@@ -15,7 +15,7 @@ import streamlit as st
 
 
 # ============================================================
-# Page setup
+# إعداد الصفحة
 # ============================================================
 
 st.set_page_config(
@@ -27,7 +27,7 @@ st.set_page_config(
 
 
 # ============================================================
-# Paths and configuration
+# المسارات والإعدادات
 # ============================================================
 
 ROOT = Path(__file__).resolve().parent
@@ -44,12 +44,15 @@ EMBED_MODEL = os.getenv(
     "gemini-embedding-001",
 )
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO
+)
+
 logger = logging.getLogger(__name__)
 
 
 # ============================================================
-# Gemini setup
+# الاتصال بخدمة Gemini اختياري
 # ============================================================
 
 try:
@@ -75,7 +78,10 @@ def get_secret(
     except Exception:
         pass
 
-    return os.getenv(name, default)
+    return os.getenv(
+        name,
+        default,
+    )
 
 
 GEMINI_API_KEY = get_secret(
@@ -87,7 +93,8 @@ ADMIN_PASSWORD = get_secret(
 )
 
 USE_GEMINI = bool(
-    GEMINI_API_KEY and GENAI_AVAILABLE
+    GEMINI_API_KEY
+    and GENAI_AVAILABLE
 )
 
 gemini_client = None
@@ -105,7 +112,7 @@ if USE_GEMINI:
 
 
 # ============================================================
-# Languages
+# اللغات
 # ============================================================
 
 LANGUAGES = {
@@ -148,8 +155,12 @@ LANGUAGES = {
 }
 
 
-UI = {
-    "ar": {
+# ============================================================
+# نصوص الواجهة
+# ============================================================
+
+def build_ui() -> Dict[str, Dict[str, str]]:
+    base = {
         "title": "الجامع المختصر لآراء المذاهب",
         "subtitle": (
             "منصة تعليمية للمقارنة الفقهية، "
@@ -183,25 +194,39 @@ UI = {
         "countries": "🗺️ دول منظمة التعاون الإسلامي",
         "scholars": "📜 الأئمة والعلماء",
         "glossary": "📚 المصطلحات الفقهية",
-        "sources": "📜 مصادر التشريع الفقهي",
-        "rules": "⚖️ الأصول والقواعد الفقهية",
-        "usul": "📚 أصول الاستدلال الفقهي",
+        "combined_sources": (
+            "📜 مصادر التشريع وأصول الاستدلال الفقهي"
+        ),
+        "rules": "⚖️ القواعد الفقهية",
         "references": "📁 إدارة المراجع",
         "definition": "التعريف",
         "example": "مثال",
         "note": "ملاحظة",
         "population_note": (
-            "أعداد المسلمين تقريبية، والمذهب المذكور هو السائد "
-            "أو الأبرز، وليس بالضرورة رسميًا حصريًا."
+            "أعداد المسلمين تقريبية، والمذهب المذكور "
+            "هو السائد أو الأبرز."
         ),
         "admin_password": "كلمة مرور المشرف",
         "access_denied": "لا تملك الصلاحية.",
         "source_title": "عنوان المصدر",
         "source_text": "نص المرجع",
+        "madhab": "المذهب",
         "add_reference": "إضافة المرجع",
         "reference_added": "تمت إضافة {} مقاطع.",
-    },
-    "en": {
+        "legal_sources": "مصادر التشريع",
+        "usul": "أصول الاستدلال",
+    }
+
+    ui = {
+        "ar": dict(base),
+        "en": dict(base),
+        "fr": dict(base),
+        "fa": dict(base),
+        "ms": dict(base),
+        "ur": dict(base),
+    }
+
+    ui["en"].update({
         "title": "The Concise Compendium of Madhhab Opinions",
         "subtitle": (
             "An educational fiqh comparison platform, "
@@ -235,249 +260,200 @@ UI = {
         "countries": "🗺️ OIC member states",
         "scholars": "📜 Imams and scholars",
         "glossary": "📚 Fiqh terminology",
-        "sources": "📜 Sources of Islamic jurisprudence",
-        "rules": "⚖️ Fiqh principles and legal maxims",
-        "usul": "📚 Principles of legal reasoning",
+        "combined_sources": (
+            "📜 Legal sources and principles of reasoning"
+        ),
+        "rules": "⚖️ Fiqh principles",
         "references": "📁 Reference management",
         "definition": "Definition",
         "example": "Example",
         "note": "Note",
         "population_note": (
-            "Muslim population figures are approximate. "
-            "The listed school is predominant or prominent, "
-            "not necessarily exclusive or official."
+            "Muslim population figures are approximate."
         ),
         "admin_password": "Admin password",
         "access_denied": "Access denied.",
         "source_title": "Source title",
         "source_text": "Reference text",
+        "madhab": "Madhhab",
         "add_reference": "Add reference",
         "reference_added": "{} chunks were added.",
-    },
-}
+        "legal_sources": "Legal sources",
+        "usul": "Principles of legal reasoning",
+    })
+
+    ui["fr"].update({
+        "title": "Recueil concis des avis des écoles juridiques",
+        "subtitle": "Plateforme éducative de comparaison du fiqh.",
+        "madhab_filter": "Filtre des écoles",
+        "sunni": "Écoles sunnites",
+        "shia": "Écoles chiites",
+        "ibadi": "École ibadite",
+        "select_sunni": "Choisir les écoles sunnites",
+        "select_shia": "Choisir les écoles chiites",
+        "select_ibadi": "Choisir l’école ibadite",
+        "topic": "Choisir le sujet",
+        "all_topics": "Tous les sujets",
+        "answer_type": "Type de réponse",
+        "brief": "Bref",
+        "detailed": "Détaillé",
+        "questions": "❓ Questions et réponses",
+        "placeholder": "Exemple : Quel est le statut de la Omra ?",
+        "search": "🔍 Rechercher",
+        "loading": "Recherche et analyse en cours...",
+        "no_question": "Veuillez écrire une question.",
+        "no_madhab": "Veuillez choisir une école.",
+        "no_result": "Aucune réponse utilisable.",
+        "ai_on": "Gemini AI : activé",
+        "ai_off": "Gemini AI : désactivé",
+        "ai_note": "Ceci est une réponse de recherche, pas une fatwa.",
+        "countries": "🗺️ États membres de l’OCI",
+        "scholars": "📜 Imams et savants",
+        "glossary": "📚 Terminologie du fiqh",
+        "combined_sources": (
+            "📜 Sources et principes du raisonnement juridique"
+        ),
+        "rules": "⚖️ Principes du fiqh",
+        "references": "📁 Gestion des références",
+        "definition": "Définition",
+        "example": "Exemple",
+        "note": "Note",
+        "population_note": (
+            "Les populations musulmanes sont approximatives."
+        ),
+        "admin_password": "Mot de passe admin",
+        "access_denied": "Accès refusé.",
+        "source_title": "Titre de la source",
+        "source_text": "Texte de référence",
+        "madhab": "École juridique",
+        "add_reference": "Ajouter la référence",
+        "reference_added": "{} segments ajoutés.",
+        "legal_sources": "Sources juridiques",
+        "usul": "Principes du raisonnement",
+    })
+
+    ui["fa"].update({
+        "title": "مجموعه مختصر دیدگاه‌های مذاهب فقهی",
+        "subtitle": "سامانه‌ای آموزشی برای مقایسه دیدگاه‌های فقهی.",
+        "madhab_filter": "فیلتر مذاهب",
+        "sunni": "مذاهب اهل سنت",
+        "shia": "مذاهب شیعه",
+        "ibadi": "مذهب اباضی",
+        "select_sunni": "مذاهب اهل سنت را انتخاب کنید",
+        "select_shia": "مذاهب شیعه را انتخاب کنید",
+        "select_ibadi": "مذهب اباضی را انتخاب کنید",
+        "topic": "موضوع را انتخاب کنید",
+        "all_topics": "همه موضوعات",
+        "answer_type": "نوع پاسخ",
+        "brief": "کوتاه",
+        "detailed": "کامل",
+        "questions": "❓ پرسش‌ها و پاسخ‌ها",
+        "placeholder": "مثال: حکم عمره چیست؟",
+        "search": "🔍 جست‌وجو",
+        "loading": "در حال جست‌وجو و تحلیل...",
+        "no_question": "لطفاً پرسش را وارد کنید.",
+        "no_madhab": "لطفاً یک مذهب را انتخاب کنید.",
+        "no_result": "پاسخ قابل استفاده‌ای پیدا نشد.",
+        "ai_on": "Gemini AI: فعال",
+        "ai_off": "Gemini AI: غیرفعال",
+        "ai_note": "این پاسخ پژوهشی است، نه فتوا.",
+        "countries": "🗺️ کشورهای عضو سازمان همکاری اسلامی",
+        "scholars": "📜 امامان و دانشمندان",
+        "glossary": "📚 اصطلاحات فقهی",
+        "combined_sources": "📜 منابع و اصول استنباط فقهی",
+        "rules": "⚖️ اصول و قواعد فقهی",
+        "references": "📁 مدیریت منابع",
+        "definition": "تعریف",
+        "example": "مثال",
+        "note": "یادداشت",
+        "legal_sources": "منابع تشریع",
+        "usul": "اصول استنباط",
+    })
+
+    ui["ms"].update({
+        "title": "Himpunan Ringkas Pandangan Mazhab",
+        "subtitle": "Platform pendidikan perbandingan fiqh.",
+        "madhab_filter": "Tapis mazhab",
+        "sunni": "Mazhab Sunni",
+        "shia": "Mazhab Syiah",
+        "ibadi": "Mazhab Ibadi",
+        "select_sunni": "Pilih mazhab Sunni",
+        "select_shia": "Pilih mazhab Syiah",
+        "select_ibadi": "Pilih mazhab Ibadi",
+        "topic": "Pilih topik",
+        "all_topics": "Semua topik",
+        "answer_type": "Jenis jawapan",
+        "brief": "Ringkas",
+        "detailed": "Terperinci",
+        "questions": "❓ Soalan dan jawapan",
+        "placeholder": "Contoh: Apakah hukum Umrah?",
+        "search": "🔍 Cari",
+        "loading": "Mencari dan menganalisis...",
+        "no_question": "Sila masukkan soalan.",
+        "no_madhab": "Sila pilih sekurang-kurangnya satu mazhab.",
+        "no_result": "Tiada jawapan yang sesuai.",
+        "ai_on": "Gemini AI: diaktifkan",
+        "ai_off": "Gemini AI: dinyahaktifkan",
+        "ai_note": "Ini jawapan penyelidikan, bukan fatwa.",
+        "countries": "🗺️ Negara anggota OIC",
+        "scholars": "📜 Imam dan ulama",
+        "glossary": "📚 Istilah fiqh",
+        "combined_sources": "📜 Sumber dan prinsip fiqh",
+        "rules": "⚖️ Prinsip fiqh",
+        "references": "📁 Pengurusan rujukan",
+        "definition": "Takrif",
+        "example": "Contoh",
+        "note": "Nota",
+        "legal_sources": "Sumber hukum",
+        "usul": "Prinsip istinbat",
+    })
+
+    ui["ur"].update({
+        "title": "مذاہب فقہ کے مختصر آراء کا مجموعہ",
+        "subtitle": "فقہی آراء کے تقابلی مطالعے کا تعلیمی پلیٹ فارم۔",
+        "madhab_filter": "مسلک کا انتخاب",
+        "sunni": "اہل سنت کے مسالک",
+        "shia": "شیعہ مسالک",
+        "ibadi": "اباضی مسلک",
+        "select_sunni": "اہل سنت کے مسالک منتخب کریں",
+        "select_shia": "شیعہ مسالک منتخب کریں",
+        "select_ibadi": "اباضی مسلک منتخب کریں",
+        "topic": "موضوع منتخب کریں",
+        "all_topics": "تمام موضوعات",
+        "answer_type": "جواب کی نوعیت",
+        "brief": "مختصر",
+        "detailed": "تفصیلی",
+        "questions": "❓ سوالات و جوابات",
+        "placeholder": "مثال: عمرہ کا کیا حکم ہے؟",
+        "search": "🔍 تلاش",
+        "loading": "تلاش اور تجزیہ جاری ہے...",
+        "no_question": "براہ کرم سوال درج کریں۔",
+        "no_madhab": "براہ کرم کم از کم ایک مسلک منتخب کریں۔",
+        "no_result": "قابل استعمال جواب نہیں ملا۔",
+        "ai_on": "Gemini AI: فعال",
+        "ai_off": "Gemini AI: غیر فعال",
+        "ai_note": "یہ تحقیقی جواب ہے، فتویٰ نہیں۔",
+        "countries": "🗺️ اسلامی تعاون تنظیم کے رکن ممالک",
+        "scholars": "📜 ائمہ اور علماء",
+        "glossary": "📚 فقہی اصطلاحات",
+        "combined_sources": "📜 فقہی مصادر اور اصولِ استدلال",
+        "rules": "⚖️ فقہی اصول و قواعد",
+        "references": "📁 مراجع کا انتظام",
+        "definition": "تعریف",
+        "example": "مثال",
+        "note": "نوٹ",
+        "legal_sources": "مصادرِ تشریع",
+        "usul": "اصولِ استدلال",
+    })
+
+    return ui
 
 
-for code in ("fr", "fa", "ms", "ur"):
-    UI[code] = UI["en"].copy()
-
-
-UI["fr"].update({
-    "title": "Recueil concis des avis des écoles juridiques",
-    "subtitle": "Plateforme éducative de comparaison du fiqh.",
-    "madhab_filter": "Filtre des écoles",
-    "sunni": "Écoles sunnites",
-    "shia": "Écoles chiites",
-    "ibadi": "École ibadite",
-    "select_sunni": "Choisir les écoles sunnites",
-    "select_shia": "Choisir les écoles chiites",
-    "select_ibadi": "Choisir l’école ibadite",
-    "topic": "Choisir le sujet",
-    "all_topics": "Tous les sujets",
-    "answer_type": "Type de réponse",
-    "brief": "Bref",
-    "detailed": "Détaillé",
-    "questions": "❓ Questions et réponses",
-    "placeholder": "Exemple : Quel est le statut de la Omra ?",
-    "search": "🔍 Rechercher",
-    "loading": "Recherche et analyse en cours...",
-    "no_question": "Veuillez écrire une question.",
-    "no_madhab": "Veuillez choisir une école.",
-    "no_result": "Aucune réponse utilisable.",
-    "ai_on": "Gemini AI : activé",
-    "ai_off": "Gemini AI : désactivé",
-    "ai_note": "Ceci est une réponse de recherche, pas une fatwa.",
-    "countries": "🗺️ États membres de l’OCI",
-    "scholars": "📜 Imams et savants",
-    "glossary": "📚 Terminologie du fiqh",
-    "sources": "📜 Sources de la jurisprudence islamique",
-    "rules": "⚖️ Principes et maximes du fiqh",
-    "usul": "📚 Principes du raisonnement juridique",
-    "references": "📁 Gestion des références",
-    "definition": "Définition",
-    "example": "Exemple",
-    "note": "Note",
-    "population_note": "Les populations musulmanes sont approximatives.",
-    "admin_password": "Mot de passe admin",
-    "access_denied": "Accès refusé.",
-    "source_title": "Titre de la source",
-    "source_text": "Texte de référence",
-    "add_reference": "Ajouter la référence",
-    "reference_added": "{} segments ajoutés.",
-})
-
-
-UI["fa"].update({
-    "title": "مجموعه مختصر دیدگاه‌های مذاهب فقهی",
-    "subtitle": "سامانه‌ای آموزشی برای مقایسه دیدگاه‌های فقهی.",
-    "madhab_filter": "فیلتر مذاهب",
-    "sunni": "مذاهب اهل سنت",
-    "shia": "مذاهب شیعه",
-    "ibadi": "مذهب اباضی",
-    "select_sunni": "مذاهب اهل سنت را انتخاب کنید",
-    "select_shia": "مذاهب شیعه را انتخاب کنید",
-    "select_ibadi": "مذهب اباضی را انتخاب کنید",
-    "topic": "موضوع را انتخاب کنید",
-    "all_topics": "همه موضوعات",
-    "answer_type": "نوع پاسخ",
-    "brief": "کوتاه",
-    "detailed": "کامل",
-    "questions": "❓ پرسش‌ها و پاسخ‌ها",
-    "placeholder": "مثال: حکم عمره چیست؟",
-    "search": "🔍 جست‌وجو",
-    "loading": "در حال جست‌وجو و تحلیل...",
-    "no_question": "لطفاً پرسش را وارد کنید.",
-    "no_madhab": "لطفاً یک مذهب را انتخاب کنید.",
-    "no_result": "پاسخ قابل استفاده‌ای پیدا نشد.",
-    "ai_on": "Gemini AI: فعال",
-    "ai_off": "Gemini AI: غیرفعال",
-    "ai_note": "این پاسخ پژوهشی است، نه فتوا.",
-    "countries": "🗺️ کشورهای عضو سازمان همکاری اسلامی",
-    "scholars": "📜 امامان و دانشمندان",
-    "glossary": "📚 اصطلاحات فقهی",
-    "sources": "📜 منابع فقه اسلامی",
-    "rules": "⚖️ اصول و قواعد فقهی",
-    "usul": "📚 اصول استنباط فقهی",
-    "references": "📁 مدیریت منابع",
-    "definition": "تعریف",
-    "example": "مثال",
-    "note": "یادداشت",
-})
-
-
-UI["ms"].update({
-    "title": "Himpunan Ringkas Pandangan Mazhab",
-    "subtitle": "Platform pendidikan untuk perbandingan pandangan fiqh.",
-    "madhab_filter": "Tapis mazhab",
-    "sunni": "Mazhab Sunni",
-    "shia": "Mazhab Syiah",
-    "ibadi": "Mazhab Ibadi",
-    "select_sunni": "Pilih mazhab Sunni",
-    "select_shia": "Pilih mazhab Syiah",
-    "select_ibadi": "Pilih mazhab Ibadi",
-    "topic": "Pilih topik",
-    "all_topics": "Semua topik",
-    "answer_type": "Jenis jawapan",
-    "brief": "Ringkas",
-    "detailed": "Terperinci",
-    "questions": "❓ Soalan dan jawapan",
-    "placeholder": "Contoh: Apakah hukum Umrah?",
-    "search": "🔍 Cari",
-    "loading": "Mencari dan menganalisis...",
-    "no_question": "Sila masukkan soalan.",
-    "no_madhab": "Sila pilih sekurang-kurangnya satu mazhab.",
-    "no_result": "Tiada jawapan yang sesuai.",
-    "ai_on": "Gemini AI: diaktifkan",
-    "ai_off": "Gemini AI: dinyahaktifkan",
-    "ai_note": "Ini jawapan penyelidikan, bukan fatwa.",
-    "countries": "🗺️ Negara anggota OIC",
-    "scholars": "📜 Imam dan ulama",
-    "glossary": "📚 Istilah fiqh",
-    "sources": "📜 Sumber fiqh Islam",
-    "rules": "⚖️ Prinsip dan kaedah fiqh",
-    "usul": "📚 Prinsip istinbat fiqh",
-    "references": "📁 Pengurusan rujukan",
-    "definition": "Takrif",
-    "example": "Contoh",
-    "note": "Nota",
-})
-
-
-UI["ur"].update({
-    "title": "مذاہب فقہ کے مختصر آراء کا مجموعہ",
-    "subtitle": "فقہی آراء کے تقابلی مطالعے کا تعلیمی پلیٹ فارم۔",
-    "madhab_filter": "مسلک کا انتخاب",
-    "sunni": "اہل سنت کے مسالک",
-    "shia": "شیعہ مسالک",
-    "ibadi": "اباضی مسلک",
-    "select_sunni": "اہل سنت کے مسالک منتخب کریں",
-    "select_shia": "شیعہ مسالک منتخب کریں",
-    "select_ibadi": "اباضی مسلک منتخب کریں",
-    "topic": "موضوع منتخب کریں",
-    "all_topics": "تمام موضوعات",
-    "answer_type": "جواب کی نوعیت",
-    "brief": "مختصر",
-    "detailed": "تفصیلی",
-    "questions": "❓ سوالات و جوابات",
-    "placeholder": "مثال: عمرہ کا کیا حکم ہے؟",
-    "search": "🔍 تلاش",
-    "loading": "تلاش اور تجزیہ جاری ہے...",
-    "no_question": "براہ کرم سوال درج کریں۔",
-    "no_madhab": "براہ کرم کم از کم ایک مسلک منتخب کریں۔",
-    "no_result": "قابل استعمال جواب نہیں ملا۔",
-    "ai_on": "Gemini AI: فعال",
-    "ai_off": "Gemini AI: غیر فعال",
-    "ai_note": "یہ تحقیقی جواب ہے، فتویٰ نہیں۔",
-    "countries": "🗺️ اسلامی تعاون تنظیم کے رکن ممالک",
-    "scholars": "📜 ائمہ اور علماء",
-    "glossary": "📚 فقہی اصطلاحات",
-    "sources": "📜 فقہی مصادر",
-    "rules": "⚖️ فقہی اصول و قواعد",
-    "usul": "📚 اصولِ استدلال فقہی",
-    "references": "📁 مراجع کا انتظام",
-    "definition": "تعریف",
-    "example": "مثال",
-    "note": "نوٹ",
-})
-
-
-# ============================================================
-# Data loading
-# ============================================================
-
-def load_json(
-    filename: str,
-    default: Any,
-) -> Any:
-    path = DATA_DIR / filename
-
-    try:
-        with path.open(
-            "r",
-            encoding="utf-8",
-        ) as file:
-            return json.load(file)
-    except Exception as error:
-        logger.warning(
-            "Could not load %s: %s",
-            path,
-            error,
-        )
-        return default
-
-
-MadhhabFile = load_json(
-    "madhabs.json",
-    {},
-)
-
-COUNTRIES = load_json(
-    "countries.json",
-    [],
-)
-
-GLOSSARY = load_json(
-    "glossary.json",
-    [],
-)
-
-RULES = load_json(
-    "rules.json",
-    [],
-)
-
-LEGAL_SOURCES = load_json(
-    "legal_sources.json",
-    [],
-)
-
-USUL = load_json(
-    "usul.json",
-    [],
-)
+UI = build_ui()
 
 
 # ============================================================
-# Canonical madhhab groups
+# المذاهب
 # ============================================================
 
 CANONICAL_MADHABS = {
@@ -591,7 +567,199 @@ GROUP_CODES = {
 
 
 # ============================================================
-# Default searchable issues
+# تحميل ملفات JSON
+# ============================================================
+
+def load_json(
+    filename: str,
+    default: Any,
+) -> Any:
+    path = DATA_DIR / filename
+
+    if not path.exists():
+        logger.warning(
+            "Missing data file: %s",
+            path,
+        )
+        return default
+
+    try:
+        with path.open(
+            "r",
+            encoding="utf-8",
+        ) as file:
+            return json.load(file)
+    except Exception:
+        logger.exception(
+            "Invalid JSON file: %s",
+            path,
+        )
+        return default
+
+
+MadhhabFile = load_json(
+    "madhabs.json",
+    {},
+)
+
+COUNTRIES = load_json(
+    "countries.json",
+    [],
+)
+
+GLOSSARY = load_json(
+    "glossary.json",
+    [],
+)
+
+RULES = load_json(
+    "rules.json",
+    [],
+)
+
+LEGAL_SOURCES = load_json(
+    "legal_sources.json",
+    [],
+)
+
+USUL = load_json(
+    "usul.json",
+    [],
+)
+
+
+# ============================================================
+# بيانات افتراضية للأصول والمصادر
+# ============================================================
+
+if not LEGAL_SOURCES:
+    LEGAL_SOURCES = [
+        {
+            "name": {
+                "ar": "القرآن الكريم",
+                "en": "The Qur'an",
+                "fr": "Le Coran",
+            },
+            "description": {
+                "ar": "المصدر الأعلى والأول للتشريع الإسلامي.",
+                "en": "The primary and highest source of Islamic law.",
+                "fr": "La première et la plus haute source du droit islamique.",
+            },
+        },
+        {
+            "name": {
+                "ar": "السنة النبوية",
+                "en": "Prophetic Sunnah",
+                "fr": "La Sunna prophétique",
+            },
+            "description": {
+                "ar": "أقوال النبي ﷺ وأفعاله وتقريراته.",
+                "en": "The sayings, actions, and approvals of the Prophet.",
+                "fr": "Les paroles, actes et approbations du Prophète.",
+            },
+        },
+        {
+            "name": {
+                "ar": "الإجماع",
+                "en": "Ijma'",
+                "fr": "Ijma'",
+            },
+            "description": {
+                "ar": "اتفاق المجتهدين من أمة محمد ﷺ في عصر من العصور على حكم شرعي.",
+                "en": "The agreement of qualified jurists on a legal ruling.",
+                "fr": "L’accord des juristes qualifiés sur une règle juridique.",
+            },
+        },
+        {
+            "name": {
+                "ar": "القياس",
+                "en": "Qiyas",
+                "fr": "Qiyas",
+            },
+            "description": {
+                "ar": "إلحاق مسألة جديدة بمسألة منصوص عليها لاشتراكهما في العلة.",
+                "en": "Applying an established ruling to a new case due to a shared effective cause.",
+                "fr": "L’application d’une règle connue à un cas nouveau par une cause commune.",
+            },
+        },
+    ]
+
+
+if not USUL:
+    USUL = [
+        {
+            "name": {
+                "ar": "الأمر والنهي",
+                "en": "Commands and prohibitions",
+                "fr": "Commandements et interdictions",
+            },
+            "definition": {
+                "ar": "بحث دلالات صيغ الأمر والنهي وآثارها في الحكم الشرعي.",
+                "en": "Analysis of commands and prohibitions and their legal effects.",
+                "fr": "Analyse des commandements et interdictions et de leurs effets juridiques.",
+            },
+            "note": {
+                "ar": "تختلف بعض تطبيقاته بحسب القرائن والسياق.",
+                "en": "Applications may vary according to context and indications.",
+                "fr": "Les applications peuvent varier selon le contexte.",
+            },
+        },
+        {
+            "name": {
+                "ar": "العام والخاص",
+                "en": "General and specific texts",
+                "fr": "Textes généraux et spécifiques",
+            },
+            "definition": {
+                "ar": "دراسة النصوص العامة وما يرد عليها من تخصيص.",
+                "en": "Study of general texts and possible specification.",
+                "fr": "Étude des textes généraux et de leur éventuelle spécification.",
+            },
+            "note": {
+                "ar": "يبحث الأصولي في دلالة اللفظ وحدود شموله.",
+                "en": "The jurist examines the scope and meaning of the wording.",
+                "fr": "Le juriste examine la portée et le sens de la formulation.",
+            },
+        },
+        {
+            "name": {
+                "ar": "المطلق والمقيد",
+                "en": "Unrestricted and restricted texts",
+                "fr": "Textes absolus et restreints",
+            },
+            "definition": {
+                "ar": "الموازنة بين النص المطلق والنص الذي قيده وصف أو شرط.",
+                "en": "Reconciling unrestricted texts with texts limited by a condition or description.",
+                "fr": "La conciliation entre les textes absolus et ceux limités par une condition.",
+            },
+            "note": {
+                "ar": "يُنظر في اتحاد الحكم والسبب والسياق.",
+                "en": "The legal ruling, cause, and context are considered.",
+                "fr": "La règle, la cause et le contexte sont pris en compte.",
+            },
+        },
+        {
+            "name": {
+                "ar": "المصلحة والاستصحاب",
+                "en": "Maslahah and presumption of continuity",
+                "fr": "Maslaha et présomption de continuité",
+            },
+            "definition": {
+                "ar": "منهج للنظر في المصلحة المعتبرة واستمرار الحكم السابق عند غياب الناقل.",
+                "en": "Considering recognized benefit and continuity of an earlier state when no contrary evidence exists.",
+                "fr": "Prise en compte de l’intérêt reconnu et de la continuité d’un état antérieur.",
+            },
+            "note": {
+                "ar": "تختلف حدود الاعتماد عليهما بين المدارس الفقهية.",
+                "en": "Schools differ in the extent to which they rely on these principles.",
+                "fr": "Les écoles divergent quant à leur utilisation.",
+            },
+        },
+    ]
+
+
+# ============================================================
+# موضوعات افتراضية للبحث المحلي
 # ============================================================
 
 DEFAULT_ISSUES = [
@@ -613,34 +781,42 @@ DEFAULT_ISSUES = [
             "maliki": {
                 "ar": "فرض كفاية في الجملة.",
                 "en": "Generally treated as a communal obligation.",
+                "fr": "Considérée généralement comme une obligation collective.",
             },
             "shafii": {
                 "ar": "فرض كفاية في الجملة.",
                 "en": "Generally treated as a communal obligation.",
+                "fr": "Considérée généralement comme une obligation collective.",
             },
             "hanafi": {
                 "ar": "واجبة على القادر بلا عذر.",
                 "en": "Obligatory for an able person without a valid excuse.",
+                "fr": "Obligatoire pour celui qui en est capable sans excuse valable.",
             },
             "hanbali": {
                 "ar": "فرض عين على القادر.",
                 "en": "An individual obligation for an able person.",
+                "fr": "Une obligation individuelle pour celui qui en est capable.",
             },
             "zahiri": {
                 "ar": "يميل إلى الوجوب بظاهر النصوص.",
                 "en": "Tends toward obligation based on the apparent texts.",
+                "fr": "Tend vers l’obligation selon le sens apparent des textes.",
             },
             "jafari": {
                 "ar": "مستحب مؤكد.",
                 "en": "Strongly recommended.",
+                "fr": "Fortement recommandée.",
             },
             "zaidi": {
                 "ar": "فرض كفاية.",
                 "en": "A communal obligation.",
+                "fr": "Une obligation collective.",
             },
             "ibadi": {
                 "ar": "سنة مؤكدة.",
                 "en": "An emphasized Sunnah.",
+                "fr": "Une Sunna fortement recommandée.",
             },
         },
     },
@@ -727,7 +903,7 @@ DEFAULT_ISSUES = [
 
 
 # ============================================================
-# Utility functions
+# أدوات عامة
 # ============================================================
 
 def text_for(
@@ -753,7 +929,7 @@ def text_for(
 
 
 def normalize_text(
-    text: str,
+    value: str,
 ) -> str:
     replacements = {
         "أ": "ا",
@@ -763,27 +939,30 @@ def normalize_text(
         "ة": "ه",
     }
 
-    text = text.lower()
+    value = value.lower()
 
     for old, new in replacements.items():
-        text = text.replace(old, new)
+        value = value.replace(
+            old,
+            new,
+        )
 
-    text = re.sub(
+    value = re.sub(
         r"[\u064B-\u065F\u0670]",
         "",
-        text,
+        value,
     )
 
-    text = re.sub(
+    value = re.sub(
         r"[^\w\s]",
         " ",
-        text,
+        value,
     )
 
     return re.sub(
         r"\s+",
         " ",
-        text,
+        value,
     ).strip()
 
 
@@ -798,8 +977,7 @@ def get_madhab_name(
     lang: str,
 ) -> str:
     canonical = CANONICAL_MADHABS.get(
-        code,
-        {},
+        code
     )
 
     if canonical:
@@ -808,17 +986,33 @@ def get_madhab_name(
             canonical["names"]["ar"],
         )
 
+    data = MadhhabFile.get(
+        code,
+        {},
+    )
+
     return text_for(
-        MadhhabFile.get(
-            code,
-            {},
-        ).get(
+        data.get(
             "name",
             code,
         ),
         lang,
         code,
     )
+
+
+def get_madhab_data(
+    code: str,
+) -> Dict[str, Any]:
+    data = MadhhabFile.get(
+        code,
+        {},
+    )
+
+    if isinstance(data, dict):
+        return data
+
+    return {}
 
 
 def get_topic_name(
@@ -865,25 +1059,8 @@ def get_topic_name(
         {},
     ).get(
         lang,
-        topics.get(
-            code,
-            {},
-        ).get(
-            "ar",
-            code,
-        ),
-    )
-
-
-def get_madhab_data(
-    code: str,
-) -> Dict[str, Any]:
-    value = MadhhabFile.get(
         code,
-        {},
     )
-
-    return value if isinstance(value, dict) else {}
 
 
 def issue_title(
@@ -891,21 +1068,26 @@ def issue_title(
     lang: str,
 ) -> str:
     return text_for(
-        issue.get("title", ""),
+        issue.get(
+            "title",
+            "",
+        ),
         lang,
     )
 
 
 def issue_ruling(
     issue: Dict[str, Any],
-    code: str,
+    madhab: str,
     lang: str,
 ) -> str:
-    value = issue.get(
+    rulings = issue.get(
         "rulings",
         {},
-    ).get(
-        code,
+    )
+
+    value = rulings.get(
+        madhab,
         "",
     )
 
@@ -924,9 +1106,11 @@ def issue_search_text(
             issue,
             lang,
         ),
-        issue.get(
-            "keywords",
-            "",
+        str(
+            issue.get(
+                "keywords",
+                "",
+            )
         ),
     ]
 
@@ -940,7 +1124,9 @@ def issue_search_text(
                 for item in value.values()
             )
         else:
-            values.append(str(value))
+            values.append(
+                str(value)
+            )
 
     return normalize_text(
         " ".join(values)
@@ -948,7 +1134,7 @@ def issue_search_text(
 
 
 # ============================================================
-# SQLite
+# قاعدة البيانات
 # ============================================================
 
 class Database:
@@ -996,16 +1182,18 @@ class Database:
 
     def chunks(self):
         with self.connection() as db:
-            return [
-                dict(row)
-                for row in db.execute(
-                    """
-                    SELECT *
-                    FROM reference_chunks
-                    ORDER BY id
-                    """
-                ).fetchall()
-            ]
+            rows = db.execute(
+                """
+                SELECT *
+                FROM reference_chunks
+                ORDER BY id
+                """
+            ).fetchall()
+
+        return [
+            dict(row)
+            for row in rows
+        ]
 
     def add_chunk(
         self,
@@ -1024,7 +1212,8 @@ class Database:
             try:
                 db.execute(
                     """
-                    INSERT INTO reference_chunks (
+                    INSERT INTO reference_chunks
+                    (
                         title,
                         madhab,
                         text,
@@ -1038,7 +1227,9 @@ class Database:
                         title.strip(),
                         madhab or "",
                         text.strip(),
-                        json.dumps(embedding),
+                        json.dumps(
+                            embedding
+                        ),
                         content_hash,
                         now_iso(),
                     ),
@@ -1052,13 +1243,14 @@ class Database:
 
 
 # ============================================================
-# Gemini
+# خدمة Gemini
 # ============================================================
 
 class GeminiService:
     def __init__(self):
         self.enabled = bool(
-            USE_GEMINI and gemini_client
+            USE_GEMINI
+            and gemini_client
         )
 
     def generate(
@@ -1091,7 +1283,7 @@ class GeminiService:
     def embed(
         self,
         text: str,
-        task_type: str = "RETRIEVAL_DOCUMENT",
+        task_type: str,
     ) -> Optional[List[float]]:
         if not self.enabled:
             return None
@@ -1122,7 +1314,7 @@ class GeminiService:
         lang: str,
         context: str,
     ) -> Optional[str]:
-        selected_names = ", ".join(
+        selected = ", ".join(
             get_madhab_name(
                 code,
                 lang,
@@ -1130,7 +1322,7 @@ class GeminiService:
             for code in madhabs
         )
 
-        answer_style = (
+        style = (
             "brief"
             if level == "brief"
             else "detailed"
@@ -1143,23 +1335,23 @@ You are not issuing a personal fatwa.
 Question:
 {question}
 
-Selected madhhabs only:
-{selected_names}
+Selected schools:
+{selected}
 
 Answer style:
-{answer_style}
+{style}
 
 Reference context:
 {context}
 
 Instructions:
 - Answer the exact question.
-- Discuss only the selected madhhabs.
+- Discuss only the selected schools.
 - Do not add unselected schools.
-- Mention meaningful disagreement.
-- Do not invent citations.
-- Clearly state when specialist review is needed.
-- Write in the selected language.
+- Explain meaningful differences.
+- Do not invent references.
+- Clearly state that specialist review may be needed.
+- Answer in the selected language.
 """
 
         return self.generate(
@@ -1185,20 +1377,20 @@ class ReferenceSearch:
         query: str,
         madhabs: List[str],
         limit: int = 5,
-    ):
+    ) -> List[Dict[str, Any]]:
         if self.db.count_chunks() == 0:
             return []
 
-        query_embedding = self.ai.embed(
+        vector = self.ai.embed(
             query,
             "RETRIEVAL_QUERY",
         )
 
-        if not query_embedding:
+        if not vector:
             return []
 
         query_vector = np.array(
-            query_embedding,
+            vector,
             dtype=np.float32,
         )
 
@@ -1224,17 +1416,16 @@ class ReferenceSearch:
                     * np.linalg.norm(item_vector)
                 )
 
-                score = (
-                    float(
+                if not denominator:
+                    score = 0.0
+                else:
+                    score = float(
                         np.dot(
                             query_vector,
                             item_vector,
                         )
                         / denominator
                     )
-                    if denominator
-                    else 0.0
-                )
 
                 scored.append(
                     (
@@ -1249,7 +1440,7 @@ class ReferenceSearch:
                 )
 
         scored.sort(
-            key=lambda value: value[0],
+            key=lambda item: item[0],
             reverse=True,
         )
 
@@ -1271,7 +1462,7 @@ class LocalSearch:
         topic: str,
         madhabs: List[str],
         lang: str,
-    ):
+    ) -> List[Dict[str, Any]]:
         query = normalize_text(
             question
         )
@@ -1285,7 +1476,7 @@ class LocalSearch:
             ):
                 continue
 
-            searchable = issue_search_text(
+            content = issue_search_text(
                 issue,
                 lang,
             )
@@ -1294,7 +1485,7 @@ class LocalSearch:
                 1
                 for word in query.split()
                 if len(word) > 2
-                and word in searchable
+                and word in content
             )
 
             if score:
@@ -1306,7 +1497,7 @@ class LocalSearch:
                 )
 
         matches.sort(
-            key=lambda value: value[0],
+            key=lambda item: item[0],
             reverse=True,
         )
 
@@ -1315,24 +1506,27 @@ class LocalSearch:
         for _, issue in matches[:5]:
             cards = []
 
-            for code in madhabs:
+            for madhab in madhabs:
                 answer = issue_ruling(
                     issue,
-                    code,
+                    madhab,
                     lang,
                 )
 
                 if not answer:
-                    answer = (
-                        "تحتاج هذه المسألة إلى "
-                        "بحث تفصيلي في مصادر المذهب."
-                        if lang == "ar"
-                        else "This issue requires detailed "
-                        "research in the school's sources."
-                    )
+                    if lang == "ar":
+                        answer = (
+                            "تحتاج هذه المسألة إلى بحث "
+                            "تفصيلي في مصادر المذهب."
+                        )
+                    else:
+                        answer = (
+                            "This issue requires detailed "
+                            "research in the school's sources."
+                        )
 
                 cards.append({
-                    "code": code,
+                    "madhab": madhab,
                     "answer": answer,
                 })
 
@@ -1349,7 +1543,7 @@ class LocalSearch:
 
 
 # ============================================================
-# CSS
+# التصميم
 # ============================================================
 
 def apply_css(
@@ -1412,7 +1606,7 @@ def apply_css(
             text-align: {metadata["align"]};
         }}
 
-        .card {{
+        .answer-card {{
             direction: {metadata["direction"]};
             text-align: {metadata["align"]};
             background: white;
@@ -1430,7 +1624,7 @@ def apply_css(
 
 
 # ============================================================
-# اللغة والترويسة
+# شريط اللغات
 # ============================================================
 
 def render_language_bar() -> str:
@@ -1450,7 +1644,7 @@ def render_language_bar() -> str:
 
             if st.button(
                 f"{item['flag']} {item['name']}",
-                key=f"language_{code}",
+                key=f"lang_{code}",
                 use_container_width=True,
                 type=(
                     "primary"
@@ -1493,7 +1687,7 @@ def render_madhab_filter(
     lang: str,
     text: Dict[str, str],
 ) -> List[str]:
-    previous = st.session_state.get(
+    old_selection = st.session_state.get(
         "selected_madhabs",
         [
             "maliki",
@@ -1511,15 +1705,11 @@ def render_madhab_filter(
             text["sunni"],
             expanded=False,
         ):
-            options = [
-                code
-                for code in GROUP_CODES["sunni"]
-                if code in CANONICAL_MADHABS
-            ]
+            options = GROUP_CODES["sunni"]
 
             defaults = [
                 code
-                for code in previous
+                for code in old_selection
                 if code in options
             ]
 
@@ -1540,15 +1730,11 @@ def render_madhab_filter(
             text["shia"],
             expanded=False,
         ):
-            options = [
-                code
-                for code in GROUP_CODES["shia"]
-                if code in CANONICAL_MADHABS
-            ]
+            options = GROUP_CODES["shia"]
 
             defaults = [
                 code
-                for code in previous
+                for code in old_selection
                 if code in options
             ]
 
@@ -1569,15 +1755,11 @@ def render_madhab_filter(
             text["ibadi"],
             expanded=False,
         ):
-            options = [
-                code
-                for code in GROUP_CODES["ibadi"]
-                if code in CANONICAL_MADHABS
-            ]
+            options = GROUP_CODES["ibadi"]
 
             defaults = [
                 code
-                for code in previous
+                for code in old_selection
                 if code in options
             ]
 
@@ -1594,11 +1776,11 @@ def render_madhab_filter(
                 key="ibadi_selector",
             )
 
-    selected = list(dict.fromkeys(
-        sunni
-        + shia
-        + ibadi
-    ))
+    selected = list(
+        dict.fromkeys(
+            sunni + shia + ibadi
+        )
+    )
 
     st.session_state.selected_madhabs = selected
 
@@ -1606,7 +1788,7 @@ def render_madhab_filter(
 
 
 # ============================================================
-# الأسئلة
+# قسم الأسئلة
 # ============================================================
 
 def render_questions(
@@ -1629,107 +1811,107 @@ def render_questions(
             key="question_input",
         )
 
-        if st.button(
+        if not st.button(
             text["search"],
-            key="search_question",
+            key="search_button",
             use_container_width=True,
         ):
-            if not question.strip():
-                st.warning(
-                    text["no_question"]
-                )
-                return
+            return
 
-            if not madhabs:
-                st.warning(
-                    text["no_madhab"]
-                )
-                return
+        if not question.strip():
+            st.warning(
+                text["no_question"]
+            )
+            return
 
-            local_results = local_search.search(
+        if not madhabs:
+            st.warning(
+                text["no_madhab"]
+            )
+            return
+
+        local_results = local_search.search(
+            question,
+            topic,
+            madhabs,
+            lang,
+        )
+
+        if local_results:
+            for result in local_results:
+                st.markdown(
+                    '<div class="answer-card">',
+                    unsafe_allow_html=True,
+                )
+
+                st.subheader(
+                    result["title"]
+                )
+
+                st.caption(
+                    get_topic_name(
+                        result["topic"],
+                        lang,
+                    )
+                )
+
+                columns = st.columns(
+                    len(result["cards"])
+                )
+
+                for column, card in zip(
+                    columns,
+                    result["cards"],
+                ):
+                    with column:
+                        st.markdown(
+                            f"### {get_madhab_name(
+                                card['madhab'],
+                                lang,
+                            )}"
+                        )
+
+                        st.write(
+                            card["answer"]
+                        )
+
+                st.markdown(
+                    "</div>",
+                    unsafe_allow_html=True,
+                )
+
+            return
+
+        with st.spinner(
+            text["loading"]
+        ):
+            chunks = references.retrieve(
                 question,
-                topic,
                 madhabs,
-                lang,
             )
 
-            if local_results:
-                for result in local_results:
-                    st.markdown(
-                        '<div class="card">',
-                        unsafe_allow_html=True,
-                    )
+            context = "\n\n".join(
+                chunk["text"]
+                for chunk in chunks
+            )
 
-                    st.subheader(
-                        result["title"]
-                    )
+            answer = ai.answer(
+                question=question,
+                madhabs=madhabs,
+                level=level,
+                lang=lang,
+                context=context,
+            )
 
-                    st.caption(
-                        get_topic_name(
-                            result["topic"],
-                            lang,
-                        )
-                    )
-
-                    columns = st.columns(
-                        len(result["cards"])
-                    )
-
-                    for column, card in zip(
-                        columns,
-                        result["cards"],
-                    ):
-                        with column:
-                            label = get_madhab_name(
-                                card["code"],
-                                lang,
-                            )
-
-                            st.markdown(
-                                f"### {label}"
-                            )
-
-                            st.write(
-                                card["answer"]
-                            )
-
-                    st.markdown(
-                        "</div>",
-                        unsafe_allow_html=True,
-                    )
-
-                return
-
-            with st.spinner(
-                text["loading"]
-            ):
-                chunks = references.retrieve(
-                    question,
-                    madhabs,
-                )
-
-                context = "\n\n".join(
-                    chunk["text"]
-                    for chunk in chunks
-                )
-
-                answer = ai.answer(
-                    question=question,
-                    madhabs=madhabs,
-                    level=level,
-                    lang=lang,
-                    context=context,
-                )
-
-            if answer:
-                st.warning(
-                    text["ai_note"]
-                )
-                st.markdown(answer)
-            else:
-                st.error(
-                    text["no_result"]
-                )
+        if answer:
+            st.warning(
+                text["ai_note"]
+            )
+            st.markdown(answer)
+        else:
+            st.error(
+                text["no_result"]
+            )
 
 
 # ============================================================
@@ -1744,13 +1926,25 @@ def render_countries(
         text["countries"],
         expanded=False,
     ):
+        if not COUNTRIES:
+            st.info(
+                "ملف countries.json غير موجود أو فارغ."
+                if lang == "ar"
+                else
+                "countries.json is missing or empty."
+            )
+            return
+
         st.caption(
             text["population_note"]
         )
 
         for item in COUNTRIES:
             name = text_for(
-                item.get("name", ""),
+                item.get(
+                    "name",
+                    "",
+                ),
                 lang,
             )
 
@@ -1760,12 +1954,18 @@ def render_countries(
             )
 
             muslims = text_for(
-                item.get("muslims", ""),
+                item.get(
+                    "muslims",
+                    "",
+                ),
                 lang,
             )
 
             madhab = text_for(
-                item.get("madhab", ""),
+                item.get(
+                    "madhab",
+                    "",
+                ),
                 lang,
             )
 
@@ -1789,9 +1989,22 @@ def render_countries(
                     f"{madhab} {suffix}"
                 )
 
+            details = " — ".join(
+                value
+                for value in [
+                    muslims,
+                    madhab,
+                ]
+                if value
+            )
+
             st.markdown(
-                f"{flag} **{name}** — "
-                f"{muslims} — {madhab}"
+                f"{flag} **{name}**"
+                + (
+                    f" — {details}"
+                    if details
+                    else ""
+                )
             )
 
 
@@ -1822,24 +2035,164 @@ def render_scholars(
                 expanded=False,
             ):
                 fields = [
-                    ("founder", "الإمام المؤسس"),
-                    ("life", "فترة الحياة"),
-                    ("birthplace", "مكان الميلاد"),
-                    ("origin", "مكان النشأة والانتشار"),
-                    ("scholars", "أشهر العلماء"),
-                    ("summary", "نبذة"),
+                    (
+                        "founder",
+                        "الإمام المؤسس",
+                    ),
+                    (
+                        "life",
+                        "فترة الحياة",
+                    ),
+                    (
+                        "birthplace",
+                        "مكان الميلاد",
+                    ),
+                    (
+                        "origin",
+                        "مكان النشأة والانتشار",
+                    ),
+                    (
+                        "scholars",
+                        "أشهر العلماء",
+                    ),
+                    (
+                        "summary",
+                        "نبذة",
+                    ),
                 ]
+
+                displayed = False
 
                 for field, label in fields:
                     value = text_for(
-                        data.get(field, ""),
+                        data.get(
+                            field,
+                            "",
+                        ),
                         lang,
                     )
 
                     if value:
+                        displayed = True
+
                         st.markdown(
                             f"**{label}:** {value}"
                         )
+
+                if not displayed:
+                    st.info(
+                        (
+                            "لا توجد بيانات تفصيلية لهذا "
+                            "المذهب في madhabs.json."
+                            if lang == "ar"
+                            else
+                            "No detailed data was found "
+                            "for this school in madhabs.json."
+                        )
+                    )
+
+
+# ============================================================
+# المصادر وأصول الاستدلال في قسم واحد
+# ============================================================
+
+def render_sources_and_usul(
+    lang: str,
+    text: Dict[str, str],
+):
+    with st.expander(
+        text["combined_sources"],
+        expanded=False,
+    ):
+        with st.expander(
+            text["legal_sources"],
+            expanded=False,
+        ):
+            if not LEGAL_SOURCES:
+                st.info(
+                    "لا توجد مصادر تشريع."
+                    if lang == "ar"
+                    else
+                    "No legal sources were found."
+                )
+            else:
+                for item in LEGAL_SOURCES:
+                    name = text_for(
+                        item.get(
+                            "name",
+                            "",
+                        ),
+                        lang,
+                    )
+
+                    description = text_for(
+                        item.get(
+                            "description",
+                            "",
+                        ),
+                        lang,
+                    )
+
+                    with st.expander(
+                        name,
+                        expanded=False,
+                    ):
+                        st.markdown(
+                            f"**{text['definition']}:** "
+                            f"{description}"
+                        )
+
+        with st.expander(
+            text["usul"],
+            expanded=False,
+        ):
+            if not USUL:
+                st.info(
+                    "لا توجد أصول استدلال."
+                    if lang == "ar"
+                    else
+                    "No principles of reasoning were found."
+                )
+            else:
+                for item in USUL:
+                    name = text_for(
+                        item.get(
+                            "name",
+                            "",
+                        ),
+                        lang,
+                    )
+
+                    definition = text_for(
+                        item.get(
+                            "definition",
+                            "",
+                        ),
+                        lang,
+                    )
+
+                    note = text_for(
+                        item.get(
+                            "note",
+                            "",
+                        ),
+                        lang,
+                    )
+
+                    with st.expander(
+                        name,
+                        expanded=False,
+                    ):
+                        st.markdown(
+                            f"**{text['definition']}:** "
+                            f"{definition}"
+                        )
+
+                        if note:
+                            st.markdown(
+                                f"**{text['note']}:** "
+                                f"{note}"
+                            )
 
 
 # ============================================================
@@ -1854,19 +2207,37 @@ def render_glossary(
         text["glossary"],
         expanded=False,
     ):
+        if not GLOSSARY:
+            st.info(
+                "لا توجد مصطلحات في ملف glossary.json."
+                if lang == "ar"
+                else
+                "No glossary entries were found."
+            )
+            return
+
         for item in GLOSSARY:
             name = text_for(
-                item.get("name", ""),
+                item.get(
+                    "name",
+                    "",
+                ),
                 lang,
             )
 
             definition = text_for(
-                item.get("definition", ""),
+                item.get(
+                    "definition",
+                    "",
+                ),
                 lang,
             )
 
             example = text_for(
-                item.get("example", ""),
+                item.get(
+                    "example",
+                    "",
+                ),
                 lang,
             )
 
@@ -1879,46 +2250,15 @@ def render_glossary(
                     f"{definition}"
                 )
 
-                st.markdown(
-                    f"**{text['example']}:** "
-                    f"{example}"
-                )
+                if example:
+                    st.markdown(
+                        f"**{text['example']}:** "
+                        f"{example}"
+                    )
 
 
 # ============================================================
-# المصادر
-# ============================================================
-
-def render_sources(
-    lang: str,
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["sources"],
-        expanded=False,
-    ):
-        for item in LEGAL_SOURCES:
-            name = text_for(
-                item.get("name", ""),
-                lang,
-            )
-
-            description = text_for(
-                item.get("description", ""),
-                lang,
-            )
-
-            with st.expander(
-                name,
-                expanded=False,
-            ):
-                st.write(
-                    description
-                )
-
-
-# ============================================================
-# القواعد
+# القواعد الفقهية
 # ============================================================
 
 def render_rules(
@@ -1929,19 +2269,37 @@ def render_rules(
         text["rules"],
         expanded=False,
     ):
+        if not RULES:
+            st.info(
+                "لا توجد قواعد في ملف rules.json."
+                if lang == "ar"
+                else
+                "No rules were found."
+            )
+            return
+
         for item in RULES:
             name = text_for(
-                item.get("name", ""),
+                item.get(
+                    "name",
+                    "",
+                ),
                 lang,
             )
 
             definition = text_for(
-                item.get("definition", ""),
+                item.get(
+                    "definition",
+                    "",
+                ),
                 lang,
             )
 
             example = text_for(
-                item.get("example", ""),
+                item.get(
+                    "example",
+                    "",
+                ),
                 lang,
             )
 
@@ -1954,53 +2312,10 @@ def render_rules(
                     f"{definition}"
                 )
 
-                st.markdown(
-                    f"**{text['example']}:** "
-                    f"{example}"
-                )
-
-
-# ============================================================
-# أصول الاستدلال
-# ============================================================
-
-def render_usul(
-    lang: str,
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["usul"],
-        expanded=False,
-    ):
-        for item in USUL:
-            name = text_for(
-                item.get("name", ""),
-                lang,
-            )
-
-            definition = text_for(
-                item.get("definition", ""),
-                lang,
-            )
-
-            note = text_for(
-                item.get("note", ""),
-                lang,
-            )
-
-            with st.expander(
-                name,
-                expanded=False,
-            ):
-                st.markdown(
-                    f"**{text['definition']}:** "
-                    f"{definition}"
-                )
-
-                if note:
+                if example:
                     st.markdown(
-                        f"**{text['note']}:** "
-                        f"{note}"
+                        f"**{text['example']}:** "
+                        f"{example}"
                     )
 
 
@@ -2027,7 +2342,7 @@ def render_references(
         password = st.text_input(
             text["admin_password"],
             type="password",
-            key="admin_password",
+            key="admin_password_input",
         )
 
         if password != ADMIN_PASSWORD:
@@ -2038,20 +2353,45 @@ def render_references(
 
         title = st.text_input(
             text["source_title"],
-            key="reference_title",
+            key="source_title_input",
+        )
+
+        madhab_options = [
+            "",
+            *CANONICAL_MADHABS.keys(),
+        ]
+
+        madhab = st.selectbox(
+            text["madhab"],
+            options=madhab_options,
+            format_func=lambda code: (
+                "عام"
+                if code == ""
+                else get_madhab_name(
+                    code,
+                    lang,
+                )
+            ),
+            key="reference_madhab",
         )
 
         source = st.text_area(
             text["source_text"],
             height=220,
-            key="reference_text",
+            key="source_text_input",
         )
 
         if st.button(
             text["add_reference"],
             key="add_reference_button",
         ):
-            if not title.strip() or not source.strip():
+            if not title.strip():
+                st.warning(
+                    text["source_title"]
+                )
+                return
+
+            if not source.strip():
                 st.warning(
                     text["source_text"]
                 )
@@ -2064,14 +2404,14 @@ def render_references(
                 return
 
             chunks = [
-                source[i:i + 700]
-                for i in range(
+                source[index:index + 700]
+                for index in range(
                     0,
                     len(source),
                     600,
                 )
                 if len(
-                    source[i:i + 700]
+                    source[index:index + 700]
                 ) > 30
             ]
 
@@ -2081,16 +2421,16 @@ def render_references(
                 text["loading"]
             ):
                 for chunk in chunks:
-                    vector = ai.embed(
+                    embedding = ai.embed(
                         chunk,
                         "RETRIEVAL_DOCUMENT",
                     )
 
-                    if vector and db.add_chunk(
+                    if embedding and db.add_chunk(
                         title,
-                        "",
+                        madhab,
                         chunk,
-                        vector,
+                        embedding,
                     ):
                         added += 1
 
@@ -2124,7 +2464,7 @@ def get_services():
 
 
 # ============================================================
-# التشغيل الرئيسي
+# الدالة الرئيسية
 # ============================================================
 
 def main():
@@ -2173,18 +2513,23 @@ def main():
                 "brief",
                 "detailed",
             ],
-            format_func=lambda value: text[value],
+            format_func=lambda value: (
+                text[value]
+            ),
             horizontal=True,
             key="answer_level",
         )
 
         st.divider()
 
-        st.success(
-            text["ai_on"]
-            if ai.enabled
-            else text["ai_off"]
-        )
+        if ai.enabled:
+            st.success(
+                text["ai_on"]
+            )
+        else:
+            st.warning(
+                text["ai_off"]
+            )
 
     render_questions(
         ai=ai,
@@ -2207,7 +2552,7 @@ def main():
         text,
     )
 
-    render_sources(
+    render_sources_and_usul(
         lang,
         text,
     )
@@ -2218,11 +2563,6 @@ def main():
     )
 
     render_rules(
-        lang,
-        text,
-    )
-
-    render_usul(
         lang,
         text,
     )
