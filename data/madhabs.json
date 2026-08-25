@@ -1,50 +1,131 @@
-{
-  "maliki": {
-    "name": {
-      "ar": "مالكي",
-      "en": "Maliki"
-    }
-  },
-  "shafii": {
-    "name": {
-      "ar": "شافعي",
-      "en": "Shafi'i"
-    }
-  },
-  "hanafi": {
-    "name": {
-      "ar": "حنفي",
-      "en": "Hanafi"
-    }
-  },
-  "hanbali": {
-    "name": {
-      "ar": "حنبلي",
-      "en": "Hanbali"
-    }
-  },
-  "zahiri": {
-    "name": {
-      "ar": "ظاهري",
-      "en": "Zahiri"
-    }
-  },
-  "jafari": {
-    "name": {
-      "ar": "جعفري",
-      "en": "Ja'fari"
-    }
-  },
-  "zaidi": {
-    "name": {
-      "ar": "زيدي",
-      "en": "Zaidi"
-    }
-  },
-  "ibadi": {
-    "name": {
-      "ar": "إباضي",
-      "en": "Ibadi"
-    }
-  }
-}
+def render_madhab_filter(
+    lang: str,
+    text: Dict[str, str],
+) -> List[str]:
+    previous = st.session_state.get(
+        "selected_madhabs",
+        [
+            "maliki",
+            "shafii",
+            "hanafi",
+            "hanbali",
+        ],
+    )
+
+    selected = []
+
+    # العنوان الرئيسي مغلق افتراضيًا
+    with st.expander(
+        text["madhab_filter"],
+        expanded=False,
+    ):
+        # الفرع الأول: مذاهب السنة
+        sunni_codes = [
+            "maliki",
+            "shafii",
+            "hanafi",
+            "hanbali",
+            "zahiri",
+        ]
+
+        with st.expander(
+            text["sunni"],
+            expanded=False,
+        ):
+            sunni_options = [
+                code
+                for code in sunni_codes
+                if code in CANONICAL_MADHABS
+            ]
+
+            sunni_defaults = [
+                code
+                for code in previous
+                if code in sunni_options
+            ]
+
+            sunni_selected = st.multiselect(
+                text["select_sunni"],
+                options=sunni_options,
+                default=sunni_defaults,
+                format_func=lambda code: get_madhab_name(
+                    code,
+                    lang,
+                ),
+                key="sunni_selector",
+            )
+
+        # الفرع الثاني: مذاهب الشيعة
+        shia_codes = [
+            "jafari",
+            "zaidi",
+        ]
+
+        with st.expander(
+            text["shia"],
+            expanded=False,
+        ):
+            shia_options = [
+                code
+                for code in shia_codes
+                if code in CANONICAL_MADHABS
+            ]
+
+            shia_defaults = [
+                code
+                for code in previous
+                if code in shia_options
+            ]
+
+            shia_selected = st.multiselect(
+                text["select_shia"],
+                options=shia_options,
+                default=shia_defaults,
+                format_func=lambda code: get_madhab_name(
+                    code,
+                    lang,
+                ),
+                key="shia_selector",
+            )
+
+        # الفرع الثالث: المذهب الإباضي
+        ibadi_codes = [
+            "ibadi",
+        ]
+
+        with st.expander(
+            text["ibadi"],
+            expanded=False,
+        ):
+            ibadi_options = [
+                code
+                for code in ibadi_codes
+                if code in CANONICAL_MADHABS
+            ]
+
+            ibadi_defaults = [
+                code
+                for code in previous
+                if code in ibadi_options
+            ]
+
+            ibadi_selected = st.multiselect(
+                text["select_ibadi"],
+                options=ibadi_options,
+                default=ibadi_defaults,
+                format_func=lambda code: get_madhab_name(
+                    code,
+                    lang,
+                ),
+                key="ibadi_selector",
+            )
+
+        selected = list(dict.fromkeys(
+            sunni_selected
+            + shia_selected
+            + ibadi_selected
+        ))
+
+    st.session_state.selected_madhabs = selected
+
+    return selected
