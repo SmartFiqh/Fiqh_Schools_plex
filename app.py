@@ -15,7 +15,7 @@ import streamlit as st
 
 
 # ============================================================
-# Page configuration
+# إعداد الصفحة
 # ============================================================
 
 st.set_page_config(
@@ -25,13 +25,13 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+
+# ============================================================
+# الإعدادات
+# ============================================================
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
-# ============================================================
-# Paths and settings
-# ============================================================
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
@@ -49,7 +49,7 @@ EMBED_MODEL = os.getenv(
 
 
 # ============================================================
-# Gemini initialization
+# Gemini
 # ============================================================
 
 try:
@@ -95,12 +95,12 @@ if USE_GEMINI:
     except Exception:
         USE_GEMINI = False
         logger.exception(
-            "Unable to initialize Gemini"
+            "Gemini initialization failed"
         )
 
 
 # ============================================================
-# Languages
+# اللغات
 # ============================================================
 
 LANGUAGES = {
@@ -150,7 +150,13 @@ UI = {
             "منصة تعليمية للمقارنة الفقهية، "
             "وليست موقعًا للإفتاء."
         ),
-        "madhab": "تصفية المذهب",
+        "madhab_filter": "تصفية المذاهب",
+        "sunni": "مذاهب السنة",
+        "shia": "مذاهب الشيعة",
+        "ibadi": "المذهب الإباضي",
+        "select_sunni": "اختر المذاهب السنية",
+        "select_shia": "اختر المذاهب الشيعية",
+        "select_ibadi": "اختر المذهب الإباضي",
         "topic": "اختر الموضوع",
         "all_topics": "كل الموضوعات",
         "answer_type": "نوع الإجابة",
@@ -185,6 +191,7 @@ UI = {
         "source_text": "نص المرجع",
         "add_reference": "إضافة المرجع",
         "reference_added": "تمت إضافة {} مقاطع.",
+        "madhab_answer": "رأي المذهب",
     },
     "en": {
         "title": "The Concise Compendium of Madhhab Opinions",
@@ -192,7 +199,13 @@ UI = {
             "An educational fiqh comparison platform, "
             "not a fatwa service."
         ),
-        "madhab": "Madhhab filter",
+        "madhab_filter": "Madhhab filter",
+        "sunni": "Sunni schools",
+        "shia": "Shia schools",
+        "ibadi": "Ibadi school",
+        "select_sunni": "Choose Sunni schools",
+        "select_shia": "Choose Shia schools",
+        "select_ibadi": "Choose the Ibadi school",
         "topic": "Choose a topic",
         "all_topics": "All topics",
         "answer_type": "Answer type",
@@ -227,6 +240,7 @@ UI = {
         "source_text": "Reference text",
         "add_reference": "Add reference",
         "reference_added": "{} chunks were added.",
+        "madhab_answer": "School opinion",
     },
 }
 
@@ -235,10 +249,61 @@ for code in ("fr", "fa", "ms", "ur"):
     UI[code] = UI["en"].copy()
 
 
+UI["fr"].update({
+    "title": "Recueil concis des avis des écoles juridiques",
+    "subtitle": "Plateforme éducative de comparaison du fiqh, pas un service de fatwa.",
+    "madhab_filter": "Filtre des écoles",
+    "sunni": "Écoles sunnites",
+    "shia": "Écoles chiites",
+    "ibadi": "École ibadite",
+    "select_sunni": "Choisir les écoles sunnites",
+    "select_shia": "Choisir les écoles chiites",
+    "select_ibadi": "Choisir l’école ibadite",
+    "topic": "Choisir le sujet",
+    "all_topics": "Tous les sujets",
+    "answer_type": "Type de réponse",
+    "brief": "Bref",
+    "detailed": "Détaillé",
+    "questions": "❓ Questions et réponses",
+    "placeholder": "Exemple : Quel est le statut de la Omra ?",
+    "search": "🔍 Rechercher",
+    "loading": "Recherche et analyse en cours...",
+    "no_question": "Veuillez écrire une question.",
+    "no_madhab": "Veuillez choisir une école.",
+    "no_result": "Aucune réponse utilisable.",
+    "ai_on": "Gemini AI : activé",
+    "ai_off": "Gemini AI : désactivé",
+    "ai_note": "Ceci est une réponse de recherche, pas une fatwa.",
+    "countries": "🗺️ Pays et écoles",
+    "scholars": "📜 Imams et savants",
+    "glossary": "📚 Terminologie du fiqh",
+    "sources": "📜 Sources de la jurisprudence islamique",
+    "rules": "⚖️ Principes et maximes du fiqh",
+    "references": "📁 Gestion des références",
+    "definition": "Définition",
+    "example": "Exemple",
+    "note": "Note",
+    "population_note": "Les populations sont approximatives.",
+    "admin_password": "Mot de passe admin",
+    "access_denied": "Accès refusé.",
+    "source_title": "Titre de la source",
+    "source_text": "Texte de référence",
+    "add_reference": "Ajouter la référence",
+    "reference_added": "{} segments ajoutés.",
+    "madhab_answer": "Avis de l’école",
+})
+
+
 UI["fa"].update({
     "title": "مجموعه مختصر دیدگاه‌های مذاهب فقهی",
     "subtitle": "سامانه‌ای آموزشی برای مقایسه دیدگاه‌های فقهی.",
-    "madhab": "مذهب را انتخاب کنید",
+    "madhab_filter": "فیلتر مذاهب",
+    "sunni": "مذاهب اهل سنت",
+    "shia": "مذاهب شیعه",
+    "ibadi": "مذهب اباضی",
+    "select_sunni": "مذاهب اهل سنت را انتخاب کنید",
+    "select_shia": "مذاهب شیعه را انتخاب کنید",
+    "select_ibadi": "مذهب اباضی را انتخاب کنید",
     "topic": "موضوع را انتخاب کنید",
     "all_topics": "همه موضوعات",
     "answer_type": "نوع پاسخ",
@@ -269,7 +334,13 @@ UI["fa"].update({
 UI["ms"].update({
     "title": "Himpunan Ringkas Pandangan Mazhab",
     "subtitle": "Platform pendidikan untuk perbandingan pandangan fiqh.",
-    "madhab": "Pilih mazhab",
+    "madhab_filter": "Tapis mazhab",
+    "sunni": "Mazhab Sunni",
+    "shia": "Mazhab Syiah",
+    "ibadi": "Mazhab Ibadi",
+    "select_sunni": "Pilih mazhab Sunni",
+    "select_shia": "Pilih mazhab Syiah",
+    "select_ibadi": "Pilih mazhab Ibadi",
     "topic": "Pilih topik",
     "all_topics": "Semua topik",
     "answer_type": "Jenis jawapan",
@@ -300,7 +371,13 @@ UI["ms"].update({
 UI["ur"].update({
     "title": "مذاہب فقہ کے مختصر آراء کا مجموعہ",
     "subtitle": "فقہی آراء کے تقابلی مطالعے کا تعلیمی پلیٹ فارم۔",
-    "madhab": "مسلک منتخب کریں",
+    "madhab_filter": "مسلک کا انتخاب",
+    "sunni": "اہل سنت کے مسالک",
+    "shia": "شیعہ مسالک",
+    "ibadi": "اباضی مسلک",
+    "select_sunni": "اہل سنت کے مسالک منتخب کریں",
+    "select_shia": "شیعہ مسالک منتخب کریں",
+    "select_ibadi": "اباضی مسلک منتخب کریں",
     "topic": "موضوع منتخب کریں",
     "all_topics": "تمام موضوعات",
     "answer_type": "جواب کی نوعیت",
@@ -329,7 +406,7 @@ UI["ur"].update({
 
 
 # ============================================================
-# Load external data
+# تحميل الملفات الخارجية
 # ============================================================
 
 def load_json(
@@ -364,12 +441,18 @@ def normalize_madhabs(
         }
 
     if isinstance(value, list):
-        return {
-            str(item["code"]): item
-            for item in value
-            if isinstance(item, dict)
-            and item.get("code")
-        }
+        result = {}
+
+        for item in value:
+            if not isinstance(item, dict):
+                continue
+
+            code = item.get("code")
+
+            if code:
+                result[str(code)] = item
+
+        return result
 
     return {}
 
@@ -408,7 +491,326 @@ USUL = load_json(
 
 
 # ============================================================
-# Helpers
+# المذاهب الثمانية
+# ============================================================
+
+CANONICAL_MADHABS = {
+    "maliki": {
+        "group": "sunni",
+        "names": {
+            "ar": "مالكي",
+            "en": "Maliki",
+            "fr": "Malikite",
+            "fa": "مالکی",
+            "ms": "Maliki",
+            "ur": "مالکی",
+        },
+    },
+    "shafii": {
+        "group": "sunni",
+        "names": {
+            "ar": "شافعي",
+            "en": "Shafi'i",
+            "fr": "Chaféite",
+            "fa": "شافعی",
+            "ms": "Syafie",
+            "ur": "شافعی",
+        },
+    },
+    "hanafi": {
+        "group": "sunni",
+        "names": {
+            "ar": "حنفي",
+            "en": "Hanafi",
+            "fr": "Hanafite",
+            "fa": "حنفی",
+            "ms": "Hanafi",
+            "ur": "حنفی",
+        },
+    },
+    "hanbali": {
+        "group": "sunni",
+        "names": {
+            "ar": "حنبلي",
+            "en": "Hanbali",
+            "fr": "Hanbalite",
+            "fa": "حنبلی",
+            "ms": "Hanbali",
+            "ur": "حنبلی",
+        },
+    },
+    "zahiri": {
+        "group": "sunni",
+        "names": {
+            "ar": "ظاهري",
+            "en": "Zahiri",
+            "fr": "Zahirite",
+            "fa": "ظاهری",
+            "ms": "Zahiri",
+            "ur": "ظاہری",
+        },
+    },
+    "jafari": {
+        "group": "shia",
+        "names": {
+            "ar": "جعفري",
+            "en": "Ja'fari",
+            "fr": "Jaafarite",
+            "fa": "جعفری",
+            "ms": "Jaafari",
+            "ur": "جعفری",
+        },
+    },
+    "zaidi": {
+        "group": "shia",
+        "names": {
+            "ar": "زيدي",
+            "en": "Zaidi",
+            "fr": "Zaydite",
+            "fa": "زیدی",
+            "ms": "Zaidi",
+            "ur": "زیدی",
+        },
+    },
+    "ibadi": {
+        "group": "ibadi",
+        "names": {
+            "ar": "إباضي",
+            "en": "Ibadi",
+            "fr": "Ibadite",
+            "fa": "اباضی",
+            "ms": "Ibadi",
+            "ur": "اباضی",
+        },
+    },
+}
+
+GROUP_CODES = {
+    "sunni": [
+        "maliki",
+        "shafii",
+        "hanafi",
+        "hanbali",
+        "zahiri",
+    ],
+    "shia": [
+        "jafari",
+        "zaidi",
+    ],
+    "ibadi": [
+        "ibadi",
+    ],
+}
+
+
+# ============================================================
+# بيانات افتراضية للمسائل
+# ============================================================
+
+DEFAULT_ISSUES = [
+    {
+        "topic": "ibadat",
+        "title": {
+            "ar": "صلاة الجماعة",
+            "en": "Congregational prayer",
+            "fr": "Prière en congrégation",
+            "fa": "نماز جماعت",
+            "ms": "Solat berjemaah",
+            "ur": "نماز باجماعت",
+        },
+        "keywords": (
+            "جماعة جماعه مسجد صلاة صلاه "
+            "congregational prayer jamaah"
+        ),
+        "rulings": {
+            "maliki": {
+                "ar": "فرض كفاية في الجملة.",
+                "en": "Generally treated as a communal obligation.",
+            },
+            "shafii": {
+                "ar": "فرض كفاية في الجملة.",
+                "en": "Generally treated as a communal obligation.",
+            },
+            "hanafi": {
+                "ar": "واجبة على القادر بلا عذر.",
+                "en": "Obligatory for an able person without a valid excuse.",
+            },
+            "hanbali": {
+                "ar": "فرض عين على القادر.",
+                "en": "An individual obligation for an able person.",
+            },
+            "zahiri": {
+                "ar": "يميل إلى الوجوب بظاهر النصوص.",
+                "en": "Tends toward obligation based on the apparent texts.",
+            },
+            "jafari": {
+                "ar": "مستحب مؤكد.",
+                "en": "Strongly recommended.",
+            },
+            "zaidi": {
+                "ar": "فرض كفاية.",
+                "en": "A communal obligation.",
+            },
+            "ibadi": {
+                "ar": "سنة مؤكدة.",
+                "en": "An emphasized Sunnah.",
+            },
+        },
+    },
+    {
+        "topic": "ibadat",
+        "title": {
+            "ar": "العمرة",
+            "en": "Umrah",
+            "fr": "Omra",
+            "fa": "عمره",
+            "ms": "Umrah",
+            "ur": "عمرہ",
+        },
+        "keywords": (
+            "عمرة العمره عمره umrah umra omrah "
+            "pilgrimage ihram tawaf sai"
+        ),
+        "rulings": {},
+    },
+    {
+        "topic": "ibadat",
+        "title": {
+            "ar": "الوضوء",
+            "en": "Ablution",
+            "fr": "Ablution",
+            "fa": "وضو",
+            "ms": "Wuduk",
+            "ur": "وضو",
+        },
+        "keywords": (
+            "وضوء وضو طهارة صلاة حدث "
+            "wudu ablution purification"
+        ),
+        "rulings": {},
+    },
+    {
+        "topic": "ibadat",
+        "title": {
+            "ar": "صيام رمضان",
+            "en": "Ramadan fasting",
+            "fr": "Jeûne du Ramadan",
+            "fa": "روزه رمضان",
+            "ms": "Puasa Ramadan",
+            "ur": "رمضان کے روزے",
+        },
+        "keywords": (
+            "صيام صوم رمضان فطر "
+            "fasting ramadan"
+        ),
+        "rulings": {},
+    },
+    {
+        "topic": "muamalat",
+        "title": {
+            "ar": "البيع بالتقسيط",
+            "en": "Installment sales",
+            "fr": "Vente à tempérament",
+            "fa": "فروش اقساطی",
+            "ms": "Jualan ansuran",
+            "ur": "قسطوں پر فروخت",
+        },
+        "keywords": (
+            "بيع تقسيط ثمن أجل دين "
+            "sale installment credit"
+        ),
+        "rulings": {},
+    },
+    {
+        "topic": "muamalat",
+        "title": {
+            "ar": "الربا",
+            "en": "Riba",
+            "fr": "Riba",
+            "fa": "ربا",
+            "ms": "Riba",
+            "ur": "سود",
+        },
+        "keywords": (
+            "ربا فائدة قرض مال زيادة "
+            "riba interest loan"
+        ),
+        "rulings": {},
+    },
+]
+
+
+def localized_issue_title(
+    issue: Dict[str, Any],
+    lang: str,
+) -> str:
+    return text_for(
+        issue.get("title", ""),
+        lang,
+    )
+
+
+def issue_ruling(
+    issue: Dict[str, Any],
+    code: str,
+    lang: str,
+) -> str:
+    rulings = issue.get(
+        "rulings",
+        {},
+    )
+
+    value = rulings.get(
+        code,
+        "",
+    )
+
+    if isinstance(value, dict):
+        return text_for(
+            value,
+            lang,
+        )
+
+    if isinstance(value, str):
+        return value
+
+    return ""
+
+
+def normalized_issue_search_text(
+    issue: Dict[str, Any],
+    lang: str,
+) -> str:
+    parts = [
+        localized_issue_title(
+            issue,
+            lang,
+        ),
+        issue.get(
+            "keywords",
+            "",
+        ),
+    ]
+
+    for value in issue.get(
+        "rulings",
+        {},
+    ).values():
+        if isinstance(value, dict):
+            parts.extend(
+                str(item)
+                for item in value.values()
+            )
+        else:
+            parts.append(str(value))
+
+    return normalize_text(
+        " ".join(parts)
+    )
+
+
+# ============================================================
+# أدوات عامة
 # ============================================================
 
 def text_for(
@@ -423,7 +825,10 @@ def text_for(
         return str(
             value.get(
                 lang,
-                value.get("ar", default),
+                value.get(
+                    "ar",
+                    default,
+                ),
             )
         )
 
@@ -471,18 +876,27 @@ def now_iso() -> str:
     ).isoformat()
 
 
-def madhab_name(
+def get_madhab_name(
     code: str,
     lang: str,
 ) -> str:
+    if code in CANONICAL_MADHABS:
+        return CANONICAL_MADHABS[code]["names"].get(
+            lang,
+            CANONICAL_MADHABS[code]["names"]["ar"],
+        )
+
     return text_for(
-        MADHABS.get(code, {}).get("name", code),
+        MADHABS.get(code, {}).get(
+            "name",
+            code,
+        ),
         lang,
         code,
     )
 
 
-def topic_name(
+def get_topic_name(
     code: str,
     lang: str,
 ) -> str:
@@ -510,14 +924,17 @@ def topic_name(
     }
 
     return text_for(
-        names.get(code, {}),
+        names.get(
+            code,
+            {},
+        ),
         lang,
         code,
     )
 
 
 # ============================================================
-# Database
+# قاعدة البيانات
 # ============================================================
 
 class Database:
@@ -621,7 +1038,7 @@ class Database:
 
 
 # ============================================================
-# Gemini
+# خدمة Gemini
 # ============================================================
 
 class GeminiService:
@@ -658,11 +1075,10 @@ class GeminiService:
                 ),
             )
 
-            return (
-                response.text.strip()
-                if response.text
-                else None
-            )
+            if not response.text:
+                return None
+
+            return response.text.strip()
 
         except Exception:
             logger.exception(
@@ -692,13 +1108,86 @@ class GeminiService:
 
         except Exception:
             logger.exception(
-                "Gemini embedding failed"
+                "Embedding failed"
             )
             return None
 
+    def answer(
+        self,
+        question: str,
+        madhabs: List[str],
+        level: str,
+        language: str,
+        context: str = "",
+    ) -> Optional[str]:
+        if not self.enabled:
+            return None
+
+        selected_names = ", ".join(
+            get_madhab_name(
+                code,
+                language,
+            )
+            for code in madhabs
+        )
+
+        answer_style = {
+            "brief": {
+                "ar": "إجابة مختصرة",
+                "en": "Brief answer",
+                "fr": "Réponse brève",
+            },
+            "detailed": {
+                "ar": "إجابة مفصلة",
+                "en": "Detailed answer",
+                "fr": "Réponse détaillée",
+            },
+        }
+
+        style = text_for(
+            answer_style.get(
+                level,
+                {},
+            ),
+            language,
+            "Brief answer",
+        )
+
+        prompt = f"""
+You are an educational Islamic fiqh research assistant.
+You are not issuing a personal fatwa.
+
+Question:
+{question}
+
+Selected madhhabs only:
+{selected_names}
+
+Answer style:
+{style}
+
+Reference context:
+{context}
+
+Instructions:
+- Answer the exact question.
+- Discuss only the selected madhhabs.
+- Do not add unselected madhhabs.
+- Mention meaningful disagreement.
+- Do not invent citations.
+- If the reference context is useful, rely on it.
+- Use Google Search grounding if current information is needed.
+- Write in the selected language.
+"""
+
+        return self.generate(
+            prompt,
+            use_search=True,
+        )
+
 
 # ============================================================
-# Reference search
+# البحث في المراجع
 # ============================================================
 
 class ReferenceSearch:
@@ -743,7 +1232,9 @@ class ReferenceSearch:
 
             try:
                 item_vector = np.array(
-                    json.loads(item["embedding"]),
+                    json.loads(
+                        item["embedding"]
+                    ),
                     dtype=np.float32,
                 )
 
@@ -773,11 +1264,11 @@ class ReferenceSearch:
 
             except Exception:
                 logger.exception(
-                    "Invalid embedding"
+                    "Invalid reference embedding"
                 )
 
         scored.sort(
-            key=lambda item: item[0],
+            key=lambda value: value[0],
             reverse=True,
         )
 
@@ -789,27 +1280,117 @@ class ReferenceSearch:
 
 
 # ============================================================
-# CSS and layout
+# البحث المحلي
+# ============================================================
+
+class LocalSearch:
+    def search(
+        self,
+        question: str,
+        topic: str,
+        madhabs: List[str],
+        lang: str,
+    ):
+        query = normalize_text(question)
+        results = []
+
+        for issue in DEFAULT_ISSUES:
+            if (
+                topic != "all"
+                and issue["topic"] != topic
+            ):
+                continue
+
+            searchable = normalized_issue_search_text(
+                issue,
+                lang,
+            )
+
+            words = [
+                word
+                for word in query.split()
+                if len(word) > 2
+            ]
+
+            score = sum(
+                1
+                for word in words
+                if word in searchable
+            )
+
+            if score:
+                results.append(
+                    (
+                        score,
+                        issue,
+                    )
+                )
+
+        results.sort(
+            key=lambda value: value[0],
+            reverse=True,
+        )
+
+        output = []
+
+        for _, issue in results[:5]:
+            cards = []
+
+            for code in madhabs:
+                answer = issue_ruling(
+                    issue,
+                    code,
+                    lang,
+                )
+
+                if not answer:
+                    answer = (
+                        "تحتاج هذه المسألة إلى "
+                        "بحث تفصيلي في مصادر المذهب."
+                        if lang == "ar"
+                        else "This issue requires detailed "
+                        "research in the school's sources."
+                    )
+
+                cards.append({
+                    "code": code,
+                    "answer": answer,
+                })
+
+            output.append({
+                "title": localized_issue_title(
+                    issue,
+                    lang,
+                ),
+                "topic": issue["topic"],
+                "cards": cards,
+            })
+
+        return output
+
+
+# ============================================================
+# CSS
 # ============================================================
 
 def apply_css(lang: str):
-    metadata = LANGUAGES[lang]
+    meta = LANGUAGES[lang]
 
     st.markdown(
         f"""
         <style>
         [data-testid="stAppViewContainer"] .main,
         [data-testid="stSidebar"] {{
-            direction: {metadata["direction"]};
-            text-align: {metadata["align"]};
+            direction: {meta["direction"]};
+            text-align: {meta["align"]};
         }}
 
         [data-testid="stSidebar"] * {{
-            text-align: {metadata["align"]};
+            text-align: {meta["align"]};
         }}
 
         .header {{
-            direction: {metadata["direction"]};
+            direction: {meta["direction"]};
             text-align: center;
             padding: 2rem 1rem;
             margin-bottom: 1.5rem;
@@ -841,23 +1422,35 @@ def apply_css(lang: str):
 
         textarea,
         input {{
-            direction: {metadata["direction"]} !important;
-            text-align: {metadata["align"]} !important;
+            direction: {meta["direction"]} !important;
+            text-align: {meta["align"]} !important;
         }}
 
         div[data-testid="stExpander"] {{
-            direction: {metadata["direction"]};
-            text-align: {metadata["align"]};
+            direction: {meta["direction"]};
+            text-align: {meta["align"]};
         }}
 
         .card {{
-            direction: {metadata["direction"]};
-            text-align: {metadata["align"]};
+            direction: {meta["direction"]};
+            text-align: {meta["align"]};
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 1rem;
             padding: 1rem;
             margin: .75rem 0;
+            box-shadow: 0 4px 12px
+                rgba(15, 23, 42, .05);
+        }}
+
+        .group-box {{
+            direction: {meta["direction"]};
+            text-align: {meta["align"]};
+            padding: .8rem;
+            margin: .5rem 0;
+            border: 1px solid #dbeafe;
+            border-radius: .9rem;
+            background: #f8fbff;
         }}
         </style>
         """,
@@ -865,7 +1458,11 @@ def apply_css(lang: str):
     )
 
 
-def language_bar() -> str:
+# ============================================================
+# شريط اللغة والترويسة
+# ============================================================
+
+def render_language_bar() -> str:
     if "lang" not in st.session_state:
         st.session_state.lang = "ar"
 
@@ -912,7 +1509,291 @@ def render_header(lang: str):
 
 
 # ============================================================
-# Main sections
+# تصفية المذاهب داخل ثلاثة فروع
+# ============================================================
+
+def safe_options(
+    codes: List[str],
+) -> List[str]:
+    return [
+        code
+        for code in codes
+        if code in CANONICAL_MADHABS
+    ]
+
+
+def render_madhab_filter(
+    lang: str,
+    text: Dict[str, str],
+) -> List[str]:
+    if "selected_madhabs" not in st.session_state:
+        st.session_state.selected_madhabs = [
+            "maliki",
+            "shafii",
+            "hanafi",
+            "hanbali",
+        ]
+
+    selected = []
+
+    with st.expander(
+        text["madhab_filter"],
+        expanded=True,
+    ):
+        sunni_codes = safe_options(
+            GROUP_CODES["sunni"]
+        )
+
+        with st.expander(
+            text["sunni"],
+            expanded=False,
+        ):
+            sunni_defaults = [
+                code
+                for code in st.session_state.selected_madhabs
+                if code in sunni_codes
+            ]
+
+            sunni_selected = st.multiselect(
+                text["select_sunni"],
+                options=sunni_codes,
+                default=sunni_defaults,
+                format_func=lambda code: get_madhab_name(
+                    code,
+                    lang,
+                ),
+                key="sunni_madhabs",
+            )
+
+        shia_codes = safe_options(
+            GROUP_CODES["shia"]
+        )
+
+        with st.expander(
+            text["shia"],
+            expanded=False,
+        ):
+            shia_defaults = [
+                code
+                for code in st.session_state.selected_madhabs
+                if code in shia_codes
+            ]
+
+            shia_selected = st.multiselect(
+                text["select_shia"],
+                options=shia_codes,
+                default=shia_defaults,
+                format_func=lambda code: get_madhab_name(
+                    code,
+                    lang,
+                ),
+                key="shia_madhabs",
+            )
+
+        ibadi_codes = safe_options(
+            GROUP_CODES["ibadi"]
+        )
+
+        with st.expander(
+            text["ibadi"],
+            expanded=False,
+        ):
+            ibadi_defaults = [
+                code
+                for code in st.session_state.selected_madhabs
+                if code in ibadi_codes
+            ]
+
+            ibadi_selected = st.multiselect(
+                text["select_ibadi"],
+                options=ibadi_codes,
+                default=ibadi_defaults,
+                format_func=lambda code: get_madhab_name(
+                    code,
+                    lang,
+                ),
+                key="ibadi_madhabs",
+            )
+
+        selected = list(dict.fromkeys(
+            sunni_selected
+            + shia_selected
+            + ibadi_selected
+        ))
+
+        st.session_state.selected_madhabs = selected
+
+    return selected
+
+
+# ============================================================
+# لوحة السؤال
+# ============================================================
+
+def render_question_panel(
+    ai: GeminiService,
+    references: ReferenceSearch,
+    local_search: LocalSearch,
+    lang: str,
+    text: Dict[str, str],
+    selected_madhabs: List[str],
+    topic: str,
+    level: str,
+):
+    with st.expander(
+        text["questions"],
+        expanded=True,
+    ):
+        question = st.text_area(
+            text["placeholder"],
+            height=130,
+            key="question_input",
+        )
+
+        if st.button(
+            text["search"],
+            key="search_question",
+            use_container_width=True,
+        ):
+            if not question.strip():
+                st.warning(
+                    text["no_question"]
+                )
+                return
+
+            if not selected_madhabs:
+                st.warning(
+                    text["no_madhab"]
+                )
+                return
+
+            local_results = local_search.search(
+                question,
+                topic,
+                selected_madhabs,
+                lang,
+            )
+
+            if local_results:
+                for result in local_results:
+                    st.markdown(
+                        '<div class="card">',
+                        unsafe_allow_html=True,
+                    )
+
+                    st.subheader(
+                        result["title"]
+                    )
+
+                    st.caption(
+                        get_topic_name(
+                            result["topic"],
+                            lang,
+                        )
+                    )
+
+                    columns = st.columns(
+                        len(result["cards"])
+                    )
+
+                    for column, card in zip(
+                        columns,
+                        result["cards"],
+                    ):
+                        with column:
+                            label = get_madhab_name(
+                                card["code"],
+                                lang,
+                            )
+
+                            st.markdown(
+                                f"### {label}"
+                            )
+
+                            st.write(
+                                card["answer"]
+                            )
+
+                    st.markdown(
+                        "</div>",
+                        unsafe_allow_html=True,
+                    )
+
+                return
+
+            with st.spinner(
+                text["loading"]
+            ):
+                chunks = references.retrieve(
+                    question,
+                    selected_madhabs,
+                )
+
+                context = "\n\n".join(
+                    chunk["text"]
+                    for chunk in chunks
+                )
+
+                answer = ai.answer(
+                    question=question,
+                    madhabs=selected_madhabs,
+                    level=level,
+                    language=lang,
+                    context=context,
+                )
+
+            if answer:
+                st.warning(
+                    text["ai_note"]
+                )
+                st.markdown(answer)
+            else:
+                st.error(
+                    text["no_result"]
+                )
+
+
+# ============================================================
+# عرض الدول دون أي تصفية مذهبية
+# ============================================================
+
+def render_countries(
+    lang: str,
+    text: Dict[str, str],
+):
+    with st.expander(
+        text["countries"],
+        expanded=False,
+    ):
+        for item in COUNTRIES:
+            flag = item.get(
+                "flag",
+                "🌍",
+            )
+
+            name = text_for(
+                item.get("name", ""),
+                lang,
+            )
+
+            muslims = text_for(
+                item.get("muslims", ""),
+                lang,
+            )
+
+            madhab = text_for(
+                item.get("madhab", ""),
+                lang,
+            )
+
+            st.markdown(
+                f"{flag} **{name}** — "
+                f"{muslims} — {madhab}"
+            )
+
+
+# ============================================================
+# عرض العلماء
 # ============================================================
 
 def render_scholars(
@@ -923,8 +1804,13 @@ def render_scholars(
         text["scholars"],
         expanded=False,
     ):
-        for code, item in MADHABS.items():
-            name = madhab_name(
+        for code in CANONICAL_MADHABS:
+            data = MADHABS.get(
+                code,
+                {},
+            )
+
+            name = get_madhab_name(
                 code,
                 lang,
             )
@@ -944,7 +1830,7 @@ def render_scholars(
 
                 for field, label in fields:
                     value = text_for(
-                        item.get(field, ""),
+                        data.get(field, ""),
                         lang,
                     )
 
@@ -954,81 +1840,9 @@ def render_scholars(
                         )
 
 
-def render_countries(
-    lang: str,
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["countries"],
-        expanded=False,
-    ):
-        st.caption(
-            text["population_note"]
-        )
-
-        for item in COUNTRIES:
-            flag = item.get(
-                "flag",
-                "🌍",
-            )
-
-            name = text_for(
-                item.get("name", ""),
-                lang,
-            )
-
-            population = text_for(
-                item.get("muslims", ""),
-                lang,
-            )
-
-            code = item.get(
-                "madhab_code",
-                "",
-            )
-
-            madhab = text_for(
-                item.get("madhab", ""),
-                lang,
-            )
-
-            if code:
-                madhab = madhab_name(
-                    code,
-                    lang,
-                ) or madhab
-
-            st.markdown(
-                f"{flag} **{name}** — "
-                f"{population} — {madhab}"
-            )
-
-
-def render_sources(
-    lang: str,
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["sources"],
-        expanded=False,
-    ):
-        for item in LEGAL_SOURCES:
-            name = text_for(
-                item.get("name", ""),
-                lang,
-            )
-
-            description = text_for(
-                item.get("description", ""),
-                lang,
-            )
-
-            with st.expander(
-                name,
-                expanded=False,
-            ):
-                st.write(description)
-
+# ============================================================
+# المصطلحات
+# ============================================================
 
 def render_glossary(
     lang: str,
@@ -1069,6 +1883,40 @@ def render_glossary(
                 )
 
 
+# ============================================================
+# مصادر التشريع
+# ============================================================
+
+def render_sources(
+    lang: str,
+    text: Dict[str, str],
+):
+    with st.expander(
+        text["sources"],
+        expanded=False,
+    ):
+        for item in LEGAL_SOURCES:
+            name = text_for(
+                item.get("name", ""),
+                lang,
+            )
+
+            description = text_for(
+                item.get("description", ""),
+                lang,
+            )
+
+            with st.expander(
+                name,
+                expanded=False,
+            ):
+                st.write(description)
+
+
+# ============================================================
+# القواعد
+# ============================================================
+
 def render_rules(
     lang: str,
     text: Dict[str, str],
@@ -1107,6 +1955,10 @@ def render_rules(
                     f"{example}"
                 )
 
+
+# ============================================================
+# أصول الفقه
+# ============================================================
 
 def render_usul(
     lang: str,
@@ -1160,17 +2012,9 @@ def render_usul(
                     )
 
 
-def render_comments(
-    text: Dict[str, str],
-):
-    with st.expander(
-        text["references"],
-        expanded=False,
-    ):
-        st.info(
-            "هذا القسم مخصص لإدارة المحتوى."
-        )
-
+# ============================================================
+# إدارة المراجع
+# ============================================================
 
 def render_references(
     db: Database,
@@ -1191,6 +2035,7 @@ def render_references(
         password = st.text_input(
             text["admin_password"],
             type="password",
+            key="admin_password",
         )
 
         if password != ADMIN_PASSWORD:
@@ -1200,16 +2045,19 @@ def render_references(
             return
 
         title = st.text_input(
-            text["source_title"]
+            text["source_title"],
+            key="reference_title",
         )
 
         source = st.text_area(
             text["source_text"],
             height=220,
+            key="reference_text",
         )
 
         if st.button(
-            text["add_reference"]
+            text["add_reference"],
+            key="add_reference",
         ):
             if not title.strip() or not source.strip():
                 st.warning(
@@ -1237,7 +2085,8 @@ def render_references(
 
             for chunk in chunks:
                 vector = ai.embed(
-                    chunk
+                    chunk,
+                    task_type="RETRIEVAL_DOCUMENT",
                 )
 
                 if vector and db.add_chunk(
@@ -1255,111 +2104,8 @@ def render_references(
             )
 
 
-def render_questions(
-    ai: GeminiService,
-    references: ReferenceSearch,
-    lang: str,
-    text: Dict[str, str],
-    madhabs: List[str],
-    topic: str,
-    level: str,
-):
-    with st.expander(
-        text["questions"],
-        expanded=True,
-    ):
-        question = st.text_area(
-            text["placeholder"],
-            height=130,
-            key="question_text",
-        )
-
-        if st.button(
-            text["search"],
-            key="search_question",
-            use_container_width=True,
-        ):
-            if not question.strip():
-                st.warning(
-                    text["no_question"]
-                )
-                return
-
-            if not madhabs:
-                st.warning(
-                    text["no_madhab"]
-                )
-                return
-
-            with st.spinner(
-                text["loading"]
-            ):
-                chunks = references.retrieve(
-                    question,
-                    madhabs,
-                )
-
-                context = "\n\n".join(
-                    chunk["text"]
-                    for chunk in chunks
-                )
-
-                selected_names = ", ".join(
-                    madhab_name(
-                        code,
-                        lang,
-                    )
-                    for code in madhabs
-                )
-
-                answer_style = (
-                    "brief"
-                    if level == "brief"
-                    else "detailed"
-                )
-
-                prompt = f"""
-You are an educational Islamic fiqh research assistant.
-You are not issuing a personal fatwa.
-
-Question:
-{question}
-
-Selected schools:
-{selected_names}
-
-Answer style:
-{answer_style}
-
-Reference context:
-{context}
-
-Instructions:
-- Answer the exact question.
-- Discuss only the selected schools.
-- Distinguish disagreement clearly.
-- Do not invent citations.
-- Use the selected language.
-"""
-
-                answer = ai.generate(
-                    prompt,
-                    use_search=True,
-                )
-
-            if answer:
-                st.warning(
-                    text["ai_note"]
-                )
-                st.markdown(answer)
-            else:
-                st.error(
-                    text["no_result"]
-                )
-
-
 # ============================================================
-# Main
+# الخدمات
 # ============================================================
 
 @st.cache_resource
@@ -1370,75 +2116,60 @@ def get_services():
         db,
         ai,
     )
+    local_search = LocalSearch()
 
-    return db, ai, references
+    return (
+        db,
+        ai,
+        references,
+        local_search,
+    )
 
+
+# ============================================================
+# Main
+# ============================================================
 
 def main():
-    lang = language_bar()
+    lang = render_language_bar()
     text = UI[lang]
 
     apply_css(lang)
     render_header(lang)
 
-    db, ai, references = get_services()
+    (
+        db,
+        ai,
+        references,
+        local_search,
+    ) = get_services()
 
     with st.sidebar:
-        st.header(
-            text["madhab"]
+        selected_madhabs = render_madhab_filter(
+            lang,
+            text,
         )
 
-        available_codes = [
-            code
-            for code, value in MADHABS.items()
-            if isinstance(value, dict)
-            and not code.startswith("_")
+        topic_options = [
+            "all",
+            "ibadat",
+            "muamalat",
+            "family",
+            "other",
         ]
-
-        preferred_codes = [
-            "maliki",
-            "shafii",
-            "hanafi",
-            "hanbali",
-        ]
-
-        defaults = [
-            code
-            for code in preferred_codes
-            if code in available_codes
-        ]
-
-        if not defaults and available_codes:
-            defaults = available_codes[:1]
-
-        selected_madhabs = st.multiselect(
-            text["madhab"],
-            options=available_codes,
-            default=defaults,
-            format_func=lambda code: madhab_name(
-                code,
-                lang,
-            ),
-            key="madhab_selector_final",
-        )
 
         topic = st.selectbox(
             text["topic"],
-            options=[
-                "all",
-                "ibadat",
-                "muamalat",
-                "family",
-                "other",
-            ],
+            options=topic_options,
             format_func=lambda value: (
                 text["all_topics"]
                 if value == "all"
-                else topic_name(
+                else get_topic_name(
                     value,
                     lang,
                 )
             ),
+            key="topic_selector",
         )
 
         level = st.radio(
@@ -1449,22 +2180,27 @@ def main():
             ],
             format_func=lambda value: text[value],
             horizontal=True,
+            key="level_selector",
         )
 
         st.divider()
 
-        st.success(
-            text["ai_on"]
-            if ai.enabled
-            else text["ai_off"]
-        )
+        if ai.enabled:
+            st.success(
+                text["ai_on"]
+            )
+        else:
+            st.warning(
+                text["ai_off"]
+            )
 
-    render_questions(
+    render_question_panel(
         ai=ai,
         references=references,
+        local_search=local_search,
         lang=lang,
         text=text,
-        madhabs=selected_madhabs,
+        selected_madhabs=selected_madhabs,
         topic=topic,
         level=level,
     )
