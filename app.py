@@ -27,7 +27,7 @@ st.set_page_config(
 
 
 # ============================================================
-# المسارات والإعدادات
+# الإعدادات والمسارات
 # ============================================================
 
 ROOT = Path(__file__).resolve().parent
@@ -49,7 +49,7 @@ logger = logging.getLogger(__name__)
 
 
 # ============================================================
-# Gemini
+# Gemini initialization
 # ============================================================
 
 try:
@@ -186,6 +186,7 @@ UI = {
         "glossary": "📚 المصطلحات الفقهية",
         "sources": "📜 مصادر التشريع الفقهي",
         "rules": "⚖️ الأصول والقواعد الفقهية",
+        "usul": "📚 أصول الاستدلال الفقهي",
         "references": "📁 إدارة المراجع",
         "definition": "التعريف",
         "example": "مثال",
@@ -200,8 +201,6 @@ UI = {
         "source_text": "نص المرجع",
         "add_reference": "إضافة المرجع",
         "reference_added": "تمت إضافة {} مقاطع.",
-        "country_search": "بحث عن دولة",
-        "all_countries": "كل الدول",
     },
     "en": {
         "title": "The Concise Compendium of Madhhab Opinions",
@@ -239,6 +238,7 @@ UI = {
         "glossary": "📚 Fiqh terminology",
         "sources": "📜 Sources of Islamic jurisprudence",
         "rules": "⚖️ Fiqh principles and legal maxims",
+        "usul": "📚 Principles of legal reasoning",
         "references": "📁 Reference management",
         "definition": "Definition",
         "example": "Example",
@@ -254,8 +254,6 @@ UI = {
         "source_text": "Reference text",
         "add_reference": "Add reference",
         "reference_added": "{} chunks were added.",
-        "country_search": "Search for a country",
-        "all_countries": "All countries",
     },
 }
 
@@ -264,248 +262,8 @@ for code in ("fr", "fa", "ms", "ur"):
     UI[code] = UI["en"].copy()
 
 
-UI["fr"].update({
-    "title": "Recueil concis des avis des écoles juridiques",
-    "subtitle": "Plateforme éducative de comparaison du fiqh.",
-    "madhab_filter": "Filtre des écoles",
-    "sunni": "Écoles sunnites",
-    "shia": "Écoles chiites",
-    "ibadi": "École ibadite",
-    "select_sunni": "Choisir les écoles sunnites",
-    "select_shia": "Choisir les écoles chiites",
-    "select_ibadi": "Choisir l’école ibadite",
-    "topic": "Choisir le sujet",
-    "all_topics": "Tous les sujets",
-    "answer_type": "Type de réponse",
-    "brief": "Bref",
-    "detailed": "Détaillé",
-    "questions": "❓ Questions et réponses",
-    "placeholder": "Exemple : Quel est le statut de la Omra ?",
-    "search": "🔍 Rechercher",
-    "loading": "Recherche et analyse en cours...",
-    "no_question": "Veuillez écrire une question.",
-    "no_madhab": "Veuillez choisir une école.",
-    "no_result": "Aucune réponse utilisable.",
-    "ai_on": "Gemini AI : activé",
-    "ai_off": "Gemini AI : désactivé",
-    "ai_note": "Ceci est une réponse de recherche, pas une fatwa.",
-    "countries": "🗺️ États membres de l’OCI",
-    "scholars": "📜 Imams et savants",
-    "glossary": "📚 Terminologie du fiqh",
-    "sources": "📜 Sources de la jurisprudence islamique",
-    "rules": "⚖️ Principes et maximes du fiqh",
-    "references": "📁 Gestion des références",
-    "definition": "Définition",
-    "example": "Exemple",
-    "note": "Note",
-    "population_note": "Les populations musulmanes sont approximatives.",
-    "admin_password": "Mot de passe admin",
-    "access_denied": "Accès refusé.",
-    "source_title": "Titre de la source",
-    "source_text": "Texte de référence",
-    "add_reference": "Ajouter la référence",
-    "reference_added": "{} segments ajoutés.",
-    "country_search": "Rechercher un pays",
-    "all_countries": "Tous les pays",
-})
-
-
-UI["fa"].update({
-    "title": "مجموعه مختصر دیدگاه‌های مذاهب فقهی",
-    "subtitle": "سامانه‌ای آموزشی برای مقایسه دیدگاه‌های فقهی.",
-    "madhab_filter": "فیلتر مذاهب",
-    "sunni": "مذاهب اهل سنت",
-    "shia": "مذاهب شیعه",
-    "ibadi": "مذهب اباضی",
-    "select_sunni": "مذاهب اهل سنت را انتخاب کنید",
-    "select_shia": "مذاهب شیعه را انتخاب کنید",
-    "select_ibadi": "مذهب اباضی را انتخاب کنید",
-    "topic": "موضوع را انتخاب کنید",
-    "all_topics": "همه موضوعات",
-    "answer_type": "نوع پاسخ",
-    "brief": "کوتاه",
-    "detailed": "کامل",
-    "questions": "❓ پرسش‌ها و پاسخ‌ها",
-    "placeholder": "مثال: حکم عمره چیست؟",
-    "search": "🔍 جست‌وجو",
-    "loading": "در حال جست‌وجو و تحلیل...",
-    "no_question": "لطفاً پرسش را وارد کنید.",
-    "no_madhab": "لطفاً یک مذهب را انتخاب کنید.",
-    "no_result": "پاسخ قابل استفاده‌ای پیدا نشد.",
-    "ai_on": "Gemini AI: فعال",
-    "ai_off": "Gemini AI: غیرفعال",
-    "ai_note": "این پاسخ پژوهشی است، نه فتوا.",
-    "countries": "🗺️ کشورهای عضو سازمان همکاری اسلامی",
-    "scholars": "📜 امامان و دانشمندان",
-    "glossary": "📚 اصطلاحات فقهی",
-    "sources": "📜 منابع فقه اسلامی",
-    "rules": "⚖️ اصول و قواعد فقهی",
-    "references": "📁 مدیریت منابع",
-    "definition": "تعریف",
-    "example": "مثال",
-    "note": "یادداشت",
-    "population_note": "آمار مسلمانان تقریبی است.",
-    "admin_password": "رمز مدیر",
-    "access_denied": "دسترسی ندارید.",
-    "source_title": "عنوان منبع",
-    "source_text": "متن منبع",
-    "add_reference": "افزودن منبع",
-    "reference_added": "{} بخش افزوده شد.",
-    "country_search": "جست‌وجوی کشور",
-    "all_countries": "همه کشورها",
-})
-
-
-UI["ms"].update({
-    "title": "Himpunan Ringkas Pandangan Mazhab",
-    "subtitle": "Platform pendidikan untuk perbandingan pandangan fiqh.",
-    "madhab_filter": "Tapis mazhab",
-    "sunni": "Mazhab Sunni",
-    "shia": "Mazhab Syiah",
-    "ibadi": "Mazhab Ibadi",
-    "select_sunni": "Pilih mazhab Sunni",
-    "select_shia": "Pilih mazhab Syiah",
-    "select_ibadi": "Pilih mazhab Ibadi",
-    "topic": "Pilih topik",
-    "all_topics": "Semua topik",
-    "answer_type": "Jenis jawapan",
-    "brief": "Ringkas",
-    "detailed": "Terperinci",
-    "questions": "❓ Soalan dan jawapan",
-    "placeholder": "Contoh: Apakah hukum Umrah?",
-    "search": "🔍 Cari",
-    "loading": "Mencari dan menganalisis...",
-    "no_question": "Sila masukkan soalan.",
-    "no_madhab": "Sila pilih sekurang-kurangnya satu mazhab.",
-    "no_result": "Tiada jawapan yang sesuai.",
-    "ai_on": "Gemini AI: diaktifkan",
-    "ai_off": "Gemini AI: dinyahaktifkan",
-    "ai_note": "Ini jawapan penyelidikan, bukan fatwa.",
-    "countries": "🗺️ Negara anggota OIC",
-    "scholars": "📜 Imam dan ulama",
-    "glossary": "📚 Istilah fiqh",
-    "sources": "📜 Sumber fiqh Islam",
-    "rules": "⚖️ Prinsip dan kaedah fiqh",
-    "references": "📁 Pengurusan rujukan",
-    "definition": "Takrif",
-    "example": "Contoh",
-    "note": "Nota",
-    "population_note": "Jumlah penduduk Muslim adalah anggaran.",
-    "admin_password": "Kata laluan pentadbir",
-    "access_denied": "Akses ditolak.",
-    "source_title": "Tajuk sumber",
-    "source_text": "Teks rujukan",
-    "add_reference": "Tambah rujukan",
-    "reference_added": "{} bahagian telah ditambah.",
-    "country_search": "Cari negara",
-    "all_countries": "Semua negara",
-})
-
-
-UI["ur"].update({
-    "title": "مذاہب فقہ کے مختصر آراء کا مجموعہ",
-    "subtitle": "فقہی آراء کے تقابلی مطالعے کا تعلیمی پلیٹ فارم۔",
-    "madhab_filter": "مسلک کا انتخاب",
-    "sunni": "اہل سنت کے مسالک",
-    "shia": "شیعہ مسالک",
-    "ibadi": "اباضی مسلک",
-    "select_sunni": "اہل سنت کے مسالک منتخب کریں",
-    "select_shia": "شیعہ مسالک منتخب کریں",
-    "select_ibadi": "اباضی مسلک منتخب کریں",
-    "topic": "موضوع منتخب کریں",
-    "all_topics": "تمام موضوعات",
-    "answer_type": "جواب کی نوعیت",
-    "brief": "مختصر",
-    "detailed": "تفصیلی",
-    "questions": "❓ سوالات و جوابات",
-    "placeholder": "مثال: عمرہ کا کیا حکم ہے؟",
-    "search": "🔍 تلاش",
-    "loading": "تلاش اور تجزیہ جاری ہے...",
-    "no_question": "براہ کرم سوال درج کریں۔",
-    "no_madhab": "براہ کرم کم از کم ایک مسلک منتخب کریں۔",
-    "no_result": "قابل استعمال جواب نہیں ملا۔",
-    "ai_on": "Gemini AI: فعال",
-    "ai_off": "Gemini AI: غیر فعال",
-    "ai_note": "یہ تحقیقی جواب ہے، فتویٰ نہیں۔",
-    "countries": "🗺️ اسلامی تعاون تنظیم کے رکن ممالک",
-    "scholars": "📜 ائمہ اور علماء",
-    "glossary": "📚 فقہی اصطلاحات",
-    "sources": "📜 فقہی مصادر",
-    "rules": "⚖️ فقہی اصول و قواعد",
-    "references": "📁 مراجع کا انتظام",
-    "definition": "تعریف",
-    "example": "مثال",
-    "note": "نوٹ",
-    "population_note": "مسلمانوں کی تعداد تقریباً ہے۔",
-    "admin_password": "منتظم کا پاس ورڈ",
-    "access_denied": "آپ کو اجازت نہیں ہے۔",
-    "source_title": "ماخذ کا عنوان",
-    "source_text": "حوالہ جاتی متن",
-    "add_reference": "مرجع شامل کریں",
-    "reference_added": "{} حصے شامل کیے گئے۔",
-    "country_search": "ملک تلاش کریں",
-    "all_countries": "تمام ممالک",
-})
-
-
 # ============================================================
-# تحميل الملفات الخارجية
-# ============================================================
-
-def load_json(
-    filename: str,
-    default: Any,
-) -> Any:
-    path = DATA_DIR / filename
-
-    try:
-        with path.open(
-            "r",
-            encoding="utf-8",
-        ) as file:
-            return json.load(file)
-    except Exception as error:
-        logger.warning(
-            "Unable to load %s: %s",
-            path,
-            error,
-        )
-        return default
-
-
-MadhhabFile = load_json(
-    "madhabs.json",
-    {},
-)
-
-COUNTRIES = load_json(
-    "countries.json",
-    [],
-)
-
-GLOSSARY = load_json(
-    "glossary.json",
-    [],
-)
-
-RULES = load_json(
-    "rules.json",
-    [],
-)
-
-LEGAL_SOURCES = load_json(
-    "legal_sources.json",
-    [],
-)
-
-USUL = load_json(
-    "usul.json",
-    [],
-)
-
-
-# ============================================================
-# تعريف المذاهب الثمانية داخليًا
+# أسماء المذاهب الرئيسية
 # ============================================================
 
 CANONICAL_MADHABS = {
@@ -618,46 +376,64 @@ GROUP_CODES = {
 }
 
 
-def get_madhab_name(
-    code: str,
-    lang: str,
-) -> str:
-    canonical = CANONICAL_MADHABS.get(
-        code,
-        {},
-    )
+# ============================================================
+# تحميل الملفات
+# ============================================================
 
-    if canonical:
-        return canonical["names"].get(
-            lang,
-            canonical["names"]["ar"],
+def load_json(
+    filename: str,
+    default: Any,
+) -> Any:
+    path = DATA_DIR / filename
+
+    try:
+        with path.open(
+            "r",
+            encoding="utf-8",
+        ) as file:
+            return json.load(file)
+    except Exception as error:
+        logger.warning(
+            "Could not load %s: %s",
+            path,
+            error,
         )
-
-    data = MadhhabFile.get(
-        code,
-        {},
-    )
-
-    return text_for(
-        data.get("name", code),
-        lang,
-        code,
-    )
+        return default
 
 
-def get_madhab_data(
-    code: str,
-) -> Dict[str, Any]:
-    data = MadhhabFile.get(
-        code,
-        {},
-    )
+MadhhabFile = load_json(
+    "madhabs.json",
+    {},
+)
 
-    return data if isinstance(data, dict) else {}
+COUNTRIES = load_json(
+    "countries.json",
+    [],
+)
+
+GLOSSARY = load_json(
+    "glossary.json",
+    [],
+)
+
+RULES = load_json(
+    "rules.json",
+    [],
+)
+
+LEGAL_SOURCES = load_json(
+    "legal_sources.json",
+    [],
+)
+
+USUL = load_json(
+    "usul.json",
+    [],
+)
 
 
 # ============================================================
-# بيانات افتراضية للمسائل
+# مسائل البحث المحلية
 # ============================================================
 
 DEFAULT_ISSUES = [
@@ -721,7 +497,7 @@ DEFAULT_ISSUES = [
             "ur": "عمرہ",
         },
         "keywords": (
-            "عمرة العمرة عمره umrah umra omrah "
+            "عمرة العمره عمره umrah umra omrah "
             "ihram tawaf sai pilgrimage"
         ),
         "rulings": {},
@@ -793,69 +569,8 @@ DEFAULT_ISSUES = [
 ]
 
 
-def issue_title(
-    issue: Dict[str, Any],
-    lang: str,
-) -> str:
-    return text_for(
-        issue.get("title", ""),
-        lang,
-    )
-
-
-def issue_ruling(
-    issue: Dict[str, Any],
-    code: str,
-    lang: str,
-) -> str:
-    value = issue.get(
-        "rulings",
-        {},
-    ).get(
-        code,
-        "",
-    )
-
-    return text_for(
-        value,
-        lang,
-    )
-
-
-def issue_search_text(
-    issue: Dict[str, Any],
-    lang: str,
-) -> str:
-    parts = [
-        issue_title(
-            issue,
-            lang,
-        ),
-        issue.get(
-            "keywords",
-            "",
-        ),
-    ]
-
-    for value in issue.get(
-        "rulings",
-        {},
-    ).values():
-        if isinstance(value, dict):
-            parts.extend(
-                str(item)
-                for item in value.values()
-            )
-        else:
-            parts.append(str(value))
-
-    return normalize_text(
-        " ".join(parts)
-    )
-
-
 # ============================================================
-# أدوات النص
+# Helpers
 # ============================================================
 
 def text_for(
@@ -921,8 +636,157 @@ def now_iso() -> str:
     ).isoformat()
 
 
+def get_madhab_name(
+    code: str,
+    lang: str,
+) -> str:
+    if code in CANONICAL_MADHABS:
+        return CANONICAL_MADHABS[code]["names"].get(
+            lang,
+            CANONICAL_MADHABS[code]["names"]["ar"],
+        )
+
+    return text_for(
+        MadhhabFile.get(
+            code,
+            {},
+        ).get(
+            "name",
+            code,
+        ),
+        lang,
+        code,
+    )
+
+
+def get_topic_name(
+    code: str,
+    lang: str,
+) -> str:
+    topics = {
+        "ibadat": {
+            "ar": "العبادات",
+            "en": "Worship",
+            "fr": "Actes d’adoration",
+            "fa": "عبادات",
+            "ms": "Ibadah",
+            "ur": "عبادات",
+        },
+        "muamalat": {
+            "ar": "المعاملات",
+            "en": "Transactions",
+            "fr": "Transactions",
+            "fa": "معاملات",
+            "ms": "Muamalat",
+            "ur": "معاملات",
+        },
+        "family": {
+            "ar": "الأسرة",
+            "en": "Family",
+            "fr": "Famille",
+            "fa": "خانواده",
+            "ms": "Keluarga",
+            "ur": "خاندان",
+        },
+        "other": {
+            "ar": "مواضيع أخرى",
+            "en": "Other topics",
+            "fr": "Autres sujets",
+            "fa": "موضوعات دیگر",
+            "ms": "Topik lain",
+            "ur": "دیگر موضوعات",
+        },
+    }
+
+    return topics.get(
+        code,
+        {},
+    ).get(
+        lang,
+        topics.get(
+            code,
+            {},
+        ).get(
+            "ar",
+            code,
+        ),
+    )
+
+
+def get_madhab_data(
+    code: str,
+) -> Dict[str, Any]:
+    value = MadhhabFile.get(
+        code,
+        {},
+    )
+
+    return value if isinstance(value, dict) else {}
+
+
+def issue_title(
+    issue: Dict[str, Any],
+    lang: str,
+) -> str:
+    return text_for(
+        issue.get("title", ""),
+        lang,
+    )
+
+
+def issue_ruling(
+    issue: Dict[str, Any],
+    code: str,
+    lang: str,
+) -> str:
+    value = issue.get(
+        "rulings",
+        {},
+    ).get(
+        code,
+        "",
+    )
+
+    return text_for(
+        value,
+        lang,
+    )
+
+
+def issue_search_text(
+    issue: Dict[str, Any],
+    lang: str,
+) -> str:
+    values = [
+        issue_title(
+            issue,
+            lang,
+        ),
+        issue.get(
+            "keywords",
+            "",
+        ),
+    ]
+
+    for value in issue.get(
+        "rulings",
+        {},
+    ).values():
+        if isinstance(value, dict):
+            values.extend(
+                str(item)
+                for item in value.values()
+            )
+        else:
+            values.append(str(value))
+
+    return normalize_text(
+        " ".join(values)
+    )
+
+
 # ============================================================
-# قاعدة البيانات
+# SQLite
 # ============================================================
 
 class Database:
@@ -1026,14 +890,13 @@ class Database:
 
 
 # ============================================================
-# Gemini service
+# Gemini
 # ============================================================
 
 class GeminiService:
     def __init__(self):
         self.enabled = bool(
-            USE_GEMINI
-            and gemini_client
+            USE_GEMINI and gemini_client
         )
 
     def generate(
@@ -1101,7 +964,7 @@ class GeminiService:
         lang: str,
         context: str = "",
     ) -> Optional[str]:
-        selected = ", ".join(
+        selected_names = ", ".join(
             get_madhab_name(
                 code,
                 lang,
@@ -1111,7 +974,7 @@ class GeminiService:
 
         style = {
             "brief": {
-                "ar": "إجابة قصيرة",
+                "ar": "إجابة مختصرة",
                 "en": "Brief answer",
                 "fr": "Réponse brève",
                 "fa": "پاسخ کوتاه",
@@ -1145,7 +1008,7 @@ Question:
 {question}
 
 Selected madhhabs only:
-{selected}
+{selected_names}
 
 Answer style:
 {answer_style}
@@ -1159,8 +1022,8 @@ Instructions:
 - Do not add unselected schools.
 - Mention meaningful disagreement.
 - Do not invent citations.
-- Use the selected language.
-- Clearly state when further scholarly review is needed.
+- Clearly state when specialist review is needed.
+- Write in the selected language.
 """
 
         return self.generate(
@@ -1262,6 +1125,94 @@ class ReferenceSearch:
 
 
 # ============================================================
+# البحث المحلي
+# ============================================================
+
+class LocalSearch:
+    def search(
+        self,
+        question: str,
+        topic: str,
+        madhabs: List[str],
+        lang: str,
+    ):
+        query = normalize_text(
+            question
+        )
+
+        matches = []
+
+        for issue in DEFAULT_ISSUES:
+            if (
+                topic != "all"
+                and issue["topic"] != topic
+            ):
+                continue
+
+            searchable = issue_search_text(
+                issue,
+                lang,
+            )
+
+            score = sum(
+                1
+                for word in query.split()
+                if len(word) > 2
+                and word in searchable
+            )
+
+            if score:
+                matches.append(
+                    (
+                        score,
+                        issue,
+                    )
+                )
+
+        matches.sort(
+            key=lambda value: value[0],
+            reverse=True,
+        )
+
+        results = []
+
+        for _, issue in matches[:5]:
+            cards = []
+
+            for code in madhabs:
+                answer = issue_ruling(
+                    issue,
+                    code,
+                    lang,
+                )
+
+                if not answer:
+                    answer = (
+                        "تحتاج هذه المسألة إلى "
+                        "بحث تفصيلي في مصادر المذهب."
+                        if lang == "ar"
+                        else "This issue requires detailed "
+                        "research in the school's sources."
+                    )
+
+                cards.append({
+                    "code": code,
+                    "answer": answer,
+                })
+
+            results.append({
+                "title": issue_title(
+                    issue,
+                    lang,
+                ),
+                "topic": issue["topic"],
+                "cards": cards,
+            })
+
+        return results
+
+
+# ============================================================
 # CSS
 # ============================================================
 
@@ -1343,7 +1294,7 @@ def apply_css(
 
 
 # ============================================================
-# شريط اللغة
+# شريط اللغة والترويسة
 # ============================================================
 
 def render_language_bar() -> str:
@@ -1399,7 +1350,7 @@ def render_header(
 
 
 # ============================================================
-# تصفية المذاهب بثلاثة فروع داخلية
+# تصفية المذاهب بثلاثة فروع
 # ============================================================
 
 def render_madhab_filter(
@@ -1416,22 +1367,20 @@ def render_madhab_filter(
         ],
     )
 
-    selected = []
-
     with st.expander(
         text["madhab_filter"],
         expanded=False,
     ):
-        sunni_options = [
-            code
-            for code in GROUP_CODES["sunni"]
-            if code in CANONICAL_MADHABS
-        ]
-
         with st.expander(
             text["sunni"],
             expanded=False,
         ):
+            sunni_options = [
+                code
+                for code in GROUP_CODES["sunni"]
+                if code in CANONICAL_MADHABS
+            ]
+
             sunni_defaults = [
                 code
                 for code in previous
@@ -1442,25 +1391,23 @@ def render_madhab_filter(
                 text["select_sunni"],
                 options=sunni_options,
                 default=sunni_defaults,
-                format_func=lambda code: (
-                    get_madhab_name(
-                        code,
-                        lang,
-                    )
+                format_func=lambda code: get_madhab_name(
+                    code,
+                    lang,
                 ),
                 key="sunni_madhabs",
             )
-
-        shia_options = [
-            code
-            for code in GROUP_CODES["shia"]
-            if code in CANONICAL_MADHABS
-        ]
 
         with st.expander(
             text["shia"],
             expanded=False,
         ):
+            shia_options = [
+                code
+                for code in GROUP_CODES["shia"]
+                if code in CANONICAL_MADHABS
+            ]
+
             shia_defaults = [
                 code
                 for code in previous
@@ -1471,25 +1418,23 @@ def render_madhab_filter(
                 text["select_shia"],
                 options=shia_options,
                 default=shia_defaults,
-                format_func=lambda code: (
-                    get_madhab_name(
-                        code,
-                        lang,
-                    )
+                format_func=lambda code: get_madhab_name(
+                    code,
+                    lang,
                 ),
                 key="shia_madhabs",
             )
-
-        ibadi_options = [
-            code
-            for code in GROUP_CODES["ibadi"]
-            if code in CANONICAL_MADHABS
-        ]
 
         with st.expander(
             text["ibadi"],
             expanded=False,
         ):
+            ibadi_options = [
+                code
+                for code in GROUP_CODES["ibadi"]
+                if code in CANONICAL_MADHABS
+            ]
+
             ibadi_defaults = [
                 code
                 for code in previous
@@ -1500,20 +1445,18 @@ def render_madhab_filter(
                 text["select_ibadi"],
                 options=ibadi_options,
                 default=ibadi_defaults,
-                format_func=lambda code: (
-                    get_madhab_name(
-                        code,
-                        lang,
-                    )
+                format_func=lambda code: get_madhab_name(
+                    code,
+                    lang,
                 ),
                 key="ibadi_madhabs",
             )
 
-        selected = list(dict.fromkeys(
-            sunni_selected
-            + shia_selected
-            + ibadi_selected
-        ))
+    selected = list(dict.fromkeys(
+        sunni_selected
+        + shia_selected
+        + ibadi_selected
+    ))
 
     st.session_state.selected_madhabs = selected
 
@@ -1521,7 +1464,7 @@ def render_madhab_filter(
 
 
 # ============================================================
-# الأسئلة والإجابات
+# الأسئلة
 # ============================================================
 
 def render_questions(
@@ -1648,94 +1591,6 @@ def render_questions(
 
 
 # ============================================================
-# البحث المحلي
-# ============================================================
-
-class LocalSearch:
-    def search(
-        self,
-        question: str,
-        topic: str,
-        madhabs: List[str],
-        lang: str,
-    ):
-        query = normalize_text(
-            question
-        )
-
-        matches = []
-
-        for issue in DEFAULT_ISSUES:
-            if (
-                topic != "all"
-                and issue["topic"] != topic
-            ):
-                continue
-
-            searchable = issue_search_text(
-                issue,
-                lang,
-            )
-
-            score = sum(
-                1
-                for word in query.split()
-                if len(word) > 2
-                and word in searchable
-            )
-
-            if score:
-                matches.append(
-                    (
-                        score,
-                        issue,
-                    )
-                )
-
-        matches.sort(
-            key=lambda value: value[0],
-            reverse=True,
-        )
-
-        output = []
-
-        for _, issue in matches[:5]:
-            cards = []
-
-            for code in madhabs:
-                answer = issue_ruling(
-                    issue,
-                    code,
-                    lang,
-                )
-
-                if not answer:
-                    answer = (
-                        "تحتاج هذه المسألة إلى "
-                        "بحث تفصيلي في مصادر المذهب."
-                        if lang == "ar"
-                        else "This issue requires detailed "
-                        "research in the school's sources."
-                    )
-
-                cards.append({
-                    "code": code,
-                    "answer": answer,
-                })
-
-            output.append({
-                "title": issue_title(
-                    issue,
-                    lang,
-                ),
-                "topic": issue["topic"],
-                "cards": cards,
-            })
-
-        return output
-
-
-# ============================================================
 # الدول
 # ============================================================
 
@@ -1751,22 +1606,11 @@ def render_countries(
             text["population_note"]
         )
 
-        search_term = st.text_input(
-            text["country_search"],
-            key="country_search",
-        ).strip().lower()
-
         for item in COUNTRIES:
             name = text_for(
                 item.get("name", ""),
                 lang,
             )
-
-            if (
-                search_term
-                and search_term not in name.lower()
-            ):
-                continue
 
             flag = item.get(
                 "flag",
@@ -1790,7 +1634,7 @@ def render_countries(
 
 
 # ============================================================
-# العلماء والمذاهب
+# العلماء
 # ============================================================
 
 def render_scholars(
@@ -1962,20 +1806,8 @@ def render_usul(
     lang: str,
     text: Dict[str, str],
 ):
-    titles = {
-        "ar": "📚 أصول الاستدلال الفقهي",
-        "en": "📚 Principles of Legal Reasoning",
-        "fr": "📚 Principes du raisonnement juridique",
-        "fa": "📚 اصول استنباط فقهی",
-        "ms": "📚 Prinsip Istinbat Fiqh",
-        "ur": "📚 اصولِ استدلال فقہی",
-    }
-
     with st.expander(
-        titles.get(
-            lang,
-            titles["en"],
-        ),
+        text["usul"],
         expanded=False,
     ):
         for item in USUL:
@@ -2130,7 +1962,7 @@ def get_services():
 
 
 # ============================================================
-# Main
+# التشغيل الرئيسي
 # ============================================================
 
 def main():
